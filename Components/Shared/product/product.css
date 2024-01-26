@@ -1,0 +1,442 @@
+@import url('https://fonts.googleapis.com/css2?family=Irish+Grover&display=swap');
+@media(max-width:600px){
+    .product{
+        margin: 0;
+        padding: 0;
+        color: white;
+        font-family: Poppins;
+        overflow-x: hidden;
+    }
+    .product .product_items{
+        display: flex;
+        flex-direction: column;
+        background-color: black;
+    }
+     .product_sale{
+        display: flex;
+        flex-direction: column;
+        color: white;
+        font-size: 0.625rem;
+        align-items: center;
+        height: 7vh;
+    }
+    .divider{
+        margin-top: 0.2rem;
+        width: 100%;
+        border: 0.8px solid rgb(64, 60, 60);
+    }
+    .navbar_product{
+        position: relative;
+        bottom: 1.3rem;
+    }
+    .product_details{
+        width: 100%;
+        height: 35vh;
+        background-color: rgba(58, 58, 58, 1);
+    }
+    .content_product{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+    .content_product h1{
+        font-size: 0.875rem;
+        margin-top: 0.5rem;
+    }
+    .content_product button{
+        width: 4.75rem;
+        height: 1.938rem;
+        background-color: rgba(19, 169, 16, 1);
+        border-radius: 0.75rem;
+        font-size: 0.5rem;
+        display: flex;
+        justify-content: center;
+        align-content: center;
+        align-items: center;
+        margin-top: 0.8rem;
+    }
+    .oil_image{
+        margin-top: 1.5rem;
+    }
+    .service_product{
+        width: 100%;
+        height: 9.875rem;
+        background-color: black;
+        display: flex;
+    }
+    .service_product_items{
+        margin-left: 2rem;
+        margin-top: 1rem;
+        display: flex;
+        gap: 2rem;
+    }
+    .stores_product h1{
+        font-size: 1rem;
+        font-weight: bold;
+    }
+    .stores_product p{
+        font-size: 0.625rem;
+        color: rgba(170, 170, 170, 1);
+        width: 28vw;
+    }
+    .categories_product{
+        width: 100%;
+        height: 36vh;
+        background-color: rgba(58, 58, 58, 1);
+        display: flex;
+        flex-direction: column;
+        
+    }
+    .categories_product_items{
+        margin-top: 1rem;
+    }
+    .categories_product .categories_product_items h1{
+        font-size: 0.625rem;
+    }
+    .categories_product .categories_product_items p{
+        font-size: 0.875rem;
+        
+    }
+.categories_heading{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.categories_items1{
+    display: flex;
+    justify-content: flex-start;
+    margin-top: 1.6rem;
+    margin-left: 1rem;
+    gap: 1rem;
+}
+.categories_items2{
+    display: flex;
+    justify-content: flex-start;
+    margin-top: 1.6rem;
+    margin-left: 1rem;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+.box_product{
+    width: 28vw;
+    height: 10vh;
+    border-radius: 1rem;
+    background-color: rgb(131, 131, 131);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.box_product:hover{
+    background-color: rgba(19, 169, 16, 1);
+}
+.box_product h1{
+     font-size: 0.5rem;
+}
+
+.box_product button{
+     width: 3.75rem;
+     height: 1.509rem;
+     background-color: white;
+     color: black;
+     font-size: 0.438rem;
+     display: flex;
+     justify-content: center;
+     align-items: center;
+     border-radius: 1.438rem;
+}
+.main_content_product{
+    width: 100%;
+    height: 130rem;
+    background: linear-gradient( rgba(84, 84, 84, 0.9479) 10%, rgba(149,94,94) 20%,rgba(84, 84, 84, 0.9479) );
+   
+}
+.main_content_product_items{
+    padding-top: 1.4rem;
+    margin-left: 1rem;
+}
+.despensary{
+    display: flex;
+    gap: 1rem;
+}
+.despensary h1{
+    font-size: 0.438rem;
+    
+}
+.despensary span{
+    color: rgba(19, 169, 16, 1);
+}
+.despensary p{
+    font-size: 0.8rem;
+    width: 60vw;
+    position: relative;
+    right: 1.8rem;
+}
+.despensary h2{
+    margin-top: 0.5rem;
+    font-size: 0.5rem;
+    width: 40vw;
+}
+.heading_despensary .buttons{
+    margin-top: 1rem;
+}
+.buttons{
+    display: flex;
+    gap: 1.5rem;
+}
+.buttons button{
+    width: 4.75rem;
+    height: 1.938rem;
+    background-color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 0.375rem;
+    border-radius: 0.75rem;
+    color: rgba(19, 169, 16, 1);
+    font-weight: bold;
+}
+.buttons button:hover{
+    background-color: rgba(19, 169, 16, 1);
+    color: white;
+}
+.best_product{
+    display: flex;
+    flex-direction: column;
+    margin-top: 1rem;
+}
+.best_product .subheading{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+}
+.best_product .subheading h1{
+    font-size: 0.438rem;
+}
+.best_product .subheading h2{
+    font-size: 1rem;
+}
+.product-slider{
+    position: relative;
+    bottom: 6rem;
+}
+.sale_items{
+   position: relative;
+   bottom: 4rem;
+}
+.sale_box{
+    display: flex;
+    gap: 2rem;
+    margin-top: 2rem;
+    margin-left: 2rem;
+}
+.sale_box1{
+    display: flex;
+    flex-direction: column;
+    gap: 8rem;
+}
+.sale_box_items{
+    height: 9rem;
+    width: 9.125rem;
+    border-radius: 0.5rem;
+}
+.sale_box_items h1,p{
+    text-align: center;
+}
+.sale_box_items span{
+    color: rgba(84, 201, 55, 1);
+}
+.arrival_product{
+    display: flex;
+    flex-direction: column;
+    margin-top: 5rem;
+}
+.soon_arival{
+    margin-top: 2rem;
+    margin-left: 1rem;
+    display: flex;
+    gap: 2rem;
+}
+.arrival{
+    width: 10.688rem;
+    height: 19.813rem;
+    border-radius: 0.4rem;
+}
+.dealOfDayText {
+    position: relative;
+    left: 20vw;
+    bottom: 15rem;
+    
+
+    
+    transform: translate(-50%, -50%);
+    text-align: center;
+    color: white; /* Adjust the color as needed */
+    font-size: 24px; /* Adjust the font size as needed */
+    font-weight: bold;
+    z-index: 1; /* Adjust the font weight as needed */
+    /* Add any other styling properties you want */
+  }
+  .dealOfDayText p{
+    font-size: 0.7rem;
+    color: black;
+  }
+  .dealOfDayText h3{
+    font-size: 0.5rem;
+    width: 30vw;
+    margin-left: 1.4rem;
+    font-weight: 300;
+  }
+  .dealOfDayText button{
+    width: 5rem;
+    height: 2rem;
+    border-radius: 2rem;
+    background-color: white;
+    color: black;
+    font-size: 0.6rem;
+    position: relative;
+    top: 11rem;
+  }
+  .dealOfDayText button:hover{
+    background-color: rgba(62, 173, 34, 1);
+    color: white;
+  }
+  .arival_subheading{
+    display: flex;
+  }
+  .arival_subheading .box{
+     display: flex;
+     flex-direction: column;
+     margin-top: 1rem;
+     gap: 1rem;
+  }
+  .box .item1 h1,p{
+    font-size: 0.625rem;
+    text-align: center;
+  }
+  .star{
+    margin-top: 0.2rem;
+    margin-left: 18vw;
+
+  }
+  .footer_product{
+    width: 100%;
+    height: 83vh;
+    background-color: rgba(49, 49, 49, 1);
+  }
+  .footer_product .footer_product_items{
+    padding-top: 2rem;
+  }
+  
+  .footer_product .footer_product_items .logo_product h1{
+    
+    color: rgba(62, 173, 34, 1);
+    font-size: 1.25rem;
+    font-family: Irish Grover;
+    text-align: center;
+}
+.contact_product{
+    display: flex;
+    margin-left: 16vw;
+    margin-top: 1rem;
+    gap: 2rem;
+}
+.location{
+    display: flex;
+    gap: 1rem;
+}
+.location_heading{
+    margin-top: 0.4rem;
+}
+.location_heading h1{
+    font-size: 0.75rem;
+
+}
+.location_heading p{
+    font-weight: 400;
+}
+.social_media{
+    display: flex;
+    gap: 0.4rem;
+    margin-left: 36vw;
+    margin-top: 2rem;
+}
+.divider_product{
+    margin-top: 1rem;
+    width: 100%;
+    border: 1px solid rgba(197, 188, 188, 1);
+}
+.links_product{
+    margin-top: 2rem;
+display: flex;
+flex-direction: column;
+justify-content: center;
+align-items: center;
+}
+.links_photos{
+    margin-top: 2.7rem;
+display: flex;
+flex-direction: column;
+justify-content: center;
+align-items: center;
+}
+.main_links{
+    display: flex;
+    margin-top: 1rem;
+    gap: 2rem;
+}
+.main_links1 li{
+    list-style: none;
+    text-align: center;
+    
+}
+.photos_sale{
+    margin-top: 2rem;
+    display: flex;
+    gap: 2rem;
+}
+.photos_sale1{
+
+    width: 5.875rem;
+    height: 4.625rem;
+}
+.links_photos p{
+    color: rgba(177, 173, 173, 1)
+}
+form{
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    justify-content: center;
+}
+form input{
+    margin-top: 1.2rem;
+    width: 80vw;
+    height: 5.6vh;
+    background-color: rgba(75, 74, 74, 1);
+    border-radius: 1.25rem;
+    padding: 1rem;
+}
+
+.button_product{
+    margin-left: 20vw;
+    width: 40vw;
+    height: 5vh;
+    border-radius: 2rem;
+    background-color: rgba(75, 74, 74, 1);
+}
+.button_product:hover{
+     background-color: rgba(84, 201, 55, 1);
+}
+.copyright_product{
+     width: 100%;
+     height: 3rem;
+     background-color: black;
+     display: flex;
+     justify-content: center;
+     align-items: center;
+}
+
+}

@@ -1,0 +1,19 @@
+@import url('https://fonts.googleapis.com/css2?family=Irish+Grover&display=swap');
+
+@media(max-width:600px){
+    .navbar{
+        display: flex;
+        margin-top: 1.7rem;
+        margin-left: 3rem;
+        gap: 10.938rem;
+    }
+    .navbar .navbar-logo h1{
+        color: rgba(62, 173, 34, 1);
+        font-size: 1.25rem;
+        font-family: Irish Grover;
+    }
+    .navbar .menu h1{
+        font-size: 1rem;
+        font-weight: bold;
+    }
+}
