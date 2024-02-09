@@ -31,6 +31,7 @@ export default function Home() {
   return (
     <>
       {/* Add a key to Script tag to trigger re-render when the key changes */}
+
       <Script key="google-translate-script">
         {`
           function changeLanguage(lang) {

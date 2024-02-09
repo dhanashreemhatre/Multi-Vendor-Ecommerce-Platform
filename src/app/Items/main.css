@@ -1,0 +1,23 @@
+/* main.css */
+.container {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.canvas {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.screen1 {
+  position: relative;
+  bottom: 10rem; /* Adjust this value to reduce the gap */
+}
+
+
+.container_items{
+  margin-top: 2rem;
+}

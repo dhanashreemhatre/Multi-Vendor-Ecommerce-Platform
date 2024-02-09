@@ -29,6 +29,7 @@ import Facebook from "./Image/facebook.png";
 import Instagram from "./Image/instagram.png";
 import Twitter from "./Image/twitter.png";
 import Youtube from "./Image/youtube.png";
+import Link from "next/link";
 interface ProductDetails {
   image: string;
   name: string;
@@ -37,6 +38,8 @@ interface ProductDetails {
   old_price: number;
   title: String;
 }
+
+
 
 const page = () => {
   useEffect(() => {
@@ -75,6 +78,7 @@ const page = () => {
       },
     });
   }, []);
+  
   const [productDetails, setProductDetails] = useState<ProductDetails[]>([]);
   const generateImageUrl = (imagePath: any, width = 800) => {
     return `/your-image-api?path=${encodeURIComponent(imagePath)}&w=${width}`;
@@ -291,7 +295,7 @@ const page = () => {
                   <h2>Our Popular Products</h2>
                 </div>
                 <div className="sale_box">
-                  <div className="sale_box1">
+                  <div className="sale_box1" >
                   {productDetails && productDetails.slice(0, 3).map((product:any, index:any) => (
   <div className="sale_box_items" key={index}>
     {product && (
@@ -304,7 +308,7 @@ const page = () => {
           width={800}
           height={800}
         />
-        <h1>{product.title || "Loading..."}</h1>
+       <Link href="/Items"><h1>{product.title || "Loading..."}</h1></Link> 
         <p>
           ${product.price || 0} <span>${product.old_price || 0}</span>
         </p>
@@ -327,7 +331,7 @@ const page = () => {
           width={800}
           height={800}
         />
-        <h1>{product.title || "Loading..."}</h1>
+       <Link href="/Items"><h1>{product.title || "Loading..."}</h1></Link> 
         <p>
           ${product.price || 0} <span>${product.old_price || 0}</span>
         </p>
