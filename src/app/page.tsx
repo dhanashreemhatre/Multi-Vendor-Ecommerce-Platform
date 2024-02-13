@@ -3,6 +3,7 @@
 import { useEffect } from 'react';
 import Script from 'next/script';
 import Main from '../../Components/Shared/product/page'
+
 export default function Home() {
   useEffect(() => {
     // Function to be called when the Google Translate script is loaded

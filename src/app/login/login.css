@@ -1,0 +1,119 @@
+.login{
+    margin-top: 4rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 3rem;
+}
+.profile_box {
+    display: flex;
+    gap: 2rem;
+}
+
+.profile_box_user {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative; /* Add this line for relative positioning */
+    width: 7.813rem;
+    height: 6.688rem;
+    border: 0.5px solid rgba(158, 158, 158, 1);
+}
+
+.profile_box_user.selected {
+    /* Styles for the selected box */
+    border-color: rgba(19, 169, 16, 1); /* Set the border color to green */
+}
+
+.tick {
+    position: absolute;
+    top: 85%;
+    left: 90%;
+}
+.container{
+    display:flex ;
+    flex-direction: column;
+    gap: 3rem;
+}
+
+.profile_box_user h1 {
+    font-size: 0.75rem;
+    font-weight: bold;
+    margin-top: 1rem;
+}
+.profile_title{
+    position:relative;
+    right: 1rem;
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: rgba(172, 172, 172, 1);
+    text-align: center;
+    width: 70vw;
+}
+
+@media (max-width: 790px) {
+
+    form{
+        display: flex;
+        flex-direction: column;
+        gap: 2rem;
+    }
+
+    form input{
+        width: 20.875rem;
+        height: 3.625rem;
+        box-shadow: 0px 10px rgba(0, 0, 0, 0.25);
+        border-radius: 0.625rem;
+        padding: 1.4rem;
+    }
+
+
+    form button{
+        margin-top: 1rem;
+        width: 20.875rem;
+        height: 3.625rem;
+        background-color: rgba(19, 169, 16, 1);
+        border-radius: 0.625rem;
+        font-size: 1.25rem;
+        font-weight: bold;
+        color: white;
+    }
+
+    .google h1{
+        font-size: 0.813rem;
+        color: rgba(149, 149, 149, 1);
+        margin-bottom: 1rem;
+        display: flex;
+        justify-content: center;
+    }
+    .google button{
+        margin-top: 1rem;
+        width: 20.875rem;
+        height: 3.625rem;
+        display: flex;
+        background-color: rgba(217, 217, 217, 1);
+        border-radius: 0.625rem;
+        font-size: 1.25rem;
+        font-weight: bold;
+        color: white;
+        align-items: center;
+        justify-content: center;
+    }
+    .google button h1{
+        font-size: 1.25rem;
+        color: black;
+    }
+    .login_to{
+        display: flex;
+        font-size: 1rem;
+        justify-content: center;
+        align-content: baseline;
+ gap: 0.3rem;
+ margin-top: 3rem;
+  text-align: center;
+    }
+     .login_to h2{
+        color: rgba(19, 169, 16, 1);
+    }
+}

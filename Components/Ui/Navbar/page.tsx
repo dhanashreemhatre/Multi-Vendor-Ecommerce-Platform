@@ -71,11 +71,12 @@ const Page: React.FC<PageProps> = ({ className }) => {
               <i className='bx bx-x sidebarClose'></i>
             </div>
             <ul className="nav-links">
-              <li><a href="#">Home</a></li>
-              <li><a href="#">About</a></li>
-              <li><a href="#">Portfolio</a></li>
-              <li><a href="#">Services</a></li>
-              <li><a href="#">Contact</a></li>
+              <li><Link href="#">Home</Link></li>
+              <li><Link href="#">About</Link></li>
+              <li><Link href="#">Portfolio</Link></li>
+              <li><Link href="#">Services</Link></li>
+              <li><Link href="#">Contact</Link></li>
+              <li><Link href="/Signup">Register</Link></li>
             </ul>
           </div>
         </div>

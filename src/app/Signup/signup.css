@@ -1,0 +1,156 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    margin-top: 2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: rgba(19, 169, 16, 1);
+    font-weight: bold;
+}
+
+.profile {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 2rem;
+}
+
+.profile_box {
+    display: flex;
+    gap: 2rem;
+}
+
+.profile_box_user {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative; /* Add this line for relative positioning */
+    width: 7.813rem;
+    height: 6.688rem;
+    border: 0.5px solid rgba(158, 158, 158, 1);
+}
+
+.profile_box_user.selected {
+    /* Styles for the selected box */
+    border-color: rgba(19, 169, 16, 1); /* Set the border color to green */
+}
+
+.tick {
+    position: absolute;
+    top: 85%;
+    left: 90%;
+}
+.container{
+    display:flex ;
+    flex-direction: column;
+    gap: 3rem;
+}
+
+.profile_box_user h1 {
+    font-size: 0.75rem;
+    font-weight: bold;
+    margin-top: 1rem;
+}
+
+
+@media (max-width: 790px) {
+    .profile_title{
+        margin-left: 4rem;
+        font-size: 0.75rem;
+        font-weight: 500;
+        color: rgba(172, 172, 172, 1);
+        text-align: center;
+        width: 70vw;
+    }
+
+   
+
+ 
+  
+   input{
+       width: 88vw;
+       height: 3.625rem;
+       box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+       border-radius: 0.625rem;
+       text-indent: 1rem;
+   }
+   .email-icon {
+   position: absolute;
+   right: 5%;
+   top: calc(36% + 3rem +6vh); /* Adjust the value as needed */
+ }
+ .pass-icon {
+   position: absolute;
+   right: 5%;
+   top: calc(44% + 2vh); /* Adjust the value as needed */
+ }
+ .con_pass-icon {
+   position: absolute;
+   right: 5%;
+   top: calc(50% + 8vh); /* Adjust the value as needed */
+ }
+     form{
+       display: flex;
+       flex-direction: column;
+       gap: 2rem;
+     }
+     
+   form button{
+       width: 88vw;
+       height: 3.625rem;
+       background-color: rgba(19, 169, 16, 1);
+       border-radius: 0.625rem;
+       font-size: 1.25rem;
+       font-weight: bold;
+       color: white;
+   }
+   .form{
+       display: flex;
+       flex-direction: column;
+       justify-content: center;
+       align-items: center;
+       gap: 1rem;
+       
+       
+   }
+   .google h1{
+       font-size: 0.813rem;
+       color: rgba(149, 149, 149, 1);
+       
+       display: flex;
+       justify-content: center;
+   }
+   .google button{
+       margin-top: 1rem;
+       width: 88vw;
+       display: flex;
+       height: 3.625rem;
+       background-color: rgba(217, 217, 217, 1);
+       border-radius: 0.625rem;
+       font-size: 1.25rem;
+       font-weight: bold;
+       color: white;
+       align-items: center;
+       justify-content: center;
+   }
+   .google button h1{
+       font-size: 1.25rem;
+       color: black;
+   }
+   .login_to{
+       display: flex;
+       font-size: 1rem;
+       justify-content: center;
+       align-content: baseline;
+gap: 0.3rem;
+margin-top: 1.6rem;
+ text-align: center;
+   }
+    .login_to h2{
+       color: rgba(19, 169, 16, 1);
+   }
+}
