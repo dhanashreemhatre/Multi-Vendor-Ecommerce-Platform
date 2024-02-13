@@ -1,3 +1,4 @@
+from django.http import JsonResponse
 from rest_framework.response import Response
 from django.shortcuts import redirect
 from django.conf import settings
@@ -10,8 +11,11 @@ from rest_framework.views import APIView
 from rest_framework.exceptions import AuthenticationFailed
 User=settings.AUTH_USER_MODEL
 import datetime,jwt
-from django.contrib.auth import logout
+from django.contrib.auth import logout,authenticate
 from django.contrib.auth import login as django_login 
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import IsAuthenticated
+
 from django.contrib.sites.shortcuts import get_current_site
 from django.template.loader import render_to_string
 from django.utils.http import urlsafe_base64_encode,urlsafe_base64_decode
@@ -41,14 +45,14 @@ class RegisterView(APIView):
         send_email=EmailMessage(mail_subject,message,to=[to_email])
         send_email.send()
         return redirect('/accounts/login/?command=verification&email='+user.email)
-
-
    
+
 
 class LoginView(APIView):
     def post(self, request):
         email = request.data.get('email')
         password = request.data.get('password')
+        role = request.data.get('role')  # Assuming 'role' indicates if the user is a vendor
 
         try:
             user = Account.objects.get(email=email)
@@ -58,14 +62,28 @@ class LoginView(APIView):
         if not user.check_password(password):
             raise AuthenticationFailed("Incorrect password!")
 
+        if role=="vendor":  # Check if the user selected the role as vendor
+            if not user.is_vendor:  # Check if the user is actually a vendor
+                raise AuthenticationFailed("User is not a vendor")
+
+        # Check if the user account is active
+        if not user.is_active:
+            raise AuthenticationFailed("User account is not activated")
+
+        # Authenticate the user
+        authenticated_user = authenticate(email=email, password=password)
+        if not authenticated_user:
+            raise AuthenticationFailed("Authentication failed")
+
         # Use Django's login method to log in the user
-        django_login(request, user)
+        django_login(request, authenticated_user)
 
         # Generate JWT token (as you did before)
         payload = {
-            'id': user.id,
+            'id': authenticated_user.id,
             'exp': datetime.datetime.utcnow() + datetime.timedelta(minutes=60),
-            'iat': datetime.datetime.utcnow()
+            'iat': datetime.datetime.utcnow(),
+            'is_vendor': authenticated_user.is_vendor 
         }
         token = jwt.encode(payload, 'secret', algorithm='HS256')
 
@@ -75,11 +93,12 @@ class LoginView(APIView):
 
 
 
-
-@login_required(login_url='accounts:login')
+@permission_classes([IsAuthenticated])
 def user_logout(request):
-   logout(request)
-   return redirect('accounts:login')
+    logout(request)
+    response = JsonResponse({"message": "Logged out successfully"})
+    response.delete_cookie('jwt')  # Remove the JWT token cookie
+    return response
 
 def activate(request,uidb64,token):
    try:
@@ -147,4 +166,9 @@ class ResetPassword(APIView):
 
 
 
-    
+{
+"email":"mhatredhanashree682@gmail.com",
+"password":"124",
+"role":"vendor"
+
+}
