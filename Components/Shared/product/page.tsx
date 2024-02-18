@@ -4,6 +4,7 @@ import "./product.css";
 import Cream from "./Image/cream.png";
 import nature from "./Image/natur.png";
 import cap from "./Image/cap.png";
+
 import "./slider.css";
 import "./swiper-bundle.min.css";
 import Script from "next/script";
@@ -30,6 +31,7 @@ import Instagram from "./Image/instagram.png";
 import Twitter from "./Image/twitter.png";
 import Youtube from "./Image/youtube.png";
 import Link from "next/link";
+import { useRouter } from 'next/navigation';
 interface ProductDetails {
   image: string;
   name: string;
@@ -42,6 +44,18 @@ interface ProductDetails {
 
 
 const page = () => {
+  const router = useRouter();
+  const [userEmail, setUserEmail] = useState('');
+  useEffect(() => {
+    // Retrieve user's email from local storage
+    const storedEmail = localStorage.getItem('userEmail');
+    setUserEmail(storedEmail || '');
+
+    // If the user is not logged in, redirect to the login page
+    if (!storedEmail) {
+      router.push('/login'); // Adjust the actual login page path
+    }
+  }, [router]);
   useEffect(() => {
     const swiper = new Swiper(".mySwiper", {
       slidesPerView: 1,
@@ -85,6 +99,8 @@ const page = () => {
   };
   const imageUrl = generateImageUrl(productDetails?.image);
   console.log(imageUrl);
+  
+
   useEffect(() => {
     const fetchProductDetails = async () => {
       try {
@@ -118,12 +134,15 @@ const page = () => {
     <>
       <Script src="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.js"></Script>
 
-      <div className="product">
+      <section className="product">
         <div className="product_items">
           <div className="product_sale">
             <h1>
+           
               Shop 35% on your first <u>shop now</u>
             </h1>
+            {userEmail && <h1>Welcome to the Product Page, {userEmail}!</h1>}
+      {/* The rest of your product page content */}
             <div className="divider"></div>
             <div className="navbar_product">
               <Navbar />
@@ -487,7 +506,7 @@ const page = () => {
         <div className="copyright_product">
           <h1>© copyright inclusify All right reserved.</h1>
         </div>
-      </div>
+      </section>
     </>
   );
 };

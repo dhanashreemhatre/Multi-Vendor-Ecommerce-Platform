@@ -79,7 +79,10 @@
         font-weight: bold;
         color: white;
     }
-
+.google{
+   position: relative;
+   bottom: 2rem;
+}
     .google h1{
         font-size: 0.813rem;
         color: rgba(149, 149, 149, 1);

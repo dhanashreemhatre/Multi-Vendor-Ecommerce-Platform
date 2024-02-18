@@ -6,6 +6,7 @@
         color: white;
         font-family: Poppins;
         overflow-x: hidden;
+        width: 100vw;
     }
     .product .product_items{
         display: flex;
