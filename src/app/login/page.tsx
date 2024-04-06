@@ -96,14 +96,15 @@ const Page = () => {
             onChange={(e) => setPassword(e.target.value)}
           />
           <button >Sign in</button>
-        </form>
-        <div className="google">
-          <h1>-or sign in with-</h1>
+          <div className="google">
+          <span>-or sign in with-</span>
           <button>
-            <Image src={Google} alt="loading-image" />
+            <Image src={Google} alt="loading-image" height={28} width={28} />
             <h1>Sign in with Google</h1>
           </button>
         </div>
+        </form>
+        
         <div className="login_to">
           <h1> Do Not have an account?</h1>
           <Link href="/Signup">

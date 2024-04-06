@@ -1,10 +1,18 @@
+body{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 .login{
-    margin-top: 4rem;
+    margin: 3%;
+    max-width: 600px;
+    padding: 2%;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    gap: 3rem;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
+
 }
 .profile_box {
     display: flex;
@@ -35,6 +43,7 @@
     display:flex ;
     flex-direction: column;
     gap: 3rem;
+    
 }
 
 .profile_box_user h1 {
@@ -43,6 +52,7 @@
     margin-top: 1rem;
 }
 .profile_title{
+    margin: 2% 0;
     position:relative;
     right: 1rem;
     font-size: 0.75rem;
@@ -52,18 +62,88 @@
     width: 70vw;
 }
 
-@media (max-width: 790px) {
 
-    form{
+form{
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    width: 80%;
+    
+}
+
+form input{
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
+    border-radius: 0.625rem;
+    padding: 0.8rem 1.2rem;
+    width: 100%;
+}
+
+
+form button{
+    margin-top: 1rem;
+    padding: 0.6rem 1.2rem;
+    background-color: rgba(19, 169, 16, 1);
+    border-radius: 0.625rem;
+    font-size: 1rem;
+    font-weight: bold;
+    color: white;
+}
+.google span{
+    font-size: 0.813rem;
+    color: rgba(149, 149, 149, 1);
+    display: flex;
+    justify-content: center;
+}
+.google button{
+    width: 100%;
+    padding: 0.6rem 1.2rem;
+    background-color: rgba(217, 217, 217, 1);
+    border-radius: 0.625rem;
+    font-size: 1rem;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.google button h1{
+    font-size: 1rem;
+    color: black;
+}
+.login_to{
+    display: flex;
+    font-size: 1rem;
+    justify-content: center;
+    align-content: baseline;
+gap: 0.3rem;
+margin-top: 3rem;
+text-align: center;
+}
+ .login_to h2{
+    color: rgba(19, 169, 16, 1);
+}
+
+@media (max-width: 790px) {
+    .login{
+        width: auto;
+        box-shadow: none;
+        margin-top: 4%;
         display: flex;
         flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 3rem;
+        
+    }
+
+    form{
         gap: 2rem;
+        align-items: center;
     }
 
     form input{
         width: 20.875rem;
         height: 3.625rem;
-        box-shadow: 0px 10px rgba(0, 0, 0, 0.25);
+        box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
         border-radius: 0.625rem;
         padding: 1.4rem;
     }
@@ -86,7 +166,6 @@
     .google h1{
         font-size: 0.813rem;
         color: rgba(149, 149, 149, 1);
-        margin-bottom: 1rem;
         display: flex;
         justify-content: center;
     }
