@@ -13,7 +13,7 @@ const Page = () => {
   const [password, setPassword] = useState('');
   const [selectedBox, setSelectedBox] = useState(0);
 
-  const handleBoxClick = (boxIndex) => {
+  const handleBoxClick = (boxIndex:any) => {
     setSelectedBox(boxIndex);
   };
 

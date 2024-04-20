@@ -66,7 +66,7 @@ const Page = () => {
   }, [selectedBox]);
 
   return (
-    <>
+    <div className="sign-up">
       <header>Choose Account Type</header>
 
       <div className="container">
@@ -163,7 +163,7 @@ const Page = () => {
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 

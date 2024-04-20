@@ -14,6 +14,7 @@
     --text-color: #010718;
     --search-bar: #F2F2F2;
     --search-text: #010718;
+    --white-color:#ffffff;
 }
 body.dark{
     --body-color: #18191A;
@@ -25,14 +26,7 @@ body.dark{
 .logo{
     color: black;
 }
-nav{
-    
-    top: 0;
-    left: 0;
-    height: 70px;
-    width: 100%;
-    z-index: 100;
-}
+
 .bx-x {
     color: white;
   }
@@ -41,7 +35,7 @@ nav .nav-bar{
     height: 100%;
     max-width: 1000px;
     width: 100%;
-    margin: 0 auto;
+    margin: 2% auto;
     padding: 0 30px;
     display: flex;
     align-items: center;
@@ -73,40 +67,41 @@ nav .nav-bar .logo a{
     margin: 0 5px;
     list-style: none;
 }
-.nav-links li a{
-    position: relative;
-    font-size: 17px;
-    font-weight: 400;
-    color: var(--text-color);
-    text-decoration: none;
-    padding: 10px;
-}
-.nav-links li a::before{
-    content: '';
-    position: absolute;
-    left: 50%;
-    bottom: 0;
-    transform: translateX(-50%);
-    height: 6px;
-    width: 6px;
-    border-radius: 50%;
-    background-color: var(--text-color);
-    opacity: 0;
-    transition: all 0.3s ease;
-}
+
 .nav-links li:hover a::before{
     opacity: 1;
 }
 
-
+.nav-links li a{
+    font-size: 17px;
+    font-weight: 400;
+    color: var(--white-color);
+    text-decoration: none;
+    padding: 10px;
+}
 .links_footer .logo_footer h1{
     color: rgba(62, 173, 34, 1);
     font-size: 1.25rem;
     font-family: Irish Grover;
     align-self: center;
 }
+.logo-footer h1 {
+        color: rgba(62, 173, 34, 1);
+        font-size: 1.25rem;
+        font-family: 'Irish Grover';
+        font-weight: bold;
+        align-self: center;
+    }
 
 @media (max-width: 790px) {
+    nav{
+    
+        top: 0;
+        left: 0;
+        height: 70px;
+        width: 100%;
+        z-index: 100;
+    }
     nav .nav-bar .sidebarOpen{
         display: block;
     }
@@ -155,5 +150,26 @@ nav .nav-bar .logo a{
         font-family: 'Irish Grover';
         font-weight: bold;
         align-self: center;
+    }
+    .nav-links li a{
+        position: relative;
+        font-size: 17px;
+        font-weight: 400;
+        color: var(--white-color);
+        text-decoration: none;
+        padding: 10px;
+    }
+    .nav-links li a::before{
+        content: '';
+        position: absolute;
+        left: 50%;
+        bottom: 0;
+        transform: translateX(-50%);
+        height: 6px;
+        width: 6px;
+        border-radius: 50%;
+        background-color: var(--text-color);
+        opacity: 0;
+        transition: all 0.3s ease;
     }
 }

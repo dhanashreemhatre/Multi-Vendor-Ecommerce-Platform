@@ -1,0 +1,26 @@
+.product_grid{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    
+}
+@media (max-width:800px) {
+    .product_grid{
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+    }
+   
+}
+@media (max-width:600px) {
+    .product_grid{
+        display: grid;
+        grid-template-columns: 1fr 1fr ;
+    }
+   
+}
+@media (min-width:1300px) {
+    .product_grid{
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+    }
+   
+}

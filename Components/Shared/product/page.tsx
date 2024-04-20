@@ -1,10 +1,12 @@
 "use client";
 import React, { useEffect, useState } from "react";
+import ProductCardGrid from './../../Ui/Product/ProductCardGrid/page'
+import ProductCard from './../../Ui/Product/ProductCard/page'
 import "./product.css";
 import Cream from "./Image/cream.png";
 import nature from "./Image/natur.png";
 import cap from "./Image/cap.png";
-
+import Categorygrid from './../../Ui/Category/Categorygrid/page'
 import "./slider.css";
 import "./swiper-bundle.min.css";
 import Script from "next/script";
@@ -14,12 +16,6 @@ import Image from "next/image";
 import store from "./Image/Procurement.png";
 import delivery from "./Image/Deliver Food.png";
 import customer from "./Image/Customer Support.png";
-import Flower from "./Image/Sakura.png";
-import Pills from "./Image/Pills.png";
-import Oils from "./Image/Sesame Oil.png";
-import Seeds from "./Image/Basil.png";
-import Earbuds from "./Image/Earbud Headphones.png";
-import Pizza from "./Image/Pizza Five Eighths.png";
 import Plate from "./Image/plate.png";
 import Swiper from "swiper";
 import arrival from "./Image/soonarival.jpg";
@@ -113,7 +109,7 @@ const page = () => {
         console.log("API Response:", data);
   
         // Assuming the API response is an array of products
-        setProductDetails(data.map((product) => ({
+        setProductDetails(data.map((product:any) => ({
           image: product.image,
           name: product.name,
           price: product.price,
@@ -122,7 +118,7 @@ const page = () => {
           title: product.title,
         })));
   
-      } catch (error) {
+      } catch (error:any) {
         console.error("Error fetching product details:", error.message);
       }
     };
@@ -189,46 +185,7 @@ const page = () => {
           </div>
         </div>
         <div className="categories_product">
-          <div className="categories_product_items">
-            <div className="categories_heading">
-              <h1>Classification</h1>
-              <p>Shop By Categories</p>
-            </div>
-            <div className="categories_items1">
-              <div className="box_product">
-                <Image src={Flower} alt="flower-image" priority />
-                <h1>Flower</h1>
-                <button>Explore Now</button>
-              </div>
-              <div className="box_product">
-                <Image src={Pills} alt="pills-image" priority />
-                <h1>Pills</h1>
-                <button>Explore Now</button>
-              </div>
-              <div className="box_product">
-                <Image src={Oils} alt="oil-image" priority />
-                <h1>Oils</h1>
-                <button>Explore Now</button>
-              </div>
-            </div>
-            <div className="categories_items2">
-              <div className="box_product">
-                <Image src={Seeds} alt="seed-image" priority />
-                <h1>Seeds</h1>
-                <button>Explore Now</button>
-              </div>
-              <div className="box_product">
-                <Image src={Earbuds} alt="buds-image" priority />
-                <h1>Buds</h1>
-                <button>Explore Now</button>
-              </div>
-              <div className="box_product">
-                <Image src={Pizza} alt="pizza-image" priority />
-                <h1>Foods</h1>
-                <button>Explore Now</button>
-              </div>
-            </div>
-          </div>
+            <Categorygrid/>  
         </div>
         <div className="main_content_product">
           <div className="main_content_product_items">
@@ -256,109 +213,36 @@ const page = () => {
                 <h2>Our Best Products</h2>
               </div>
               <section className="product-slider">
-      <div className="slider-btns">
-        <div className="swiper-button-prev"></div>
-        <div className="swiper-button-next"></div>
-      </div>
-      <div className="slider-container">
-        <div className="swiper mySwiper">
-          <div className="swiper-wrapper">
-            {productDetails.map((product:any, index:any) => (
-              <div className="swiper-slide" key={index}>
-                <div className="product-box">
-                  <span className="product-box-offer">-20%</span>
-                  <div className="product-img-container">
-                    <div className="product-img">
-                      <a href={`http://demo47.askas8.se/sv/${product.slug}`}>
-                      <Image
-  alt="loading-image"
-  className="product-img-front"
-  src={`http://127.0.0.1:8000${decodeURIComponent(product?.image) || ""}`}
-  width={800}
-  height={800}
-  priority
-/>
-                      </a>
-                    </div>
-                  </div>
-                  <div className="product-box-text">
-                    <div className="product-category">
-                      <span>{product.title}</span>
-                    </div>
-                    <a
-                      href={`http://demo47.askas8.se/sv/${product.slug}`}
-                      className="product-title"
-                    >
-                      {product.description}
-                    </a>
-                    <div className="price-buy">
-                      <span className="p-price">${product.price}</span>
-                      <a
-                        href={`http://demo47.askas8.se/sv/${product.slug}`}
-                        className="p-buy-btn"
-                      >
-                        Buy Now
-                      </a>
+                <div className="slider-btns">
+                  <div className="swiper-button-prev"></div>
+                  <div className="swiper-button-next"></div>
+                </div>
+                <div className="slider-container">
+                  <div className="swiper mySwiper">
+                    <div className="swiper-wrapper">
+                      {productDetails.map((product:any, index:any) => (
+                        <div className="swiper-slide">
+                          <ProductCard
+                        key={index}
+                        image={product.image}
+                        title={product.title}
+                        price={product.price}
+                        oldPrice={product.old_price}
+                      />
+                  
+                        </div>
+                      ))}
                     </div>
                   </div>
                 </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-    </section>
+             </section>
               <div className="sale_items">
                 <div className="subheading">
                   <h1>OUR BEST SELLERS</h1>
                   <h2>Our Popular Products</h2>
                 </div>
                 <div className="sale_box">
-                  <div className="sale_box1" >
-                  {productDetails && productDetails.slice(0, 3).map((product:any, index:any) => (
-  <div className="sale_box_items" key={index}>
-    {product && (
-      <>
-        <Image
-          alt="loading-image"
-          className="product-img-front"
-          src={`http://127.0.0.1:8000${decodeURIComponent(product?.image) || ""}`}
-          priority
-          width={800}
-          height={800}
-        />
-       <Link href="/Items"><h1>{product.title || "Loading..."}</h1></Link> 
-        <p>
-          ${product.price || 0} <span>${product.old_price || 0}</span>
-        </p>
-      </>
-    )}
-  </div>
-))}
-                      
-                  </div>
-                  <div className="sale_box1">
-                  {productDetails && productDetails.slice(3, 6).map((product:any, index:any) => (
-  <div className="sale_box_items" key={index}>
-    {product && (
-      <>
-        <Image
-          alt="loading-image"
-          className="product-img-front"
-          src={`http://127.0.0.1:8000${decodeURIComponent(product?.image) || ""}`}
-          priority
-          width={800}
-          height={800}
-        />
-       <Link href="/Items"><h1>{product.title || "Loading..."}</h1></Link> 
-        <p>
-          ${product.price || 0} <span>${product.old_price || 0}</span>
-        </p>
-      </>
-    )}
-  </div>
-))}
-                  </div>
+                 <ProductCardGrid/>
                 </div>
               </div>
               <div className="arrival_product">
