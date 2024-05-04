@@ -3,9 +3,7 @@ import React, { useEffect, useState } from "react";
 import ProductCardGrid from './../../Ui/Product/ProductCardGrid/page'
 import ProductCard from './../../Ui/Product/ProductCard/page'
 import "./product.css";
-import Cream from "./Image/cream.png";
 import nature from "./Image/natur.png";
-import cap from "./Image/cap.png";
 import Categorygrid from './../../Ui/Category/Categorygrid/page'
 import "./slider.css";
 import "./swiper-bundle.min.css";
@@ -20,15 +18,12 @@ import Plate from "./Image/plate.png";
 import Swiper from "swiper";
 import arrival from "./Image/soonarival.jpg";
 import star from "./Image/⭐⭐⭐⭐⭐.png";
-import location from "./Image/Group 82.png";
-import phone from "./Image/Phone.png";
-import Facebook from "./Image/facebook.png";
-import Instagram from "./Image/instagram.png";
-import Twitter from "./Image/twitter.png";
-import Youtube from "./Image/youtube.png";
 import Link from "next/link";
+import Footer from './../../Ui/Footer/page'
 import { useRouter } from 'next/navigation';
+import { pid } from "process";
 interface ProductDetails {
+  pid:string;
   image: string;
   name: string;
   price: number;
@@ -110,6 +105,7 @@ const page = () => {
   
         // Assuming the API response is an array of products
         setProductDetails(data.map((product:any) => ({
+          pid:product.pid,
           image: product.image,
           name: product.name,
           price: product.price,
@@ -134,11 +130,10 @@ const page = () => {
         <div className="product_items">
           <div className="product_sale">
             <h1>
-           
               Shop 35% on your first <u>shop now</u>
             </h1>
             {userEmail && <h1>Welcome to the Product Page, {userEmail}!</h1>}
-      {/* The rest of your product page content */}
+   
             <div className="divider"></div>
             <div className="navbar_product">
               <Navbar />
@@ -223,12 +218,14 @@ const page = () => {
                       {productDetails.map((product:any, index:any) => (
                         <div className="swiper-slide">
                           <ProductCard
-                        key={index}
+                        key={product.pid}
+                        pid={product.pid}
                         image={product.image}
                         title={product.title}
                         price={product.price}
                         oldPrice={product.old_price}
                       />
+                      
                   
                         </div>
                       ))}
@@ -305,91 +302,7 @@ const page = () => {
             </div>
           </div>
         </div>
-        <div className="footer_product">
-          <div className="footer_product_items">
-            <div className="logo_product">
-              <h1>INCLUSIFY</h1>
-            </div>
-            <div className="contact_product">
-              <div className="location">
-                <Image src={location} alt="loading-image" />
-                <div className="location_heading">
-                  <h1>Address</h1>
-                  <p>Sector 21,Mumbai</p>
-                </div>
-              </div>
-              <div className="location">
-                <Image src={phone} alt="loading-image" />
-                <div className="location_heading">
-                  <h1>Phone</h1>
-                  <p>9877578777</p>
-                </div>
-              </div>
-            </div>
-            <div className="social_media">
-              <Image src={Facebook} alt="loading-image" priority />
-              <Image src={Instagram} alt="loading-image" priority />
-              <Image src={Twitter} alt="loading-image" priority />
-              <Image src={Youtube} alt="loading-image" priority />
-            </div>
-            <div className="divider_product"></div>
-            <div className="links_product">
-              <h1>Quick Links</h1>
-              <div className="main_links">
-                <div className="main_links1">
-                  <li>Home</li>
-                  <li>Categories</li>
-                  <li>About</li>
-                  <li>Blog</li>
-                </div>
-                <div className="main_links1">
-                  <li>Articles</li>
-                  <li>Feedback</li>
-                  <li>Contact</li>
-                  <li>FAQ</li>
-                </div>
-              </div>
-            </div>
-            <div className="links_photos">
-              <h1>Recent Photos</h1>
-              <div className="photos_sale">
-                <Image
-                  src={Cream}
-                  alt="loadin-image"
-                  priority
-                  className="photos_sale1"
-                />
-                <Image
-                  src={nature}
-                  alt="loadin-image"
-                  priority
-                  className="photos_sale1"
-                />
-                <Image
-                  src={cap}
-                  alt="loadin-image"
-                  priority
-                  className="photos_sale1"
-                />
-              </div>
-            </div>
-          </div>
-          <div className="links_photos">
-            <h1>Subscribe</h1>
-            <p>Stay in touch with us</p>
-            <div className="message_product">
-              <form action="/product" method="post">
-                <input type="email" placeholder="Email" />
-                <button type="submit" className="button_product">
-                  Subscribe
-                </button>
-              </form>
-            </div>
-          </div>
-        </div>
-        <div className="copyright_product">
-          <h1>© copyright inclusify All right reserved.</h1>
-        </div>
+        <Footer/>
       </section>
     </>
   );

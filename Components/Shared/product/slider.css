@@ -167,15 +167,21 @@ body{
 .swiper-slide{
     width: 20% !important;
 }
+@media(max-width:800px){
+    .swiper-slide{
+        width: 33.33% !important;
+    }
+}
  
 @media(max-width:500px){
     .product-slider-heading{
         text-align: center;
         font-size: 1.3rem;
     }
-    .product-slider{
-        width: 100%;
+    .swiper-slide{
+        width: 50% !important;
     }
+     
     .product-img a,
     .product-img{
     height:230px;
@@ -201,5 +207,8 @@ body{
     .product-box-offer{
         top: 10px ;
         left: 20px ;
+    }
+    .swiper-slide{
+        width: 100% !important;
     }
 }

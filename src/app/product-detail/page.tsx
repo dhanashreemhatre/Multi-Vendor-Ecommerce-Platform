@@ -6,7 +6,7 @@ import PrductCardGrid from './../../../Components/Ui/Product/ProductCardGrid/pag
 function page() {
   return (
     <div>
-       <PrductCard/>
+      
         <PrductCardGrid/>
     </div>
   )

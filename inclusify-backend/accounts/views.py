@@ -24,29 +24,40 @@ from django.contrib.auth.tokens import default_token_generator
 from django.core.mail import EmailMessage
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ObjectDoesNotExist
+from rest_framework import status
 # Create your views here.
 
 
 class RegisterView(APIView):
     def post(self,request):
         serializer=AccountSerializers(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        user = serializer.save()
-        
-        # User Activation
-        current_site=get_current_site(request)
-        mail_subject='Please activate your account'
-        message=render_to_string('account_verification_email.html',
-                                {'user':user.username,
-                                'domain':current_site,
-                                'uid':urlsafe_base64_encode(force_bytes(user.pk)),
-                                'token':default_token_generator.make_token(user),})
-        to_email=user.email
-        send_email=EmailMessage(mail_subject,message,to=[to_email])
-        send_email.send()
-        return redirect('/accounts/login/?command=verification&email='+user.email)
-   
+        if serializer.is_valid():
+            username = serializer.validated_data['username']
+            email = serializer.validated_data['email']
+            
+            # Check if user with provided username or email already exists
+            if User.objects.filter(username=username).exists() or User.objects.filter(email=email).exists():
+                return Response({'error': 'User with provided username or email already exists.'}, status=status.HTTP_400_BAD_REQUEST)
+            
+            user = serializer.save()
+            
+            # User Activation
+            current_site = get_current_site(request)
+            mail_subject = 'Please activate your account'
+            message = render_to_string('account_verification_email.html', {
+                'user': user.username,
+                'domain': current_site.domain,
+                'uid': urlsafe_base64_encode(force_bytes(user.pk)),
+                'token': default_token_generator.make_token(user),
+            })
+            to_email = user.email
+            send_email = EmailMessage(mail_subject, message, to=[to_email])
+            send_email.send()
 
+            return Response({'message': 'Activation email sent to your email address.'})
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        
 
 class LoginView(APIView):
     def post(self, request):
@@ -79,17 +90,17 @@ class LoginView(APIView):
         django_login(request, authenticated_user)
 
         # Generate JWT token (as you did before)
+        # Generate JWT token
         payload = {
-            'id': authenticated_user.id,
-            'exp': datetime.datetime.utcnow() + datetime.timedelta(minutes=60),
+            'id': user.id,
+             'exp': datetime.datetime.utcnow() + datetime.timedelta(minutes=60),
             'iat': datetime.datetime.utcnow(),
-            'is_vendor': authenticated_user.is_vendor 
         }
         token = jwt.encode(payload, 'secret', algorithm='HS256')
+        request.session['jwt'] = token
+        
+        return Response({'token': token})
 
-        response = Response()
-        response.set_cookie(key='jwt', value=token, httponly=True)
-        return response
 
 
 
@@ -98,7 +109,7 @@ def user_logout(request):
     logout(request)
     response = JsonResponse({"message": "Logged out successfully"})
     response.delete_cookie('jwt')  # Remove the JWT token cookie
-    return response
+    return response 
 
 def activate(request,uidb64,token):
    try:

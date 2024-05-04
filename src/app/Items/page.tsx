@@ -7,6 +7,7 @@ import { Mesh } from "three";
 import Navbar from '../../../Components/Ui/Navbar/page'
 import './main.css'
 import Screen1 from '../../../Components/Ui/Screen1/page'
+import Footer from './../../../Components/Ui/Footer/page'
 function MeshComponent() {
   const fileUrl = "/Duck/glTF/Duck.gltf";
   const mesh = useRef<Mesh>(null!);
@@ -25,6 +26,7 @@ function MeshComponent() {
 
 const ProductsPage = () => {
   return (
+    <>
     <div className='container'>
       <Navbar/>
       <div className="container_items">
@@ -38,7 +40,10 @@ const ProductsPage = () => {
      <div className="screen1">
       <Screen1/>
      </div>
+
     </div>
+    <Footer/>
+    </>
   );
 }
 export default ProductsPage;

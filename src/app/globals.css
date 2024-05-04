@@ -29,16 +29,24 @@ body{position: relative;
 
   #google_translate_element .goog-te-gadget{
     color: white !important;
+    
   }
-
+  #google_translate_element{
+    margin-left: 10px;
+    display: flex;
+    gap: 10px;
+  }
+  #google_translate_element .goog-te-gadget:last-child{
+    display: none;
+  }
 
   #google_translate_element .goog-te-combo{
     color: black !important;
   }
-  #google_translate_element{
-    display: flex;
-    justify-content: space-between;
+  #google_translate_element .goog-te-combo:last-child{
+    display: none;
   }
+ 
 
   .main_wrapper{
     display: flex;

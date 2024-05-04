@@ -46,8 +46,6 @@ attr_choices=(
 
 
     
-
-    
 class Product(models.Model):
     pid=ShortUUIDField(unique=True,length=10,max_length=20,alphabet="abcdefgh12345")
 
@@ -149,8 +147,16 @@ class ProductReview(models.Model):
         return self.rating
     
 
-      ############################# product, attribute and its values ######################## 
-      ############################# product, attribute and its values ######################## 
-        ############################# product, attribute and its values ######################## 
+      ############################# cart ######################## 
+      ############################# cart ######################## 
+        ############################# cart ######################## 
+
+class Cart(models.Model):
+    user = models.ForeignKey(Account, on_delete=models.CASCADE)
+    items = models.ManyToManyField('CartItem')
+
+class CartItem(models.Model):
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    quantity = models.PositiveIntegerField(default=1)
 
 

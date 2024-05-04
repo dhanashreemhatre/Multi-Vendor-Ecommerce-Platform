@@ -5,6 +5,7 @@ import Google from './image/Google.png';
 import Link from 'next/link';
 import User from '../Signup/image/9334243-removebg-preview 1.png'
 import Vendor from '../Signup/image/42-removebg-preview 1.png'
+import Cookies from "js-cookie";
 import './login.css'
 import { useRouter } from 'next/navigation';
 const Page = () => {
@@ -29,6 +30,11 @@ const Page = () => {
       });
 
       if (response.ok) {
+        const data = await response.json();
+        const token = data.token;
+
+        Cookies.set("jwtToken", token);
+        Cookies.set("user", email);
         localStorage.setItem('userEmail', email);
         router.push('/');
         console.log('Login successful');

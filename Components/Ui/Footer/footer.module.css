@@ -1,0 +1,218 @@
+.footer_product{
+    width: 100%;
+    background-color: rgba(49, 49, 49, 1);
+    padding-bottom: 2%;
+    color: white;
+    }
+    .footer_product .footer_product_items{
+    padding-top: 2rem;
+    }
+    
+    .footer_product .footer_product_items .logo_product h1{
+    
+    color: rgba(62, 173, 34, 1);
+    font-size: 1.25rem;
+    font-family: Irish Grover;
+    text-align: center;
+    }
+    .contact_product{
+    display: flex;
+    margin-top: 1rem;
+    justify-content: center;
+    gap: 4%;
+    }
+    .location{
+    display: flex;
+    gap: 1rem;
+    }
+    .location_heading{
+    margin-top: 0.4rem;
+    }
+    .location_heading h1{
+    font-size: 1rem;
+    
+    }
+    .location_heading p{
+    font-weight: 400;
+    font-size: 0.9rem;
+    }
+    .social_media{
+    display: flex;
+    gap: 0.4rem;
+    justify-content: center;
+    margin-top: 2rem;
+    }
+    .divider_product{
+    margin-top: 1rem;
+    width: 100%;
+    border: 1px solid rgba(197, 188, 188, 1);
+    }
+    .links_product{
+    margin-top: 2rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    }
+    .links_product h1{
+        font-size: 1.4rem;
+    }
+    .links_photos{
+    margin-top: 2.7rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    }
+    .main_links{
+    display: flex;
+    margin-top: 1rem;
+    gap: 2rem;
+    }
+    .main_links1 li{
+    list-style: none;
+    text-align: center;
+    
+    }
+    .photos_sale{
+    margin-top: 2rem;
+    display: flex;
+    gap: 2rem;
+    }
+    .photos_sale1{
+    
+    width: 5.875rem;
+    height: 4.625rem;
+    }
+    .links_photos h1{
+        font-size: 1.4rem;
+    }
+    .links_photos p{
+    color: rgba(177, 173, 173, 1);
+    font-size: 1rem;
+    }
+    .message_product form{
+        margin-top: 1rem;
+    width: 80vw;
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    align-items: center;
+    }
+    .message_product form input{
+    padding: 8px 16px;
+    width: 60%;
+    background-color: rgba(75, 74, 74, 1);
+    border-radius: 1.25rem;
+    padding: 1rem;
+    }
+    
+    .button_product{
+    padding: 8px 16px;
+    border-radius: 2rem;
+    background-color: rgba(75, 74, 74, 1);
+    }
+    .button_product:hover{
+     background-color: rgba(84, 201, 55, 1);
+    }
+    .copyright_product{
+     width: 100%;
+     height: 3rem;
+     background-color: black;
+     display: flex;
+     justify-content: center;
+     align-items: center;
+    }
+    @media(max-width:600px){
+         
+          .footer_product .footer_product_items .logo_product h1{
+            font-size: 1.25rem;
+        }
+        .location{
+            display: flex;
+            gap: 1rem;
+        }
+        .location_heading{
+            margin-top: 0.4rem;
+        }
+        .location_heading h1{
+            font-size: 0.75rem;
+        
+        }
+        .location_heading p{
+            font-weight: 400;
+        }
+        .divider_product{
+            margin-top: 1rem;
+            width: 100%;
+            border: 1px solid rgba(197, 188, 188, 1);
+        }
+        .links_product{
+            margin-top: 2rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        }
+        .links_photos{
+            margin-top: 2.7rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        }
+        .main_links{
+            display: flex;
+            margin-top: 1rem;
+            gap: 2rem;
+        }
+        .main_links1 li{
+            list-style: none;
+            text-align: center;
+            
+        }
+        .photos_sale{
+            margin-top: 2rem;
+            display: flex;
+            gap: 2rem;
+        }
+        .photos_sale1{
+        
+            width: 5.875rem;
+            height: 4.625rem;
+        }
+        .links_photos p{
+            color: rgba(177, 173, 173, 1);
+
+        }
+        .footer_product form{
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            justify-content: center;
+        }
+        .footer_product form input{
+            margin-top: 1.2rem;
+            width: 80vw;
+            height: 5.6vh;
+            background-color: rgba(75, 74, 74, 1);
+            border-radius: 1.25rem;
+            padding: 1rem;
+        }
+        
+        .button_product{
+            margin-left: 20vw;
+            width: 40vw;
+            height: 5vh;
+            border-radius: 2rem;
+        }
+
+        .copyright_product{
+             width: 100%;
+             height: 3rem;
+             background-color: black;
+             display: flex;
+             justify-content: center;
+             align-items: center;
+        }   
+    }

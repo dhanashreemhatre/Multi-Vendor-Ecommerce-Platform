@@ -10,6 +10,7 @@ import Link from "next/link";
 
 const Page = () => {
   const [selectedBox, setSelectedBox] = useState(0);
+  const [showAlert, setShowAlert] = useState(false);
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -18,7 +19,8 @@ const Page = () => {
     is_vendor: 0, // Default to 0 for "User"
   });
 
-  const handleBoxClick = (boxIndex) => {
+  
+  const handleBoxClick = (boxIndex:any) => {
     setSelectedBox(boxIndex);
 
     // Set is_vendor to 0 for "User" and 1 for "Vendor"
@@ -30,11 +32,11 @@ const Page = () => {
     console.log(formData.is_vendor)
   };
 
-  const handleInputChange = (e) => {
+  const handleInputChange = (e:any) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSignUp = async (e) => {
+  const handleSignUp = async (e:any) => {
     e.preventDefault();
     if (formData.password !== formData.confirmPassword) {
       console.error("Password does not match Confirm Password");
@@ -53,8 +55,15 @@ const Page = () => {
         console.log("User signed up successfully!");
         // Handle success, e.g., redirect to a success page or show a success message
       } else {
-        console.error("Failed to sign up:", response.statusText);
-        // Handle failure, e.g., show an error message to the user
+        const errorData = await response.json();
+        if (response.status === 400 && errorData.error) {
+          alert(errorData.error);
+          setShowAlert(true); // Display alert if user already exists
+        } else {
+          console.error("Failed to sign up:", response.statusText);
+          setShowAlert(true);
+          // Handle other errors, e.g., show an error message to the user
+        }
       }
     } catch (error) {
       console.error("An error occurred during signup:", error);
@@ -63,7 +72,16 @@ const Page = () => {
 
   useEffect(() => {
     localStorage.setItem("selectedBox", selectedBox);
-  }, [selectedBox]);
+    let timeoutId: NodeJS.Timeout;
+
+    if (showAlert) {
+      timeoutId = setTimeout(() => {
+        setShowAlert(false);
+      }, 2000); // Set timeout for 2 seconds
+    }
+
+    return () => clearTimeout(timeoutId);
+  }, [selectedBox,showAlert]);
 
   return (
     <div className="sign-up">
@@ -117,6 +135,11 @@ const Page = () => {
           )}
         </div>
         <div className="form">
+        {showAlert && ( 
+          <div className="alert warning">
+            <p>user already exists</p>
+          </div>
+        )}
           <form onSubmit={handleSignUp}>
             <input
               type="email"
@@ -125,18 +148,19 @@ const Page = () => {
               value={formData.email}
               onChange={handleInputChange}
             />
-            <input
-              type="password"
-              placeholder="Password"
-              name="password"
-              value={formData.password}
-              onChange={handleInputChange}
-            />
+           
             <input
               type="text"
               placeholder="Username"
               name="username"
               value={formData.username}
+              onChange={handleInputChange}
+            />
+             <input
+              type="password"
+              placeholder="Password"
+              name="password"
+              value={formData.password}
               onChange={handleInputChange}
             />
             <input
@@ -147,14 +171,15 @@ const Page = () => {
               onChange={handleInputChange}
             />
             <button >Sign up</button>
-          </form>
-          <div className="google">
+            <div className="google">
             <h1>-or sign in with-</h1>
             <button>
               <Image src={Google} alt="loading-image" />
               <h1>Sign up with google</h1>
             </button>
           </div>
+          </form>
+          
           <div className="login_to">
             <h1> Already have an account?</h1>
             <Link href="/login">

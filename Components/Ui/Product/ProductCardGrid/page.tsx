@@ -1,8 +1,10 @@
+// Page.jsx
 import React, { useEffect, useState } from "react";
 import ProductBox from "./../ProductCard/page";
 import styles from './productcardgrid.module.css'
 
 interface ProductDetails {
+  pid: string; 
   image: string;
   name: string;
   price: number;
@@ -27,6 +29,7 @@ function Page() {
 
         setProductDetails(
           data.map((product: any) => ({
+            pid: product.pid, 
             image: product.image,
             name: product.name,
             price: product.price,
@@ -35,7 +38,7 @@ function Page() {
             title: product.title,
           }))
         );
-      } catch (error) {
+      } catch (error:any) {
         console.error("Error fetching product details:", error.message);
       }
     };
@@ -48,6 +51,7 @@ function Page() {
       {productDetails.map((product: ProductDetails, index: number) => (
         <ProductBox
           key={index}
+          pid={product.pid} // Pass pid to ProductBox component
           image={product.image}
           title={product.title}
           price={product.price}

@@ -15,7 +15,7 @@ header {
 }
 .sign-up{
     margin: 3%;
-    max-width: 600px;
+    width: 600px;
     padding: 2%;
     display: flex;
     flex-direction: column;
@@ -50,7 +50,19 @@ header {
     /* Styles for the selected box */
     border-color: rgba(19, 169, 16, 1); /* Set the border color to green */
 }
-
+.alert{
+    padding: 8px 16px;
+    font-size: 10px;
+    background-color: rgb(184, 255, 168);
+    font-size: 1.2rem;
+    border-radius: 4px;
+    width: 80%;
+    text-align: center;
+    color: white;
+}
+.warning{
+    background-color: rgb(255, 96, 96);
+}
 .tick {
     position: absolute;
     top: 85%;
@@ -145,7 +157,7 @@ form button{
     justify-content: center;
 }
 .google button h1{
-   font-size: 1.25rem;
+   font-size: 1rem;
    color: black;
 }
 .login_to{
@@ -161,6 +173,9 @@ text-align: center;
    color: rgba(19, 169, 16, 1);
 }
 @media (max-width: 790px) {
+    .sign-up{
+        box-shadow: none;
+    }
     .profile_title{
         margin-left: 4rem;
         font-size: 0.75rem;
@@ -187,8 +202,6 @@ text-align: center;
  
   
    input{
-       width: 88vw;
-       height: 3.625rem;
        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
        border-radius: 0.625rem;
        text-indent: 1rem;
@@ -215,8 +228,7 @@ text-align: center;
      }
      
    form button{
-       width: 88vw;
-       height: 3.625rem;
+       
        background-color: rgba(19, 169, 16, 1);
        border-radius: 0.625rem;
        font-size: 1.25rem;
@@ -241,9 +253,8 @@ text-align: center;
    }
    .google button{
        margin-top: 1rem;
-       width: 88vw;
+
        display: flex;
-       height: 3.625rem;
        background-color: rgba(217, 217, 217, 1);
        border-radius: 0.625rem;
        font-size: 1.25rem;

@@ -1,0 +1,29 @@
+.cart_item{
+    display: flex;
+    gap: 20px;
+    box-sizing: border-box;
+    padding: 10px;
+}
+.cart_item_info{
+    display: flex;
+    gap: 20px;
+}
+.cart_item_info h2{
+    font-size: 20px;
+    font-weight: bold;
+    color: #555555;
+}
+.cart_item_info h4{
+    color: red;
+    font-weight: bold;
+    font-size: 18px;
+}
+.cart_item_info h4 span{
+    color: black;
+    text-decoration: line-through;
+    font-size: small;
+    font-weight: normal;
+}
+.cart_box{
+    box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
+}

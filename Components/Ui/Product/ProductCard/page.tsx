@@ -5,19 +5,23 @@ import styles from './productcard.module.css'
 import AddToCartButton from './../AddToCartButton/page'
 
 interface ProductBoxProps {
+  pid:string;
   image: string;
   title: string;
   price: number;
   oldPrice: number;
+ 
 }
 
 const ProductBox: React.FC<ProductBoxProps> = ({
+  pid,
   image,
   title,
   price,
   oldPrice,
 }) => {
   return (
+    
     <div className={styles.product_box}>
       <>
         <Image
@@ -34,7 +38,7 @@ const ProductBox: React.FC<ProductBoxProps> = ({
         <span className={styles.price}>
           ${price || 0} <span className={styles.old_price}>${oldPrice || 0}</span>
         </span>
-        <AddToCartButton />
+        <AddToCartButton pid={pid} />
       </>
     </div>
   );

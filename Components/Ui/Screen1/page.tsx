@@ -116,24 +116,7 @@ const Page = () => {
             </div>
             
           </div>
-          <div className="more_product">
-          <h1>Similar Product</h1>
-            <div className="more_items">
-            <div className="more_items1">
-            <div className="box_main"></div>
-            <h1>Product name</h1>
-            <h2>340 Rs.</h2>
-            </div>
-            <div className="more_items1">
-            <div className="box_main"></div>
-            <h1>Product name</h1>
-            <h2>340 Rs.</h2>
-            </div>
-           
-            </div>
-               
-
-              </div>
+         
         </div>
       </div>
     </div>

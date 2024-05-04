@@ -1,18 +1,16 @@
-import React from 'react'
-import Image from 'next/image'
-import Flower from "../../../Shared/product/Image/Sakura.png";
-import styles from './categorycard.module.css'
+import React from 'react';
+import Image from 'next/image'; // Assuming you're using Next.js for your React application
+import styles from './categorycard.module.css';
 
-function page() {
+function CategoryCard({ category }) {
+  console.log(category.image)
   return (
-    <div>
-        <div className={styles.box_product}>
-                <Image src={Flower} alt="flower-image" priority />
-                <h1>Flower</h1>
-                <button>Explore Now</button>
-        </div>
+    <div className={styles.box_product}>
+      <Image src={`http://127.0.0.1:8000/${decodeURIComponent(category.image) || ""}`} alt="category-image" width={200} height={200} />
+      <h1>{category.title}</h1>
+      <button>Explore Now</button>
     </div>
-  )
+  );
 }
 
-export default page
+export default CategoryCard;
