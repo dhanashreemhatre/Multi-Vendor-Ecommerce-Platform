@@ -28,7 +28,7 @@
     text-decoration: line-through;
 }
 .product_box .add_to_cart{
-    background-color:  rgba(19, 169, 16, 1);
+    background-color: var(--primary-color);
     color: white;
     font-size: 14px;
     padding: 8px 16px;

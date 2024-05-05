@@ -1,5 +1,6 @@
 import React from 'react';
-import Image from 'next/image'; // Assuming you're using Next.js for your React application
+import Image from 'next/image';
+import Link from 'next/link'; // Import Link
 import styles from './categorycard.module.css';
 
 function CategoryCard({ category }) {
@@ -7,8 +8,13 @@ function CategoryCard({ category }) {
   return (
     <div className={styles.box_product}>
       <Image src={`http://127.0.0.1:8000/${decodeURIComponent(category.image) || ""}`} alt="category-image" width={200} height={200} />
-      <h1>{category.title}</h1>
-      <button>Explore Now</button>
+      <div className={styles.category_info}>
+        <h1>{category.title}</h1>
+        {/* Use Link to redirect when the button is clicked */}
+        <Link href={`/products/${category.cid}`}>
+          <button>Explore Now</button>
+        </Link>
+      </div>
     </div>
   );
 }

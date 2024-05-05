@@ -2,8 +2,8 @@
   import React, { useState, useEffect } from 'react';
   import styles from './addtocartbutton.module.css';
   import Cookies from "js-cookie";
-  import { redirect } from 'next/navigation'
-  import { revalidatePath } from 'next/cache'
+  import { useRouter } from 'next/navigation'
+
   interface AddToCartButtonProps {
     pid: string; // Product ID
   }
@@ -11,7 +11,7 @@
   const AddToCartButton: React.FC<AddToCartButtonProps> = ({ pid }) => {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
-
+    const router = useRouter();
     useEffect(() => {
       // Fetch user ID from localStorage
       const userId = localStorage.getItem('userId');
@@ -43,14 +43,14 @@
         if (!response.ok) {
           throw new Error('Failed to add item to cart');
         }
-        
-        alert('Item added to cart successfully');
-        revalidatePath('/cart') // Update cached posts
-        redirect('/cart') 
+        console.log(response)
+        router.push('/cart')
+       
       } catch (error:any) {
         setError(error.message || 'Failed to add item to cart');
       } finally {
         setLoading(false);
+   
       }
     };
 

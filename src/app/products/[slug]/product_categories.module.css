@@ -1,0 +1,9 @@
+.categories{
+    margin: 4%;
+}
+.categories h1{
+    font-weight: bold;
+    font-size: 20px;
+    text-align: center;
+    color:  var(--primary-color);
+}

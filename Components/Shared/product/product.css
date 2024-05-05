@@ -196,75 +196,6 @@ text-align: center;
 .sale_box_items span{
 color: rgba(84, 201, 55, 1);
 }
-.arrival_product{
-display: flex;
-flex-direction: column;
-}
-.soon_arival{
-margin-top: 2rem;
-display: grid;
-grid-template-columns: 2fr 1fr;
-gap: 2rem;
-}
-.arrival{
-width: 100%;
-border-radius: 0.4rem;
-}
-.dealOfDayText {
-position: relative;
-left: 30vw;
-bottom: 15rem;
-
-transform: translate(-50%, -50%);
-text-align: center;
-color: white; /* Adjust the color as needed */
-font-size: 24px; /* Adjust the font size as needed */
-font-weight: bold;
-z-index: 1; /* Adjust the font weight as needed */
-/* Add any other styling properties you want */
-}
-.dealOfDayText p{
-font-size: 2rem;
-color: black;
-}
-.dealOfDayText h3{
-    position: relative;
-left: 14vw;
-font-size: 1rem;
-width: 30vw;
-font-weight: 300;
-}
-.dealOfDayText button{
-width: 5rem;
-height: 2rem;
-border-radius: 2rem;
-background-color: white;
-color: black;
-font-size: 0.6rem;
-position: relative;
-top: 8%;
-}
-.dealOfDayText button:hover{
-background-color: rgba(62, 173, 34, 1);
-color: white;
-}
-.arival_subheading{
-display: flex;
-}
-.arival_subheading .box{
- display: flex;
- flex-direction: column;
- margin-top: 1rem;
- gap: 1rem;
-}
-.box .item1 h1,p{
-font-size: 1rem;
-text-align: center;
-}
-.star{
-margin-top: 0.2rem;
-margin-left: 2%;
-}
 
 
 @media(max-width:600px){
@@ -430,7 +361,7 @@ margin-left: 2%;
     
 }
 .despensary span{
-    color: rgba(19, 169, 16, 1);
+    background-color: var(--primary-color);
 }
 .despensary p{
     font-size: 0.8rem;
@@ -459,11 +390,11 @@ margin-left: 2%;
     align-items: center;
     font-size: 0.375rem;
     border-radius: 0.75rem;
-    color: rgba(19, 169, 16, 1);
+    background-color: var(--primary-color);
     font-weight: bold;
 }
 .buttons button:hover{
-    background-color: rgba(19, 169, 16, 1);
+    background-color: var(--primary-color);
     color: white;
 }
 .best_product{
@@ -511,79 +442,6 @@ margin-left: 2%;
     text-align: center;
 }
 .sale_box_items span{
-    color: rgba(84, 201, 55, 1);
+    background-color: var(--primary-color);
 }
-.arrival_product{
-    display: flex;
-    flex-direction: column;
-}
-.soon_arival{
-    margin-top: 2rem;
-    display: flex;
-    gap: 2rem;
-}
-.arrival{
-    width: 10.688rem;
-    height: 19.813rem;
-    border-radius: 0.4rem;
-}
-.dealOfDayText {
-    position: relative;
-    left: 20vw;
-    bottom: 15rem;
-    
-
-    
-    transform: translate(-50%, -50%);
-    text-align: center;
-    color: white; /* Adjust the color as needed */
-    font-size: 24px; /* Adjust the font size as needed */
-    font-weight: bold;
-    z-index: 1; /* Adjust the font weight as needed */
-    /* Add any other styling properties you want */
-  }
-  .dealOfDayText p{
-    font-size: 0.7rem;
-    color: black;
-  }
-  .dealOfDayText h3{
-    font-size: 0.5rem;
-    width: 30vw;
-    margin-left: 1.4rem;
-    font-weight: 300;
-  }
-  .dealOfDayText button{
-    width: 5rem;
-    height: 2rem;
-    border-radius: 2rem;
-    background-color: white;
-    color: black;
-    font-size: 0.6rem;
-    position: relative;
-    top: 11rem;
-  }
-  .dealOfDayText button:hover{
-    background-color: rgba(62, 173, 34, 1);
-    color: white;
-  }
-  .arival_subheading{
-    display: flex;
-  }
-  .arival_subheading .box{
-     display: flex;
-     flex-direction: column;
-     margin-top: 1rem;
-     gap: 1rem;
-  }
-  .box .item1 h1,p{
-    font-size: 0.625rem;
-    text-align: center;
-  }
-  .star{
-    margin-top: 0.2rem;
-    margin-left: 18vw;
-
-  }
-  
-
 }

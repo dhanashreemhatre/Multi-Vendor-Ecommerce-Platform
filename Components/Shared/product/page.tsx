@@ -232,63 +232,7 @@ const page = () => {
                  <ProductCardGrid/>
                 </div>
               </div>
-              <div className="arrival_product">
-                <div className="arrival_product_items">
-                  <div className="subheading">
-                    <h1>OUR New Product</h1>
-                    <h2>New Arrivals</h2>
-                  </div>
-                  <div className="soon_arival">
-                    <div className="soon_arival_oil">
-                      <Image
-                        src={arrival}
-                        alt="loading-image"
-                        className="arrival"
-                      />
-                      <div className="dealOfDayText">
-                        <p>Deal of the Day</p>
-                        <h3>
-                          Lorem ipsum dolor sit amet consectetur adipisicing
-                          elit. Cupiditate, autem.
-                        </h3>
-                        <button>Buy now</button>
-                      </div>
-                    </div>
-                    <div className="arival_subheading">
-                      <div className="box">
-                        <div className="item1">
-                          <Image
-                            src={nature}
-                            alt="loadin-image"
-                            className="nature"
-                          />
-                          <h1>Canibiz active oil</h1>
-                          <p>PRICE $32</p>
-                          <Image
-                            src={star}
-                            alt="losding-image"
-                            className="star"
-                          />
-                        </div>
-                        <div className="item1">
-                          <Image
-                            src={nature}
-                            alt="loadin-image"
-                            className="nature"
-                          />
-                          <h1>Canibiz active oil</h1>
-                          <p>PRICE $32</p>
-                          <Image
-                            src={star}
-                            alt="losding-image"
-                            className="star"
-                          />
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
+              
             </div>
           </div>
         </div>

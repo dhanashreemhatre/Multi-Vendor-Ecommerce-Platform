@@ -19,7 +19,27 @@ class All_Categories(APIView):
         category=Category.objects.all().order_by('?')
         serializer=CategorySerializer(category,many=True)
         return Response(serializer.data)
-
+    
+class ProductFromThisCategoryApi(APIView):
+    def get(self, request, pk):
+        try:
+            category = Category.objects.get(cid=pk)
+            products = Product.objects.filter(categories=category)
+            category_serializer = CategorySerializer(category)  # Serialize category
+            product_serializer = ProductSerializer(products, many=True)  # Serialize products
+            data = {
+                'category': category_serializer.data,  # Include serialized category data
+                'products': product_serializer.data  # Include serialized products data
+            }
+            return Response(data)
+        except Category.DoesNotExist:
+            return Response({'error': 'Category does not exist'}, status=status.HTTP_404_NOT_FOUND)
+        except Product.DoesNotExist:
+            return Response({'error': 'Products not found for this category'}, status=status.HTTP_404_NOT_FOUND)
+        except Exception as e:
+            return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        
+        
 class ProductDetailAPIView(APIView):
     def get(self,request,pk):
         try:
@@ -32,11 +52,12 @@ class ProductDetailAPIView(APIView):
 class AddToCartAPIView(APIView):
     def post(self, request, pk):
         try:
+            print(pk)
             # Retrieve the product
             pid = request.data.get('pid')
             user_id = request.data.get('userId')
             user=Account.objects.get(email=user_id)
-            product = Product.objects.get(pid=pid)
+            product = Product.objects.get(pid=pk)
             # Create or get the cart for the current user
             cart, created = Cart.objects.get_or_create(user=user)
             print(cart)
@@ -47,9 +68,8 @@ class AddToCartAPIView(APIView):
             # Add the product to the cart
             cart_item = cart.items.create(product=product, quantity=1)
             
-            # Serialize the cart item
-            serializer = CartSerializer(cart_item)
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
+           
+            return Response("Success", status=status.HTTP_201_CREATED)
         
         except Product.DoesNotExist:
             return Response({'error': 'Product not found'}, status=status.HTTP_404_NOT_FOUND)

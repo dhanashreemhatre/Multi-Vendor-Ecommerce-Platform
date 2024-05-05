@@ -13,33 +13,32 @@ const CartPage = () => {
   const [totalShippingCharges, setTotalShippingCharges] = useState(0);
   const [cartTotal, setCartTotal] = useState(0);
 
-  useEffect(() => {
-    const fetchCartData = async () => {
-      try {
-        const userId = Cookies.get('user');
-        if (!userId) {
-          throw new Error('User ID not found in cookies');
-        }
-        const response = await fetch(`http://127.0.0.1:8000/cart/`, {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `${userId}`,
-          },
-        });
-        if (response.ok) {
-          const data = await response.json();
-          setCartItems(data);
-        } else {
-          console.error('Failed to fetch cart data');
-        }
-      } catch (error) {
-        console.error('Error fetching cart data:', error);
+  const fetchCartData = async () => {
+    try {
+      const userId = Cookies.get('user');
+      if (!userId) {
+        throw new Error('User ID not found in cookies');
       }
-    };
-
+      const response = await fetch(`http://127.0.0.1:8000/cart/`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `${userId}`,
+        },
+      });
+      if (response.ok) {
+        const data = await response.json();
+        setCartItems(data);
+      } else {
+        console.error('Failed to fetch cart data');
+      }
+    } catch (error) {
+      console.error('Error fetching cart data:', error);
+    }
+  };
+  useEffect(() => {
     fetchCartData();
-  }, [cartItems]);
+  }, []);
   useEffect(()=>{
     const calculateTotal=()=>{
       let total=0;
@@ -85,9 +84,11 @@ const CartPage = () => {
       if (response.ok) {
         // Remove the deleted item from the cartItems state
         setCartItems(cartItems.filter(item => item.id !== cartItemId));
+        fetchCartData();
+      
       } else {
         console.error('Failed to remove cart item');
-      }
+      } 
     } catch (error) {
       console.error('Error removing cart item:', error);
     }
