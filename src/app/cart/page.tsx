@@ -39,7 +39,7 @@ const CartPage = () => {
     };
 
     fetchCartData();
-  }, []);
+  }, [cartItems]);
   useEffect(()=>{
     const calculateTotal=()=>{
       let total=0;
