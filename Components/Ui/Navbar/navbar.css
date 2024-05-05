@@ -34,6 +34,10 @@ body.dark{
     align-items: center;
     background-color: black;
 }
+.navbar_product{
+    width: 100%;
+    padding: 0 4%;
+}
 
 .bx-x {
     color: white;

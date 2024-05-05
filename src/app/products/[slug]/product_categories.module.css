@@ -7,3 +7,6 @@
     text-align: center;
     color:  var(--primary-color);
 }
+.categories p{
+    text-align: center;
+}

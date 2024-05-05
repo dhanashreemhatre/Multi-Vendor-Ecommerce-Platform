@@ -42,19 +42,22 @@ const CategoryPage = () => {
         <div className={styles.categories}>
           <h1>{category.category.title}</h1>
           <p>{category.category.description}</p>
-          {/* Render products */}
-          <h2></h2>
+        
           <div>
-            {category.products.map(product => (
-              <ProductBox
-              key={product.id}
-              pid={product.pid} // Pass pid to ProductBox component
-              image={product.image}
-              title={product.title}
-              price={product.price}
-              oldPrice={product.old_price}
-            />
-            ))}
+            {category.products.length > 0 ? (
+              category.products.map(product => (
+                <ProductBox
+                  key={product.id}
+                  pid={product.pid} // Pass pid to ProductBox component
+                  image={product.image}
+                  title={product.title}
+                  price={product.price}
+                  oldPrice={product.old_price}
+                />
+              ))
+            ) : (
+              <p>No products under this category yet.</p>
+            )}
           </div>
         </div>
       )}
