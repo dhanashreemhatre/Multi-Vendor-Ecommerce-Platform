@@ -3,6 +3,10 @@ import React, { useState, useEffect } from 'react';
 import Cookies from 'js-cookie';
 import styles from './cart.module.css';
 import Image from 'next/image';
+import { AnyJson } from 'three/examples/jsm/nodes/Nodes.js';
+import bin from './Images/trash.png'
+import Navbar from './../../../Components/Ui/Navbar/page'
+import Footer from './../../../Components/Ui/Footer/page'
 
 const CartPage = () => {
   const [cartItems, setCartItems] = useState([]);
@@ -36,22 +40,28 @@ const CartPage = () => {
 
     fetchCartData();
   }, []);
+  useEffect(()=>{
+    const calculateTotal=()=>{
+      let total=0;
+      cartItems.forEach(item=>{
+        total+=item.product.price*item.quantity;
+
+      });
+      setCartTotal(total);
+    }
+    calculateTotal();
+  },[cartItems])
 
   useEffect(() => {
-    const calculateTotal=()=>{
-
-    }
+   
    
     const calculateTotalShippingCharges = () => {
       let totalCharges = 0;
       cartItems.forEach(item => {
-        // Logic to calculate shipping charges for each item
-        // You can replace this with your own logic
         const shippingCharges = calculateShippingChargesForItem(item);
         totalCharges += shippingCharges;
       });
       setTotalShippingCharges(totalCharges);
-      calculateTotal();
     };
 
     calculateTotalShippingCharges();
@@ -85,12 +95,13 @@ const CartPage = () => {
 
   return (
     <div>
-      <h1>Cart</h1>
+      <Navbar/>
+      <h1 className={styles.heading_1}>Your Cart</h1>
       <div className='sm:grid grid-cols-2'>
         <div>
           {cartItems.map((item) => (
             <div key={item.id} className={`${styles.cart_item} m-4 p-4`}>
-              <p>{item.product.id}</p>
+              {/* <p>{item.product.id}</p> */}
               <Image src={`http://127.0.0.1:8000/${decodeURIComponent(item.product.image) || ''}`}
                 priority width={100} height={100}
                 alt={item.product.title} />
@@ -100,16 +111,18 @@ const CartPage = () => {
                 <div className="quantity">
                   {item.quantity}
                 </div>
-                <button onClick={() => handleRemoveCartItem(item.product.id)}>Remove</button>
+                <button onClick={() => handleRemoveCartItem(item.product.id)}><Image src={bin} alt='delete' height={28} width={28}/></button>
               </div>
             </div>
           ))}
         </div>
         <div className={`${styles.cart_box} m-4 p-4`}>
-          <h2>Total Shipping Charges: ${totalShippingCharges}</h2>
-          Checkout
+          <h2>Total Shipping Charges: <span>₹{totalShippingCharges}</span></h2>
+          <h2>Cart Total: <span>₹{cartTotal}</span></h2>
+          <button className={styles.checkout_btn}>Checkout</button>
         </div>
       </div>
+      <Footer/>
     </div>
   );
 };

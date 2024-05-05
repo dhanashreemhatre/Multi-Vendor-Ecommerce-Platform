@@ -26,6 +26,14 @@ body.dark{
 .logo{
     color: black;
 }
+.product_sale{
+    display: flex;
+    flex-direction: column;
+    color: white;
+    font-size: 0.625rem;
+    align-items: center;
+    background-color: black;
+}
 
 .bx-x {
     color: white;
@@ -36,7 +44,6 @@ nav .nav-bar{
     max-width: 1000px;
     width: 100%;
     margin: 2% auto;
-    padding: 0 30px;
     display: flex;
     align-items: center;
     justify-content: space-between;

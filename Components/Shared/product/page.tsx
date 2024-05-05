@@ -128,17 +128,7 @@ const page = () => {
 
       <section className="product">
         <div className="product_items">
-          <div className="product_sale">
-            <h1>
-              Shop 35% on your first <u>shop now</u>
-            </h1>
-            {userEmail && <h1>Welcome to the Product Page, {userEmail}!</h1>}
-   
-            <div className="divider"></div>
-            <div className="navbar_product">
-              <Navbar />
-            </div>
-          </div>
+        <Navbar/>
         </div>
         <div className="product_details">
           <div className="content_product">

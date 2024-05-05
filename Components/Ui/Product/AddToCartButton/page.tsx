@@ -1,7 +1,9 @@
+'use client'
   import React, { useState, useEffect } from 'react';
   import styles from './addtocartbutton.module.css';
   import Cookies from "js-cookie";
-
+  import { redirect } from 'next/navigation'
+  import { revalidatePath } from 'next/cache'
   interface AddToCartButtonProps {
     pid: string; // Product ID
   }
@@ -43,6 +45,8 @@
         }
         
         alert('Item added to cart successfully');
+        revalidatePath('/cart') // Update cached posts
+        redirect('/cart') 
       } catch (error:any) {
         setError(error.message || 'Failed to add item to cart');
       } finally {

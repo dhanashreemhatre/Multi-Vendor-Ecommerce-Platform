@@ -1,5 +1,5 @@
 
-import React, { useEffect } from 'react';
+import React, { useEffect,useState } from 'react';
 import './navbar.css';
 import Link from 'next/link';
 
@@ -8,6 +8,16 @@ interface PageProps {
 }
 
 const Page: React.FC<PageProps> = ({ className }) => {
+  const [userEmail, setUserEmail] = useState('');
+  useEffect(() => {
+    // Retrieve user's email from local storage
+    const storedEmail = localStorage.getItem('userEmail');
+    setUserEmail(storedEmail || '');
+
+    // If the user is not logged in, redirect to the login page
+   
+  });
+
   useEffect(() => {
     const body = document.querySelector("body"),
       nav = document.querySelector("nav"),
@@ -55,8 +65,16 @@ const Page: React.FC<PageProps> = ({ className }) => {
   }, []);
 
   return (
+   
     <>
-      <link href='https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css' rel='stylesheet' />
+     <div className="product_sale">
+    <h1>
+      Shop 35% on your first <u>shop now</u>
+    </h1>
+    {userEmail && <h1>Welcome to the Product Page, {userEmail}!</h1>}
+  <div className="divider"></div>
+    <div className="navbar_product">
+    <link href='https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css' rel='stylesheet' />
        <nav>
         <div className="nav-bar">
           <i className='bx bx-menu sidebarOpen'></i>
@@ -81,6 +99,9 @@ const Page: React.FC<PageProps> = ({ className }) => {
           </div>
         </div>
         </nav>
+    </div>
+  </div>
+     
     </>
   );
 }
