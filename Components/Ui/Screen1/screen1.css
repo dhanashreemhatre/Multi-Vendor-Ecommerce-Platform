@@ -193,7 +193,7 @@
 }
 
 .buttons_review .box1_button{
-    width: 71vw;
+    width: 100%;
     height: 5.7vh;
     border: 1px solid black;
     display: flex;

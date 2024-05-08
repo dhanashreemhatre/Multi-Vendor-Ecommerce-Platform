@@ -32,7 +32,7 @@ const ProductBox: React.FC<ProductBoxProps> = ({
           width={200}
           height={200}
         />
-        <Link href="/Items">
+        <Link href={`/product-details/${pid}`}>
           <h1>{title || "Loading..."}</h1>
         </Link>
         <span className={styles.price}>

@@ -3,7 +3,6 @@ import React, { useEffect, useState } from "react";
 import ProductCardGrid from './../../Ui/Product/ProductCardGrid/page'
 import ProductCard from './../../Ui/Product/ProductCard/page'
 import "./product.css";
-import nature from "./Image/natur.png";
 import Categorygrid from './../../Ui/Category/Categorygrid/page'
 import "./slider.css";
 import "./swiper-bundle.min.css";
@@ -16,12 +15,9 @@ import delivery from "./Image/Deliver Food.png";
 import customer from "./Image/Customer Support.png";
 import Plate from "./Image/plate.png";
 import Swiper from "swiper";
-import arrival from "./Image/soonarival.jpg";
-import star from "./Image/⭐⭐⭐⭐⭐.png";
-import Link from "next/link";
 import Footer from './../../Ui/Footer/page'
 import { useRouter } from 'next/navigation';
-import { pid } from "process";
+
 interface ProductDetails {
   pid:string;
   image: string;

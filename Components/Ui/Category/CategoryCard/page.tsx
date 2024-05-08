@@ -11,7 +11,7 @@ function CategoryCard({ category }) {
       <div className={styles.category_info}>
         <h1>{category.title}</h1>
         {/* Use Link to redirect when the button is clicked */}
-        <Link href={`/products/${category.cid}`}>
+        <Link href={`/product/${category.cid}`}>
           <button>Explore Now</button>
         </Link>
       </div>
