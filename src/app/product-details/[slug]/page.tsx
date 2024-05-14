@@ -21,12 +21,13 @@ function page() {
             <div className={styles.product_info}>
                 <div className={styles.title_product}>
                 <h1>Beautiful Handmade Duck Toy</h1>
-                <h2>100% Pure</h2>
                 <div className={styles.review}>
-                    <Image src={star} alt="loading image" priority height={30} />
-                    <Image src={star} alt="loading image" priority height={30} />
-                    <h1>200 reviews</h1>
+                    <Image src={star} alt="loading image" priority height={24} />
+                    <Image src={star} alt="loading image" priority height={24} />
+                    <h1>(200 reviews)</h1>
+
                 </div>
+                <p>Basically I just want to run through the database and make some calculations/updates.</p>
 
                 <div className={styles.price_items}>
                     <div className={styles.price}>
@@ -49,6 +50,85 @@ function page() {
                 </div>
                 </div>
             </div>
+            
+        </div>
+        <div className={styles.prod_desc}>
+            <div className={styles.prod_desc_item}>
+                <h1>Description</h1>
+                <p>
+                Lorem ipsum dolor sit, amet consectetur adipisicing elit. At quae
+                adipisci, blanditiis dolorem vel officiis placeat dignissimos
+                vitae facilis sint{" "}
+                </p>
+                <h1>Specifications</h1>
+                <p>
+                Lorem ipsum dolor sit, amet consectetur adipisicing elit. At quae
+                adipisci, blanditiis dolorem vel officiis placeat dignissimos
+                vitae facilis sint{" "}
+                </p>
+            </div>
+            </div>
+        <div className={styles.customer_review}>
+          <div className={styles.customer_review_items}>
+            <h1>Customer Reviews</h1>
+            <div className={styles.user_detalis}>
+              <div className={styles.avtar_user1}>
+                <Image
+                  src={Boys}
+                  alt="loading image"
+                  height={32}
+                  width={32}
+                  className={styles.avtar_boys}
+                />
+
+                <div className={styles.name}>
+                  <h1>Satyam</h1>
+                  <h2>14-02-2020</h2>
+                </div>
+              </div>
+              <div className={styles.review_main}>
+                <h1>Nice Product</h1>
+                <p>
+                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                  Facilis suscipit magnam et quos laborum modi blanditiis enim
+                  numquam adipisci deserunt dolores eaque similique voluptatibus
+                  nisi earum,
+                </p>
+              </div>
+
+              <div className={styles.avtar_user1}>
+                <Image
+                  src={Boys}
+                  alt="loading image"
+                  height={32}
+                  width={32}
+                  className={styles.avtar_boys}
+                />
+
+                <div className={styles.name}>
+                  <h1>Gauri</h1>
+                  <h2>14-02-2020</h2>
+                </div>
+              </div>
+              <div className={styles.review_main}>
+                <h1>Bad Product</h1>
+                <p>
+                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                  Facilis suscipit magnam et quos laborum modi blanditiis enim
+                  numquam adipisci deserunt dolores eaque similique voluptatibus
+                  nisi earum,
+                </p>
+              </div>
+              <div className={styles.buttons_review}>
+                <div className={styles.box1_button}>See All Products</div>
+                <div className={styles.box1_button}>Add Your Review</div>
+              </div>
+
+            
+            </div>
+            
+          </div>
+         
         </div>
         <Footer/>
     </div>
