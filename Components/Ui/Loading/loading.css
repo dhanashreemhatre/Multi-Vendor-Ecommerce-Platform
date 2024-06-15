@@ -1,0 +1,11 @@
+.loading {
+    font-size: 4rem;
+    font-weight: bold;
+    position: relative;
+    background: linear-gradient(90deg, rgba(58, 180, 146, 0.9417892156862745) 0%, rgba(29, 253, 81, 1) 50%, rgba(129, 252, 74, 1) 79%, rgba(223, 252, 69, 1) 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+  }
+  

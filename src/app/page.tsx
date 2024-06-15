@@ -2,9 +2,10 @@
 import { useEffect, useState } from 'react';
 import Script from 'next/script';
 import Main from '../../Components/Shared/product/page'
-
+import Loading from '../../Components/Ui/Loading/page'
 export default function Home() {
   const [googleTranslateLoaded, setGoogleTranslateLoaded] = useState(false);
+  const [started, setStarted] = useState(false);
 
   useEffect(() => {
     const loadGoogleTranslateScript = async () => {
@@ -44,6 +45,7 @@ export default function Home() {
   return (
     <>
       {/* Add a key to Script tag to trigger re-render when the key changes */}
+      <Loading started={started} setStarted={setStarted}/>
       <Script key="google-translate-script">
         {`
           function changeLanguage(lang) {
