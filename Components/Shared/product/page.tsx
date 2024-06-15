@@ -17,6 +17,8 @@ import Plate from "./Image/plate.png";
 import Swiper from "swiper";
 import Footer from './../../Ui/Footer/page'
 import { useRouter } from 'next/navigation';
+import Experience from '../../Ui/Experience/page';
+import Product from '../../Ui/Light/page';  // Ensure correct path
 
 interface ProductDetails {
   pid:string;
@@ -28,21 +30,9 @@ interface ProductDetails {
   title: String;
 }
 
-
-
-const page = () => {
+const Page = () => {
   const router = useRouter();
-  const [userEmail, setUserEmail] = useState('');
-  useEffect(() => {
-    // Retrieve user's email from local storage
-    const storedEmail = localStorage.getItem('userEmail');
-    setUserEmail(storedEmail || '');
-
-    // If the user is not logged in, redirect to the login page
-    if (!storedEmail) {
-      router.push('/login'); // Adjust the actual login page path
-    }
-  }, [router]);
+  
   useEffect(() => {
     const swiper = new Swiper(".mySwiper", {
       slidesPerView: 1,
@@ -81,12 +71,11 @@ const page = () => {
   }, []);
   
   const [productDetails, setProductDetails] = useState<ProductDetails[]>([]);
-  const generateImageUrl = (imagePath: any, width = 800) => {
-    return `/your-image-api?path=${encodeURIComponent(imagePath)}&w=${width}`;
-  };
-  const imageUrl = generateImageUrl(productDetails?.image);
-  console.log(imageUrl);
-  
+  const [lights, setLights] = useState([
+    { position: [10, 10, 5], intensity: 6, color: 'yellow' },
+    { position: [5, 5, 5], intensity: 10, color: 'green' },
+    { position: [0, 0, 0], intensity: 10, color: 'red' },
+  ]);
 
   useEffect(() => {
     const fetchProductDetails = async () => {
@@ -128,14 +117,12 @@ const page = () => {
         </div>
         <div className="product_details">
           <div className="content_product">
-            <h1>Pure and Potent Inclusify Creation</h1>
-            <button>Explore Now</button>
-            <Image
-              src={ProductOil}
-              alt="oil-image"
-              className="oil_image"
-              priority
-            />
+            <p className="text-8xl font-bold mt-10">Unveiling the Future: iPhone 14 Launch!,Coming Soon....</p>
+            <div className="flex flex-col space-y-2">
+            <Product onChangeLight={setLights} />
+            <Experience lights={lights} />
+            </div>
+           
           </div>
         </div>
         <div className="service_product">
@@ -202,7 +189,7 @@ const page = () => {
                   <div className="swiper mySwiper">
                     <div className="swiper-wrapper">
                       {productDetails.map((product:any, index:any) => (
-                        <div className="swiper-slide">
+                        <div className="swiper-slide" key={index}>
                           <ProductCard
                         key={product.pid}
                         pid={product.pid}
@@ -238,4 +225,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;

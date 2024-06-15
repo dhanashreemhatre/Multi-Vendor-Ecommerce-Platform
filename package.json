@@ -9,13 +9,14 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@react-three/drei": "^9.97.3",
-    "@react-three/fiber": "^8.15.16",
+    "@react-three/drei": "^9.106.0",
+    "@react-three/fiber": "^8.16.8",
     "@types/three": "^0.161.2",
     "js-cookie": "^3.0.5",
-    "next": "14.1.0",
+    "next": "13.4.5",
     "react": "^18",
     "react-dom": "^18",
+    "react-three": "^0.9.7",
     "swiper": "^11.0.5",
     "three": "^0.161.0"
   },
