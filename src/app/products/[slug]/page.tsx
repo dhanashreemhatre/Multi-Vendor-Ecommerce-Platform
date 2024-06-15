@@ -43,7 +43,7 @@ const CategoryPage = () => {
           <h1>{category.category.title}</h1>
           <p>{category.category.description}</p>
         
-          <div>
+          <div className='grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4'>
             {category.products.length > 0 ? (
               category.products.map(product => (
                 <ProductBox
