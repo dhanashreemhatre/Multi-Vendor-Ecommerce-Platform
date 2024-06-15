@@ -43,7 +43,8 @@ class ProductFromThisCategoryApi(APIView):
 class ProductDetailAPIView(APIView):
     def get(self,request,pk):
         try:
-            product_detail=Product.objects.get(pk=pk)
+            print(pk)
+            product_detail=Product.objects.get(pid=pk)
             serailizer=ProductSerializer(product_detail)
             return Response(serailizer.data)
         except:

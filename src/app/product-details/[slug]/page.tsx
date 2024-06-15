@@ -1,4 +1,5 @@
 "use client"
+import { usePathname } from 'next/navigation';
 import React,{useEffect,useState} from 'react'
 import Navbar from './../../../../Components/Ui/Navbar/page';
 import Footer from './../../../../Components/Ui/Footer/page';
@@ -10,7 +11,52 @@ import star from "./image/icons8-star-48.png";
 import Boys from "./image/7309681.jpg";
 import SampleProduct from './../../../../Components/Shared/product/Image/soonarival.jpg'
 
+interface ProductDetails {
+  pid: string; 
+  image: string;
+  name: string;
+  price: number;
+  discountedPrice: number;
+  old_price: number;
+  title: string;
+}
+
+
 function page() {
+  const pathname = usePathname();
+  const pid=pathname.split("/").pop()
+  console.log(pid);
+  const [productDetails, setProductDetails] = useState<ProductDetails[]>([]);
+  useEffect(() => {
+    const fetchProductDetails = async () => {
+      try {
+        const response = await fetch(`http://127.0.0.1:8000/products/${pid}/`);
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        const data = await response.json();
+
+        console.log("API Response:", data);
+
+        setProductDetails(
+          data.map((product: any) => ({
+            pid: product.pid, 
+            image: product.image,
+            name: product.name,
+            price: product.price,
+            discountedPrice: product.discountedPrice,
+            old_price: product.old_price,
+            title: product.title,
+          }))
+        );
+      } catch (error:any) {
+        console.error("Error fetching product details:", error.message);
+      }
+    };
+
+    fetchProductDetails();
+  }, []);
+
   return (
     <div>
         <Navbar/>
