@@ -117,7 +117,7 @@ const Page = () => {
         </div>
         <div className="product_details">
           <div className="content_product">
-            <p className="text-8xl font-bold mt-10">Unveiling the Future: iPhone 14 Launch!,Coming Soon....</p>
+            <h2 className="hero-heading font-bold mt-10">Unveiling the Future: iPhone 14 Launch!,Coming Soon....</h2>
             <div className="flex flex-col space-y-2">
             <Product onChangeLight={setLights} />
             <Experience lights={lights} />

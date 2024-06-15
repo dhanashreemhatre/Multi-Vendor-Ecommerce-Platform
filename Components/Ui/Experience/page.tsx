@@ -10,10 +10,9 @@ const RotatingGroup = ({ lights }) => {
     if (groupRef.current) {
       groupRef.current.rotation.y += delta;
     }
-  });
-
+  });-30
   return (
-    <group scale={[200, 200, 200]} position={[0, 37, 0]} rotation={[0, Math.PI, 0]} ref={groupRef}>
+    <group scale={[700, 700, 700]} position={[0, -60, 0]} rotation={[0, Math.PI, 0]} ref={groupRef}>
       {lights.map((light, index) => (
         <directionalLight
           key={index}
@@ -31,7 +30,7 @@ const Experience = ({ lights }) => {
   return (
     <Canvas
       camera={{ position: [0, 0, 100], near: 0.1, far: 1000 }}
-      style={{ height: '100vh', width: '100vw' }}
+      style={{ height: '35vh', width: '100vw' }}
     >
       <RotatingGroup lights={lights} />
     </Canvas>
