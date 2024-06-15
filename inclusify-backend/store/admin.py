@@ -5,6 +5,7 @@ from .models import Product,Category,Cart,CartItem
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
     list_display=('title',)
+    list_filter=('categories',)
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
     list_display=('title','parent')
