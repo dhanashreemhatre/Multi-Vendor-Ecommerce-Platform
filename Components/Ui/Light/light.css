@@ -1,0 +1,23 @@
+
+.color-change{
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+
+}
+  
+  .color-button:nth-child(1) {
+    background-color: gray;
+  }
+  
+  .color-button:nth-child(2) {
+    background-color: yellow;
+  }
+  
+  .color-button:nth-child(3) {
+    background-color: red;
+  }
+  
+  .color-button:nth-child(4) {
+    background-color: white;
+  }
