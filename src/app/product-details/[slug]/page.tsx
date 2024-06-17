@@ -33,16 +33,17 @@ function Page() {
           throw new Error("Network response was not ok");
         }
         const data = await response.json();
-        console.log("API Response:", data);
+        
+        const product = data.product;
 
         setProductDetails({
-          pid: data.pid,
-          image: data.image,
-          name: data.name,
-          price: data.price,
-          discountedPrice: data.discountedPrice,
-          old_price: data.old_price,
-          title: data.title,
+          pid: product.pid,
+          image: product.image,
+          name: product.name,
+          price: product.price,
+          discountedPrice: product.discountedPrice,
+          old_price: product.old_price,
+          title: product.title,
         });
       } catch (error: any) {
         console.error("Error fetching product details:", error.message);
