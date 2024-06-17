@@ -1,10 +1,26 @@
-from .models import Product,Category,Cart,CartItem
+from .models import Product,Category,Cart,CartItem,ProductReview
 from rest_framework import serializers
 
-class ProductSerializer(serializers.ModelSerializer):
+class MultipleProductSerialzer(serializers.ModelSerializer):
+    categories_titles = serializers.SerializerMethodField()
+
     class Meta:
-        model=Product
-        fields='__all__'
+        model = Product
+        fields = ['id', 'pid', 'title', 'image', 'price', 'old_price','categories', 'categories_titles']
+
+    def get_categories_titles(self, obj):
+        return [category.title for category in obj.categories.all()]
+
+
+class ProductSerializer(serializers.ModelSerializer):
+    categories_titles = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Product
+        fields = ['id', 'pid', 'title', 'image', 'short_description', 'description', 'price', 'old_price', 'specification', 'product_status', 'status', 'in_stock', 'featured', 'digital', 'sku', 'date', 'updated', 'user', 'vendor', 'categories', 'categories_titles']
+
+    def get_categories_titles(self, obj):
+        return [category.title for category in obj.categories.all()]
 
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
@@ -25,3 +41,7 @@ class CartSerializer(serializers.ModelSerializer):
         model = Cart
         fields = ('id', 'user', 'items')
              
+class ProductReviewSerializer(serializers.ModelSerializer):
+    class Meta:
+        model=ProductReview
+        fields='__all__'
