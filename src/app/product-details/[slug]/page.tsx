@@ -18,6 +18,9 @@ interface ProductDetails {
   discountedPrice: number;
   old_price: number;
   title: string;
+  description:string;
+  short_description:string;
+  specification:string;
 }
 
 function Page() {
@@ -43,6 +46,9 @@ function Page() {
           discountedPrice: data.discountedPrice,
           old_price: data.old_price,
           title: data.title,
+          description:data.description,
+          short_description:data.short_description,
+          specification:data.specification,
         });
       } catch (error: any) {
         console.error("Error fetching product details:", error.message);
@@ -77,7 +83,8 @@ function Page() {
               <Image src={star} alt="loading image" priority height={24} />
               <h1>(200 reviews)</h1>
             </div>
-            <p>Basically I just want to run through the database and make some calculations/updates.</p>
+            <p>{productDetails?.description || "Loading..."}</p>
+
 
             <div className={styles.price_items}>
               <div className={styles.price}>
@@ -105,15 +112,11 @@ function Page() {
         <div className={styles.prod_desc_item}>
           <h1>Description</h1>
           <p>
-            Lorem ipsum dolor sit, amet consectetur adipisicing elit. At quae
-            adipisci, blanditiis dolorem vel officiis placeat dignissimos
-            vitae facilis sint{" "}
+            {productDetails?.short_description || "Loading.."}
           </p>
           <h1>Specifications</h1>
           <p>
-            Lorem ipsum dolor sit, amet consectetur adipisicing elit. At quae
-            adipisci, blanditiis dolorem vel officiis placeat dignissimos
-            vitae facilis sint{" "}
+            {productDetails?.specification || "Loading..."}
           </p>
         </div>
       </div>
