@@ -6,7 +6,7 @@ class MultipleProductSerialzer(serializers.ModelSerializer):
 
     class Meta:
         model = Product
-        fields = ['id', 'pid', 'title', 'image', 'price', 'old_price','categories', 'categories_titles']
+        fields = ['id', 'pid', 'title', 'image', 'price', 'sales_price','categories', 'categories_titles']
 
     def get_categories_titles(self, obj):
         return [category.title for category in obj.categories.all()]
@@ -17,7 +17,7 @@ class ProductSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Product
-        fields = ['id', 'pid', 'title', 'image', 'short_description', 'description', 'price', 'old_price', 'specification', 'product_status', 'status', 'in_stock', 'featured', 'digital', 'sku', 'date', 'updated', 'user', 'vendor', 'categories', 'categories_titles']
+        fields = ['id', 'pid', 'title', 'image', 'short_description', 'description', 'price', 'sales_price', 'specification', 'product_status', 'status', 'in_stock', 'featured', 'digital', 'sku', 'date', 'updated', 'user', 'vendor', 'categories', 'categories_titles']
 
     def get_categories_titles(self, obj):
         return [category.title for category in obj.categories.all()]

@@ -42,7 +42,7 @@ const ProductBox: React.FC<ProductBoxProps> = ({
           <h1>{truncateTitle(title || "Loading...", 6)}</h1>
         </Link>
         <span className={styles.price}>
-          ${price || 0} <span className={styles.old_price}>${oldPrice || 0}</span>
+        ₹{price || 0} <span className={styles.old_price}>₹{oldPrice || 0}</span>
         </span>
         <AddToCartButton pid={pid} />
       </>
