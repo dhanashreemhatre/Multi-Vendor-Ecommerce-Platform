@@ -86,7 +86,7 @@ const Page = () => {
         }
         const data = await response.json();
   
-        console.log("API Response:", data);
+        //console.log("API Response:", data);
   
         // Assuming the API response is an array of products
         setProductDetails(data.map((product:any) => ({

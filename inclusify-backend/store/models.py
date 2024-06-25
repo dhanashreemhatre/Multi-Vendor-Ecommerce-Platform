@@ -56,12 +56,12 @@ class Product(models.Model):
     title=models.CharField(max_length=100,default="computer")
     image=models.FileField(upload_to=user_directory_path,default="product.jpg")
     short_description = models.TextField(null=True, blank=True, default="this is the product")
-    description = models.TextField(null=True, blank=True, default="this is the product")
+    description = models.TextField(null=True, blank=True, default="this is good product")
 
     price=models.DecimalField(max_digits=99999999999999,decimal_places=2,default="99.00")
-    old_price=models.DecimalField(max_digits=99999999999999,decimal_places=2,default="199.00")
+    sales_price=models.DecimalField(max_digits=99999999999999,decimal_places=2,null=True,blank=True)
 
-    specification=models.TextField(null=True, blank=True, default="this is the product")
+    specification=models.TextField(null=True, blank=True, default="Net Quantity:1")
 
     product_status=models.CharField(choices=STATUS,max_length=10,default="in_review")
 
