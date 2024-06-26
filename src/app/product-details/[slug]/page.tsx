@@ -18,6 +18,8 @@ function Page() {
   const pid = pathname.split("/").pop();
   const [productDetails, setProductDetails] = useState(null);
   const [reviewPopup,setReviewPopup]=useState(false)
+  const [review, setReview] = useState({ subject: '', review: '', rating:'' });
+  const [error, setError] = useState('');
 
   useEffect(() => {
     const fetchProductDetails = async () => {
@@ -45,6 +47,53 @@ function Page() {
     setReviewPopup(false);
   }
 
+  const handleReviewSubmit = async (e) => {
+    e.preventDefault();
+    
+    // Basic validation
+    if (!review.subject || !review.review) {
+      setError('Both subject and review are required.');
+      return;
+    }
+
+    try {
+      const response = await fetch(`http://127.0.0.1:8000/review/${productDetails?.product.pid}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          pid:`${productDetails?.product.pid}`,
+          email:'',
+          review:review.review,
+          subject:review.subject,
+          rating:review.rating
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to submit review');
+      }
+
+      // Handle success
+      console.log('Review submitted successfully');
+      setReviewPopup(false);
+      // Clear the form and error message
+      setReview({ subject: '', review: '' });
+      setError('');
+    } catch (error) {
+      console.error('Error while adding Review: ', error.message);
+      setError('Failed to submit review. Please try again.');
+    }
+  };
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setReview((prevReview) => ({
+      ...prevReview,
+      [name]: value,
+    }));
+  };
   return (
     <div>
       <Navbar />
@@ -140,14 +189,19 @@ function Page() {
 
             <div className={styles.buttons_review}>
               <div className={styles.box1_button}><Link href="/products">See All Products</Link></div>
+              {!reviewPopup && 
               <div className={styles.box1_button} onClick={handleAddReview}>Add Your Review</div>
+              }
 
              {reviewPopup && 
-             <div className='sm:flex gap-4'>
-              <input type='text' placeholder='subject' className='px-4 py-2 border rounded-md'/>
-              <input type='text' placeholder='Review' className='px-4 py-2 border rounded-md'/>
+             <div className='flex flex-col gap-4 md:w-[50%] md:mx-auto '>
+              <h3 className='text-lg font-semibold mt-4'>Share your reviews</h3>
+              <form name='reviewForm'  onSubmit={handleReviewSubmit} className='flex flex-col gap-4'>
+              <input type='text' name="subject" placeholder='subject' className='px-4 py-2 border rounded-md w-100' onChange={handleChange}/>
+              <textarea rows={6} name='review' placeholder='Review' className='px-4 py-2 border rounded-md w-100' onChange={handleChange}/>
               <button type='submit' className='bg-slate-600 hover:bg-slate-800 text-white px-4 py-2 rounded-md'>Submit</button>
               <button type='submit' className='bg-red-600 hover:bg-red-800 text-white px-4 py-2 rounded-md' onClick={handleCancelReview}>Cancel</button>
+              </form>
               </div>
              }
             </div>
