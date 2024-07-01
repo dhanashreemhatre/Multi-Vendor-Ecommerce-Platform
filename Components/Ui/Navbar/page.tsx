@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import './navbar.css';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation'
+import { useRouter } from 'next/navigation';
 
 interface PageProps {
   className?: string;
@@ -13,7 +13,6 @@ const Page: React.FC<PageProps> = ({ className }) => {
   const router = useRouter();
 
   useEffect(() => {
-    // Retrieve user's email from local storage
     const storedName = localStorage.getItem('userName');
     setUserName(storedName || '');
   }, []);
@@ -21,9 +20,8 @@ const Page: React.FC<PageProps> = ({ className }) => {
   useEffect(() => {
     const fetchCartItemCount = async () => {
       try {
-        const storedEmail = localStorage.getItem('userEmail');
         const storedName = localStorage.getItem('userName');
-        if (storedEmail) {
+        if (storedName) {
           const response = await fetch(`http://127.0.0.1:8000/cart_count/${storedName}/`);
           if (response.ok) {
             const data = await response.json();
@@ -38,6 +36,8 @@ const Page: React.FC<PageProps> = ({ className }) => {
     };
 
     fetchCartItemCount();
+    const interval = setInterval(fetchCartItemCount, 5000); // Polling every 5 seconds
+    return () => clearInterval(interval);
   }, []);
 
   useEffect(() => {
@@ -53,11 +53,9 @@ const Page: React.FC<PageProps> = ({ className }) => {
       body.classList.add("dark");
     }
 
-    // js code to toggle dark and light mode
     modeToggle?.addEventListener("click", () => {
       modeToggle.classList.toggle("active");
       body?.classList.toggle("dark");
-      // js code to keep user selected mode even page refresh or file reopen
       if (body && !body.classList.contains("dark")) {
         localStorage.setItem("mode", "light-mode");
       } else if (body) {
@@ -65,12 +63,10 @@ const Page: React.FC<PageProps> = ({ className }) => {
       }
     });
 
-    // js code to toggle search box
     searchToggle?.addEventListener("click", () => {
       searchToggle.classList.toggle("active");
     });
 
-    // js code to toggle sidebar
     sidebarOpen?.addEventListener("click", () => {
       nav?.classList.add("active");
     });
@@ -87,7 +83,32 @@ const Page: React.FC<PageProps> = ({ className }) => {
   }, []);
 
   const Cartopen = () => {
-    router.push('/cart')
+    router.push('/cart');
+  }
+
+  const addToCart = async () => {
+    try {
+      const storedEmail = localStorage.getItem('userEmail');
+      const storedName = localStorage.getItem('userName');
+      if (storedEmail && storedName) {
+        const response = await fetch(`http://127.0.0.1:8000/add_to_cart/${storedName}/`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ item: 'itemDetails' }),
+        });
+
+        if (response.ok) {
+          const data = await response.json();
+          setCartItemCount(prevCount => prevCount + 1); // Optimistically update the count
+        } else {
+          console.error('Failed to add item to cart');
+        }
+      }
+    } catch (error) {
+      console.error('Error adding item to cart:', error);
+    }
   }
 
   return (
