@@ -15,4 +15,5 @@ urlpatterns=[
     path('cart_count/<str:user>/',CartItemsCountView.as_view())
     
     
+    
 ]
