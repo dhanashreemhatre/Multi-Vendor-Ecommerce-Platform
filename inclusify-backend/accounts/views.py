@@ -98,8 +98,9 @@ class LoginView(APIView):
         }
         token = jwt.encode(payload, 'secret', algorithm='HS256')
         request.session['jwt'] = token
+        username=user.username
         
-        return Response({'token': token})
+        return Response({'token': token,'username': username})
 
 
 

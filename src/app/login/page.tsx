@@ -28,14 +28,17 @@ const Page = () => {
         },
         body: JSON.stringify({ email, password }),
       });
-
       if (response.ok) {
         const data = await response.json();
+      const username=data.username
         const token = data.token;
+       
+        
 
         Cookies.set("jwtToken", token);
         Cookies.set("user", email);
         localStorage.setItem('userEmail', email);
+        localStorage.setItem('userName', username);
         router.push('/');
         console.log('Login successful');
       } else {

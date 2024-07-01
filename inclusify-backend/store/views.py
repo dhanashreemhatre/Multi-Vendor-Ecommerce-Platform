@@ -140,6 +140,7 @@ class ProductReviewView(APIView):
             return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
         
 
+
 class AddToCartAPIView(APIView):
     def post(self, request, pk):
         try:
@@ -203,3 +204,21 @@ class RemoveFromCartAPIView(APIView):
         
         except Exception as e:
             return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        
+
+class CartItemsCountView(APIView):
+    def get(self, request, user):
+        try:
+            user = Account.objects.get(username=user)
+        except Account.DoesNotExist:
+            return Response({'error': 'User not found'}, status=status.HTTP_404_NOT_FOUND)
+        
+        try:
+            cart = Cart.objects.get(user=user)
+            cart_items_count = CartItem.objects.filter(cart=cart).count()
+        except Cart.DoesNotExist:
+            cart_items_count = 0  # Return 0 if no cart is found
+        except Exception as e:
+            return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        
+        return Response({'cart_items_count': cart_items_count})

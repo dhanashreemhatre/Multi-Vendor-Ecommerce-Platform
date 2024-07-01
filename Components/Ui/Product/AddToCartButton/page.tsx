@@ -44,7 +44,9 @@
           throw new Error('Failed to add item to cart');
         }
         console.log(response)
-        router.push('/cart')
+        // router.push('/cart')
+        const data = await response.json();
+        console.log(data)
        
       } catch (error:any) {
         setError(error.message || 'Failed to add item to cart');

@@ -19,6 +19,7 @@ import Footer from './../../Ui/Footer/page'
 import { useRouter } from 'next/navigation';
 import Experience from '../../Ui/Experience/page';
 import Product from '../../Ui/Light/page';  // Ensure correct path
+import cart from "./Image/cart.svg"
 
 interface ProductDetails {
   pid:string;
@@ -114,6 +115,8 @@ const Page = () => {
       <section className="product">
         <div className="product_items">
         <Navbar/>
+        
+
         </div>
         <div className="product_details">
           <div className="content_product">
