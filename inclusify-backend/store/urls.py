@@ -13,4 +13,5 @@ urlpatterns=[
     path('cart/', CartAPIView.as_view(), name='cart'),
     path('review/<str:pk>/',ProductReviewView.as_view()),
     
+    
 ]

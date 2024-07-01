@@ -1,5 +1,5 @@
 import { useProgress } from "@react-three/drei";
-import { useEffect } from "react";
+import { useEffect,useState } from "react";
 
 interface PageProps {
   started: boolean;
@@ -9,7 +9,15 @@ interface PageProps {
 const Page: React.FC<PageProps> = (props) => {
   const { started, setStarted } = props;
   const { progress, total, loaded, item } = useProgress();
+  const [userName, setUserName] = useState('');
+  useEffect(() => {
+    // Retrieve user's email from local storage
+    const storedName = localStorage.getItem('userName');
+    setUserName(storedName || '');
 
+    // If the user is not logged in, redirect to the login page
+   
+  });
   useEffect(() => {
     console.log(progress, total, loaded, item);
     if (progress === 100) {
@@ -59,7 +67,7 @@ const Page: React.FC<PageProps> = (props) => {
             width: `${progress}%`,
           }}
         >
-          <h1 style={{fontFamily:"Irish Grover"}}>INCLUSIFY</h1>
+          <h1 style={{fontFamily:"Irish Grover"}}>{userName ? userName :'INCLUSIFY'}</h1>
         </div>
         <div
           style={{
@@ -67,7 +75,7 @@ const Page: React.FC<PageProps> = (props) => {
             fontFamily:"Irish Grover"
           }}
         >
-          <h1 style={{fontFamily:"Irish Grover"}}>INCLUSIFY</h1>
+          <h1 style={{fontFamily:"Irish Grover"}}>{userName ? userName :'INCLUSIFY'}</h1>
         </div>
       </div>
     </div>

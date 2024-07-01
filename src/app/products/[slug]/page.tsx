@@ -9,7 +9,7 @@ const CategoryPage = () => {
 
   const  cid  = usePathname().split('/').pop();; // Get the category ID from the URL query parameters
   const [category, setCategory] = useState(null);
-  console.log(cid)
+  // console.log(cid)
   useEffect(() => {
 
     const fetchCategory = async () => {
