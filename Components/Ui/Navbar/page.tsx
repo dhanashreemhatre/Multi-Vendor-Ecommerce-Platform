@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import './navbar.css';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+import { useRouter } from 'next/navigation'
 
 interface PageProps {
   className?: string;
@@ -11,34 +11,10 @@ const Page: React.FC<PageProps> = ({ className }) => {
   const [userName, setUserName] = useState('');
   const [cartItemCount, setCartItemCount] = useState(0);
   const router = useRouter();
-
   useEffect(() => {
     const storedName = localStorage.getItem('userName');
     setUserName(storedName || '');
-  }, []);
-
-  useEffect(() => {
-    const fetchCartItemCount = async () => {
-      try {
-        const storedName = localStorage.getItem('userName');
-        if (storedName) {
-          const response = await fetch(`http://127.0.0.1:8000/cart_count/${storedName}/`);
-          if (response.ok) {
-            const data = await response.json();
-            setCartItemCount(data.cart_items_count);
-          } else {
-            console.error('Failed to fetch cart items count');
-          }
-        }
-      } catch (error) {
-        console.error('Error fetching cart items count:', error);
-      }
-    };
-
-    fetchCartItemCount();
-    const interval = setInterval(fetchCartItemCount, 5000); // Polling every 5 seconds
-    return () => clearInterval(interval);
-  }, []);
+  });
 
   useEffect(() => {
     const body = document.querySelector("body"),
@@ -82,33 +58,8 @@ const Page: React.FC<PageProps> = ({ className }) => {
     });
   }, []);
 
-  const Cartopen = () => {
-    router.push('/cart');
-  }
-
-  const addToCart = async () => {
-    try {
-      const storedEmail = localStorage.getItem('userEmail');
-      const storedName = localStorage.getItem('userName');
-      if (storedEmail && storedName) {
-        const response = await fetch(`http://127.0.0.1:8000/add_to_cart/${storedName}/`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ item: 'itemDetails' }),
-        });
-
-        if (response.ok) {
-          const data = await response.json();
-          setCartItemCount(prevCount => prevCount + 1); // Optimistically update the count
-        } else {
-          console.error('Failed to add item to cart');
-        }
-      }
-    } catch (error) {
-      console.error('Error adding item to cart:', error);
-    }
+  const Cartopen=()=>{
+    router.push('/cart')
   }
 
   return (
