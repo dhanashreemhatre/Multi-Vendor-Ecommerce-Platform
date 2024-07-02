@@ -17,6 +17,33 @@ const Page: React.FC<PageProps> = ({ className }) => {
   });
 
   useEffect(() => {
+    const fetchCartItemCount = async () => {
+      try {
+        const storedEmail = localStorage.getItem('userEmail');
+        const storedName = localStorage.getItem('userName');
+        if (storedEmail) {
+        if (storedName) {
+          const response = await fetch(`http://127.0.0.1:8000/cart_count/${storedName}/`);
+          if (response.ok) {
+            const data = await response.json();
+            setCartItemCount(data.cart_items_count);
+          } else {
+            console.error('Failed to fetch cart items count');
+          }
+        }
+      } }
+      catch (error) {
+        console.error('Error fetching cart items count:', error);
+      }
+    };
+
+    fetchCartItemCount();
+    const interval = setInterval(fetchCartItemCount, 5000); // Polling every 5 seconds
+    return () => clearInterval(interval);
+  }, []);
+
+
+  useEffect(() => {
     const body = document.querySelector("body"),
       nav = document.querySelector("nav"),
       modeToggle = document.querySelector(".dark-light"),
