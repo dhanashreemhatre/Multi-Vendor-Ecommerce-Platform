@@ -1,5 +1,5 @@
 "use client"
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import Image from 'next/image';
 import Google from './image/Google.png';
 import Link from 'next/link';
@@ -13,6 +13,29 @@ const Page = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [selectedBox, setSelectedBox] = useState(0);
+  const [invalidAudio, setinvalidAudio] = useState<HTMLAudioElement | null>(null);
+
+  const invalid = () => {
+    const message = 'Invalid Credentials';
+    let speech = new SpeechSynthesisUtterance(message);
+    window.speechSynthesis.speak(speech);
+  }
+  const correct = () => {
+    const message = 'Login Succesfull';
+    let speech = new SpeechSynthesisUtterance(message);
+    window.speechSynthesis.speak(speech);
+  }
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      setinvalidAudio(new Audio('/Sound/correct.mp3'));
+    }
+  }, []);
+
+  useEffect(()=>{
+    let speech=new SpeechSynthesisUtterance();
+
+  })
 
   const handleBoxClick = (boxIndex:any) => {
     setSelectedBox(boxIndex);
@@ -39,9 +62,12 @@ const Page = () => {
         Cookies.set("user", email);
         localStorage.setItem('userEmail', email);
         localStorage.setItem('userName', username);
+        correct()
         router.push('/');
         console.log('Login successful');
       } else {
+        // invalidAudio?.play();
+        invalid();
         console.error('Invalid credentials');
       }
     } catch (error) {

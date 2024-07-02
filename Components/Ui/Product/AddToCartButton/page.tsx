@@ -11,16 +11,43 @@ interface AddToCartButtonProps {
 const AddToCartButton: React.FC<AddToCartButtonProps> = ({ pid }) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [loginAudio, setLoginAudio] = useState<HTMLAudioElement | null>(null);
-  const [cartAudio, setCartAudio] = useState<HTMLAudioElement | null>(null);
+  
   const router = useRouter();
-
-  useEffect(() => {
-    if (typeof window !== 'undefined') {
-      setLoginAudio(new Audio('/Sound/login.mp3'));
-      setCartAudio(new Audio('/Sound/Cart.mp3'));
+  
+  const inlogin = () => {
+    const message = 'Please login, before adding Items to Cart';
+    let speech = new SpeechSynthesisUtterance(message);
+  
+    const voices = window.speechSynthesis.getVoices();
+    const indianVoice = voices.find(voice => voice.lang === 'en-IN' || voice.name.toLowerCase().includes('india'));
+  
+    if (indianVoice) {
+      speech.voice = indianVoice;
     }
-  }, []);
+  
+    window.speechSynthesis.speak(speech);
+  }
+  const cartadded = () => {
+    const message = 'Item added to Cart';
+    let speech = new SpeechSynthesisUtterance(message);
+  
+    const setIndianVoice = () => {
+      const voices = window.speechSynthesis.getVoices();
+      const indianVoice = voices.find(voice => voice.lang === 'en-IN' || voice.name.toLowerCase().includes('india'));
+  
+      if (indianVoice) {
+        speech.voice = indianVoice;
+      }
+  
+      window.speechSynthesis.speak(speech);
+    };
+  
+    if (window.speechSynthesis.getVoices().length === 0) {
+      window.speechSynthesis.addEventListener('voiceschanged', setIndianVoice);
+    } else {
+      setIndianVoice();
+    }
+  };
 
   const addToCart = async () => {
     try {
@@ -33,7 +60,8 @@ const AddToCartButton: React.FC<AddToCartButtonProps> = ({ pid }) => {
       
       if (!token && !email) {
         // Play the login sound
-        loginAudio?.play();
+        // loginAudio?.play();
+        inlogin();
         throw new Error('Please log in to add items to the cart');
       }
 
@@ -50,7 +78,8 @@ const AddToCartButton: React.FC<AddToCartButtonProps> = ({ pid }) => {
       }
 
       // Play the cart sound
-      cartAudio?.play();
+      // cartAudio?.play();
+      cartadded();
       
       const data = await response.json();
       console.log(data);

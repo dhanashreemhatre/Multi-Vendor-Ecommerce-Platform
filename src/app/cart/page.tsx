@@ -12,7 +12,19 @@ const CartPage = () => {
   const [cartItems, setCartItems] = useState([]);
   const [totalShippingCharges, setTotalShippingCharges] = useState(0);
   const [cartTotal, setCartTotal] = useState(0);
-
+  const deleted = () => {
+    const message = 'Items removed from the Cart';
+    let speech = new SpeechSynthesisUtterance(message);
+  
+    const voices = window.speechSynthesis.getVoices();
+    const indianVoice = voices.find(voice => voice.lang === 'en-IN' || voice.name.toLowerCase().includes('india'));
+  
+    if (indianVoice) {
+      speech.voice = indianVoice;
+    }
+  
+    window.speechSynthesis.speak(speech);
+  }
   const fetchCartData = async () => {
     try {
       const userId = Cookies.get('user');
@@ -85,7 +97,7 @@ const CartPage = () => {
         // Remove the deleted item from the cartItems state
         setCartItems(cartItems.filter(item => item.id !== cartItemId));
         fetchCartData();
-      
+      deleted()
       } else {
         console.error('Failed to remove cart item');
       } 
