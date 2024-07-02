@@ -4,10 +4,6 @@ import styles from './addtocartbutton.module.css';
 import Cookies from 'js-cookie';
 import { useRouter } from 'next/navigation';
 
-// Correct import paths for audio files in the public folder
-const loginAudio = new Audio('/Sound/login.mp3');
-const cartAudio = new Audio('/Sound/Cart.mp3');
-
 interface AddToCartButtonProps {
   pid: string; // Product ID
 }
@@ -15,15 +11,14 @@ interface AddToCartButtonProps {
 const AddToCartButton: React.FC<AddToCartButtonProps> = ({ pid }) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [loginAudio, setLoginAudio] = useState<HTMLAudioElement | null>(null);
+  const [cartAudio, setCartAudio] = useState<HTMLAudioElement | null>(null);
   const router = useRouter();
 
   useEffect(() => {
-    // Fetch user ID from localStorage
-    const userId = localStorage.getItem('userId');
-    if (userId) {
-      console.log('User ID:', userId);
-    } else {
-      console.error('User ID not found in localStorage');
+    if (typeof window !== 'undefined') {
+      setLoginAudio(new Audio('/Sound/login.mp3'));
+      setCartAudio(new Audio('/Sound/Cart.mp3'));
     }
   }, []);
 
@@ -38,7 +33,7 @@ const AddToCartButton: React.FC<AddToCartButtonProps> = ({ pid }) => {
       
       if (!token && !email) {
         // Play the login sound
-        loginAudio.play();
+        loginAudio?.play();
         throw new Error('Please log in to add items to the cart');
       }
 
@@ -55,7 +50,7 @@ const AddToCartButton: React.FC<AddToCartButtonProps> = ({ pid }) => {
       }
 
       // Play the cart sound
-      cartAudio.play();
+      cartAudio?.play();
       
       const data = await response.json();
       console.log(data);
