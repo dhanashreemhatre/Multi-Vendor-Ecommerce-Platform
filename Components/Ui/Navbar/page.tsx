@@ -11,34 +11,10 @@ const Page: React.FC<PageProps> = ({ className }) => {
   const [userName, setUserName] = useState('');
   const [cartItemCount, setCartItemCount] = useState(0);
   const router = useRouter();
-
   useEffect(() => {
-    // Retrieve user's email from local storage
     const storedName = localStorage.getItem('userName');
     setUserName(storedName || '');
-  }, []);
-
-  useEffect(() => {
-    const fetchCartItemCount = async () => {
-      try {
-        const storedEmail = localStorage.getItem('userEmail');
-        const storedName = localStorage.getItem('userName');
-        if (storedEmail) {
-          const response = await fetch(`http://127.0.0.1:8000/cart_count/${storedName}/`);
-          if (response.ok) {
-            const data = await response.json();
-            setCartItemCount(data.cart_items_count);
-          } else {
-            console.error('Failed to fetch cart items count');
-          }
-        }
-      } catch (error) {
-        console.error('Error fetching cart items count:', error);
-      }
-    };
-
-    fetchCartItemCount();
-  }, []);
+  });
 
   useEffect(() => {
     const body = document.querySelector("body"),
@@ -53,11 +29,9 @@ const Page: React.FC<PageProps> = ({ className }) => {
       body.classList.add("dark");
     }
 
-    // js code to toggle dark and light mode
     modeToggle?.addEventListener("click", () => {
       modeToggle.classList.toggle("active");
       body?.classList.toggle("dark");
-      // js code to keep user selected mode even page refresh or file reopen
       if (body && !body.classList.contains("dark")) {
         localStorage.setItem("mode", "light-mode");
       } else if (body) {
@@ -65,12 +39,10 @@ const Page: React.FC<PageProps> = ({ className }) => {
       }
     });
 
-    // js code to toggle search box
     searchToggle?.addEventListener("click", () => {
       searchToggle.classList.toggle("active");
     });
 
-    // js code to toggle sidebar
     sidebarOpen?.addEventListener("click", () => {
       nav?.classList.add("active");
     });
@@ -86,7 +58,7 @@ const Page: React.FC<PageProps> = ({ className }) => {
     });
   }, []);
 
-  const Cartopen = () => {
+  const Cartopen=()=>{
     router.push('/cart')
   }
 
