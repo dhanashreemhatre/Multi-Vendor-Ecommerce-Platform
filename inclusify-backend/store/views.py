@@ -168,7 +168,34 @@ class AddToCartAPIView(APIView):
         
         except Exception as e:
             return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        
+    def put(self, request, pk):
+        try:
+            pid = request.data.get('pid')
+            user_id = request.data.get('userId')
+            user=Account.objects.get(email=user_id)
+            product = Product.objects.get(pid=pk)
+            quantity = request.data.get('quantity')
+            print("done")
+            # Update review
+            cart = Cart.objects.get(user=user)
+            cart_item=CartItem.objects.get(cart=cart,product=product)
+            cart_item.quantity=quantity
+            
+            
+            return Response({'message': 'Success'}, status=status.HTTP_200_OK)
+        except Cart.DoesNotExist:
+                return Response({'error': 'Cart not found'}, status=status.HTTP_404_NOT_FOUND)
+        except CartItem.DoesNotExist:
+                return Response({'error': 'CartItem not found'}, status=status.HTTP_404_NOT_FOUND)
 
+        except Product.DoesNotExist:
+            return Response({'error': 'Product not found'}, status=status.HTTP_404_NOT_FOUND)
+        except Account.DoesNotExist:
+            return Response({'error': 'User not found'}, status=status.HTTP_404_NOT_FOUND)
+        except Exception as e:
+            return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        
 
 class CartAPIView(APIView):
     def get(self, request):

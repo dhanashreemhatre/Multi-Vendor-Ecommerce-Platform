@@ -12,7 +12,19 @@ const CartPage = () => {
   const [cartItems, setCartItems] = useState([]);
   const [totalShippingCharges, setTotalShippingCharges] = useState(0);
   const [cartTotal, setCartTotal] = useState(0);
-
+  const deleted = (producttitle) => {
+    const message = `${producttitle} removed from the Cart`;
+    let speech = new SpeechSynthesisUtterance(message);
+  
+    const voices = window.speechSynthesis.getVoices();
+    const indianVoice = voices.find(voice => voice.lang === 'en-IN' || voice.name.toLowerCase().includes('india'));
+  
+    if (indianVoice) {
+      speech.voice = indianVoice;
+    }
+  
+    window.speechSynthesis.speak(speech);
+  }
   const fetchCartData = async () => {
     try {
       const userId = Cookies.get('user');
@@ -26,8 +38,10 @@ const CartPage = () => {
           'Authorization': `${userId}`,
         },
       });
+      
       if (response.ok) {
         const data = await response.json();
+        
         setCartItems(data);
       } else {
         console.error('Failed to fetch cart data');
@@ -71,7 +85,7 @@ const CartPage = () => {
     return item.quantity * 5; // Assuming $5 per item
   };
 
-  const handleRemoveCartItem = async (cartItemId) => {
+  const handleRemoveCartItem = async (cartItemId,productitle) => {
     try {
       const userId = Cookies.get('user');
       const response = await fetch(`http://127.0.0.1:8000/remove-from-cart/${cartItemId}/`, {
@@ -82,10 +96,12 @@ const CartPage = () => {
         },
       });
       if (response.ok) {
-        // Remove the deleted item from the cartItems state
+        // console.log(productitle)
+        
         setCartItems(cartItems.filter(item => item.id !== cartItemId));
+        // const productitle=cartItems.map(item=>item.product.title)
         fetchCartData();
-      
+      deleted(productitle)
       } else {
         console.error('Failed to remove cart item');
       } 
@@ -112,7 +128,7 @@ const CartPage = () => {
                 <div className="quantity">
                   {item.quantity}
                 </div>
-                <button onClick={() => handleRemoveCartItem(item.product.id)}><Image src={bin} alt='delete' height={28} width={28}/></button>
+                <button onClick={() => handleRemoveCartItem(item.product.id, item.product.title)}><Image src={bin} alt='delete' height={28} width={28}/></button>
               </div>
             </div>
           ))}

@@ -10,6 +10,7 @@ import Like from "./image/heart.png";
 import star from "./image/icons8-star-48.png";
 import Boys from "./image/7309681.jpg";
 import Link from 'next/link';
+import CartButton from '../../../../Components/Ui/Product/AddToCartButton/page'
 import { div } from 'three/examples/jsm/nodes/Nodes.js';
 
 
@@ -128,7 +129,7 @@ function Page() {
                 <h2>Free shipping is available</h2>
               </div>
               <div className={styles.cart}>
-                <button>Add To Cart</button>
+                <CartButton pid={pid}/>
               </div>
             </div>
           </div>
