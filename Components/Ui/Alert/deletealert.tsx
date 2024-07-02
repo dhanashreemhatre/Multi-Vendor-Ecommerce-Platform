@@ -30,7 +30,7 @@ const Itemalert = () => {
         transition: '0.3s',
       }}
       onClick={handleClose}>&times;</span> 
-      <strong>Success!</strong> Item added to Cart
+      <strong>Success!</strong> Item removed from the Cart
     </div>
   );
 };

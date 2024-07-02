@@ -7,11 +7,12 @@ import { AnyJson } from 'three/examples/jsm/nodes/Nodes.js';
 import bin from './Images/trash.png'
 import Navbar from './../../../Components/Ui/Navbar/page'
 import Footer from './../../../Components/Ui/Footer/page'
-
+import Deletealert from '../../../Components/Ui/Alert/deletealert'
 const CartPage = () => {
   const [cartItems, setCartItems] = useState([]);
   const [totalShippingCharges, setTotalShippingCharges] = useState(0);
   const [cartTotal, setCartTotal] = useState(0);
+  const [showAlert, setShowAlert] = useState(false);
   // const deleted = (producttitle) => {
   //   const message = `${producttitle} removed from the Cart`;
   //   let speech = new SpeechSynthesisUtterance(message);
@@ -97,7 +98,10 @@ const CartPage = () => {
       });
       if (response.ok) {
         // console.log(productitle)
-        
+        const cartAudio = new Audio('/Sound/item.mp3');
+        cartAudio.play();
+        setShowAlert(true)
+        setTimeout(() => setShowAlert(false), 2000); 
         setCartItems(cartItems.filter(item => item.id !== cartItemId));
         // const productitle=cartItems.map(item=>item.product.title)
         fetchCartData();
@@ -129,6 +133,7 @@ const CartPage = () => {
                   {item.quantity}
                 </div>
                 <button onClick={() => handleRemoveCartItem(item.product.id, item.product.title)}><Image src={bin} alt='delete' height={28} width={28}/></button>
+                {showAlert && <Deletealert />} 
               </div>
             </div>
           ))}
