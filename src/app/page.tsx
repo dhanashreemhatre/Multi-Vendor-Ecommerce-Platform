@@ -7,46 +7,46 @@ export default function Home() {
   const [googleTranslateLoaded, setGoogleTranslateLoaded] = useState(false);
   const [started, setStarted] = useState(false);
 
-  useEffect(() => {
-    const loadGoogleTranslateScript = async () => {
-      if (!window.googleTranslateElementInit) {
-        window.googleTranslateElementInit = () => {
-          new window.google.translate.TranslateElement(
-            { pageLanguage: 'en' },
-            'google_translate_element'
-          );
-        };
+  // useEffect(() => {
+  //   const loadGoogleTranslateScript = async () => {
+  //     if (!window.googleTranslateElementInit) {
+  //       window.googleTranslateElementInit = () => {
+  //         new window.google.translate.TranslateElement(
+  //           { pageLanguage: 'en' },
+  //           'google_translate_element'
+  //         );
+  //       };
   
-        const script = document.createElement('script');
-        script.type = 'text/javascript';
-        script.src =
-          'https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit';
-        script.async = true;
-        script.defer = true;
-        script.onload = () => {
-          setGoogleTranslateLoaded(true);
-        };
-        script.onerror = (error) => {
-          console.error('Error loading Google Translate script:', error);
-        };
+  //       const script = document.createElement('script');
+  //       script.type = 'text/javascript';
+  //       script.src =
+  //         'https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit';
+  //       script.async = true;
+  //       script.defer = true;
+  //       script.onload = () => {
+  //         setGoogleTranslateLoaded(true);
+  //       };
+  //       script.onerror = (error) => {
+  //         console.error('Error loading Google Translate script:', error);
+  //       };
   
-        document.head.appendChild(script);
-      }
-    };
+  //       document.head.appendChild(script);
+  //     }
+  //   };
   
-    loadGoogleTranslateScript();
+  //   loadGoogleTranslateScript();
   
-    return () => {
-      // Cleanup if needed
-      delete window.googleTranslateElementInit;
-    };
-  }, []);
+  //   return () => {
+  //     // Cleanup if needed
+  //     delete window.googleTranslateElementInit;
+  //   };
+  // }, []);
   
   return (
     <>
       {/* Add a key to Script tag to trigger re-render when the key changes */}
-      <Loading started={started} setStarted={setStarted}/>
-      <Script key="google-translate-script">
+      {/* <Loading started={started} setStarted={setStarted}/> */}
+      {/* <Script key="google-translate-script">
         {`
           function changeLanguage(lang) {
             window.google.translate.translate(
@@ -59,9 +59,9 @@ export default function Home() {
             );
           }
         `}
-      </Script>
+      </Script> */}
       <div className="main_wrapper">
-        <div id="google_translate_element">Translate</div>
+        {/* <div id="google_translate_element">Translate</div> */}
         <Main />
       </div>
     </>
