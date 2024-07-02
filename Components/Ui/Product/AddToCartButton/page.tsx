@@ -1,5 +1,5 @@
 'use client';
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import styles from './addtocartbutton.module.css';
 import Cookies from 'js-cookie';
 import { useRouter } from 'next/navigation';
@@ -48,6 +48,7 @@ const AddToCartButton: React.FC<AddToCartButtonProps> = ({ pid }) => {
       console.log(data);
       
       setShowAlert(true); // Show the alert when the item is successfully added to the cart
+      setTimeout(() => setShowAlert(false), 2000); // Hide the alert after 3 seconds
     } catch (error: any) {
       setError(error.message || 'Failed to add item to cart');
     } finally {
