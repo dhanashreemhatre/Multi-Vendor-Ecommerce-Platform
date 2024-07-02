@@ -14,40 +14,40 @@ const AddToCartButton: React.FC<AddToCartButtonProps> = ({ pid }) => {
   
   const router = useRouter();
   
-  const inlogin = () => {
-    const message = 'Please login, before adding Items to Cart';
-    let speech = new SpeechSynthesisUtterance(message);
+  // const inlogin = () => {
+  //   const message = 'Please login, before adding Items to Cart';
+  //   let speech = new SpeechSynthesisUtterance(message);
   
-    const voices = window.speechSynthesis.getVoices();
-    const indianVoice = voices.find(voice => voice.lang === 'en-IN' || voice.name.toLowerCase().includes('india'));
+  //   const voices = window.speechSynthesis.getVoices();
+  //   const indianVoice = voices.find(voice => voice.lang === 'en-IN' || voice.name.toLowerCase().includes('india'));
   
-    if (indianVoice) {
-      speech.voice = indianVoice;
-    }
+  //   if (indianVoice) {
+  //     speech.voice = indianVoice;
+  //   }
   
-    window.speechSynthesis.speak(speech);
-  }
-  const cartadded = () => {
-    const message = 'Item added to Cart';
-    let speech = new SpeechSynthesisUtterance(message);
+  //   window.speechSynthesis.speak(speech);
+  // }
+  // const cartadded = () => {
+  //   const message = 'Item added to Cart';
+  //   let speech = new SpeechSynthesisUtterance(message);
   
-    const setIndianVoice = () => {
-      const voices = window.speechSynthesis.getVoices();
-      const indianVoice = voices.find(voice => voice.lang === 'en-IN' || voice.name.toLowerCase().includes('india'));
+  //   const setIndianVoice = () => {
+  //     const voices = window.speechSynthesis.getVoices();
+  //     const indianVoice = voices.find(voice => voice.lang === 'en-IN' || voice.name.toLowerCase().includes('india'));
   
-      if (indianVoice) {
-        speech.voice = indianVoice;
-      }
+  //     if (indianVoice) {
+  //       speech.voice = indianVoice;
+  //     }
   
-      window.speechSynthesis.speak(speech);
-    };
+  //     window.speechSynthesis.speak(speech);
+  //   };
   
-    if (window.speechSynthesis.getVoices().length === 0) {
-      window.speechSynthesis.addEventListener('voiceschanged', setIndianVoice);
-    } else {
-      setIndianVoice();
-    }
-  };
+  //   if (window.speechSynthesis.getVoices().length === 0) {
+  //     window.speechSynthesis.addEventListener('voiceschanged', setIndianVoice);
+  //   } else {
+  //     setIndianVoice();
+  //   }
+  // };
 
   const addToCart = async () => {
     try {
@@ -61,7 +61,7 @@ const AddToCartButton: React.FC<AddToCartButtonProps> = ({ pid }) => {
       if (!token && !email) {
         // Play the login sound
         // loginAudio?.play();
-        inlogin();
+        // inlogin();
         throw new Error('Please log in to add items to the cart');
       }
 
@@ -77,9 +77,12 @@ const AddToCartButton: React.FC<AddToCartButtonProps> = ({ pid }) => {
         throw new Error('Failed to add item to cart');
       }
 
+      const cartAudio = new Audio('/Sound/item.mp3');
+      cartAudio.play();
+
       // Play the cart sound
       // cartAudio?.play();
-      cartadded();
+      // cartadded();
       
       const data = await response.json();
       console.log(data);

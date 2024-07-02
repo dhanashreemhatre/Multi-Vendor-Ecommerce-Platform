@@ -12,19 +12,19 @@ const CartPage = () => {
   const [cartItems, setCartItems] = useState([]);
   const [totalShippingCharges, setTotalShippingCharges] = useState(0);
   const [cartTotal, setCartTotal] = useState(0);
-  const deleted = (producttitle) => {
-    const message = `${producttitle} removed from the Cart`;
-    let speech = new SpeechSynthesisUtterance(message);
+  // const deleted = (producttitle) => {
+  //   const message = `${producttitle} removed from the Cart`;
+  //   let speech = new SpeechSynthesisUtterance(message);
   
-    const voices = window.speechSynthesis.getVoices();
-    const indianVoice = voices.find(voice => voice.lang === 'en-IN' || voice.name.toLowerCase().includes('india'));
+  //   const voices = window.speechSynthesis.getVoices();
+  //   const indianVoice = voices.find(voice => voice.lang === 'en-IN' || voice.name.toLowerCase().includes('india'));
   
-    if (indianVoice) {
-      speech.voice = indianVoice;
-    }
+  //   if (indianVoice) {
+  //     speech.voice = indianVoice;
+  //   }
   
-    window.speechSynthesis.speak(speech);
-  }
+  //   window.speechSynthesis.speak(speech);
+  // }
   const fetchCartData = async () => {
     try {
       const userId = Cookies.get('user');
@@ -85,7 +85,7 @@ const CartPage = () => {
     return item.quantity * 5; // Assuming $5 per item
   };
 
-  const handleRemoveCartItem = async (cartItemId,productitle) => {
+  const handleRemoveCartItem = async (cartItemId) => {
     try {
       const userId = Cookies.get('user');
       const response = await fetch(`http://127.0.0.1:8000/remove-from-cart/${cartItemId}/`, {
@@ -101,7 +101,7 @@ const CartPage = () => {
         setCartItems(cartItems.filter(item => item.id !== cartItemId));
         // const productitle=cartItems.map(item=>item.product.title)
         fetchCartData();
-      deleted(productitle)
+      // deleted(productitle)
       } else {
         console.error('Failed to remove cart item');
       } 
