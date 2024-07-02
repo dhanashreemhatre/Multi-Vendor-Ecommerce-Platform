@@ -71,23 +71,23 @@ const Page = () => {
     });
   }, []);
 
-  const [hasWelcomed, setHasWelcomed] = useState(false);
+  // const [hasWelcomed, setHasWelcomed] = useState(false);
 
-  useEffect(() => {
-    if (!hasWelcomed) {
-      const voices = window.speechSynthesis.getVoices();
-      const indianVoice = voices.find(voice => voice.lang === 'en-IN' || voice.name.toLowerCase().includes('india'));
+  // useEffect(() => {
+  //   if (!hasWelcomed) {
+  //     const voices = window.speechSynthesis.getVoices();
+  //     const indianVoice = voices.find(voice => voice.lang === 'en-IN' || voice.name.toLowerCase().includes('india'));
 
-      const username = localStorage.getItem('userName');
-      const message = `Welcome to Inclusify ${username}`;
-      let speech = new SpeechSynthesisUtterance(message);
-      if (indianVoice) {
-        speech.voice = indianVoice;
-      }
-      window.speechSynthesis.speak(speech);
-      setHasWelcomed(true);
-    }
-  }, [hasWelcomed]);
+  //     const username = localStorage.getItem('userName');
+  //     const message = `Welcome to Inclusify ${username}`;
+  //     let speech = new SpeechSynthesisUtterance(message);
+  //     if (indianVoice) {
+  //       speech.voice = indianVoice;
+  //     }
+  //     window.speechSynthesis.speak(speech);
+  //     setHasWelcomed(true);
+  //   }
+  // }, [hasWelcomed]);
 
   const [productDetails, setProductDetails] = useState<ProductDetails[]>([]);
   const [lights, setLights] = useState([
