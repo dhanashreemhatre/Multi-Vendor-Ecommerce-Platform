@@ -14,6 +14,7 @@ const Itemalert = () => {
       padding: '20px',
       backgroundColor: '#90EE90',
       color: 'white',
+      width:'50vw',
       zIndex: 1000, // Ensures the alert is on top of other elements
       boxShadow: '0 4px 8px rgba(0,0,0,0.2)',
       borderRadius: '8px'
