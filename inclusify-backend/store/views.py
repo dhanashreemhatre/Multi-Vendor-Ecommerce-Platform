@@ -252,6 +252,7 @@ class CartItemsCountView(APIView):
         try:
             cart = Cart.objects.get(user=user)
             cart_items_count = CartItem.objects.filter(cart=cart).count()
+            print(cart_items_count)
         except Cart.DoesNotExist:
             cart_items_count = 0  # Return 0 if no cart is found
         except Exception as e:
