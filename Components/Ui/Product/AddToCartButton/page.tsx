@@ -4,6 +4,7 @@ import styles from './addtocartbutton.module.css';
 import Cookies from 'js-cookie';
 import { useRouter } from 'next/navigation';
 import Itemalert from '../../Alert/alert';
+import Loginalert from '../../Alert/notlogin';
 
 interface AddToCartButtonProps {
   pid: string; // Product ID
@@ -13,19 +14,31 @@ const AddToCartButton: React.FC<AddToCartButtonProps> = ({ pid }) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [showAlert, setShowAlert] = useState(false); // State variable to control the visibility of Itemalert
-  
+  const [showLoginAlert, setShowLoginAlert] = useState(false); // State variable to control the visibility of Loginalert
+
   const router = useRouter();
+
+  const playAudio = (path: string) => {
+    const audio = new Audio(path);
+    audio.play();
+  };
 
   const addToCart = async () => {
     try {
       setLoading(true);
-      
+
       // Fetch user ID from localStorage
       const userId = Cookies.get('user');
       const token = Cookies.get('jwtToken');
       const email = localStorage.getItem('userEmail');
-      
+
       if (!token && !email) {
+        playAudio('/Sound/error.mp3');
+        setShowLoginAlert(true);
+        
+        setTimeout(() => {
+          setShowLoginAlert(false);
+        }, 2000);
         throw new Error('Please log in to add items to the cart');
       }
 
@@ -38,17 +51,17 @@ const AddToCartButton: React.FC<AddToCartButtonProps> = ({ pid }) => {
       });
 
       if (!response.ok) {
+        setShowLoginAlert(true);
+        playAudio('/Sound/error.mp3');
         throw new Error('Failed to add item to cart');
       }
 
-      const cartAudio = new Audio('/Sound/item.mp3');
-      cartAudio.play();
+      setShowAlert(true);
+      playAudio('/Sound/item.mp3');
+      setTimeout(() => setShowAlert(false), 2000); // Hide the alert after 2 seconds
 
       const data = await response.json();
       console.log(data);
-      
-      setShowAlert(true); // Show the alert when the item is successfully added to the cart
-      setTimeout(() => setShowAlert(false), 2000); // Hide the alert after 3 seconds
     } catch (error: any) {
       setError(error.message || 'Failed to add item to cart');
     } finally {
@@ -61,8 +74,8 @@ const AddToCartButton: React.FC<AddToCartButtonProps> = ({ pid }) => {
       <button className={styles.add_to_cart} onClick={addToCart} disabled={loading}>
         {loading ? 'Adding...' : 'Add to cart'}
       </button>
-      {/* {error && <p style={{ color: 'red' }}>{error}</p>} */}
       {showAlert && <Itemalert />} {/* Conditionally render the Itemalert component */}
+      {showLoginAlert && <Loginalert />} {/* Conditionally render the Loginalert component */}
     </>
   );
 };
