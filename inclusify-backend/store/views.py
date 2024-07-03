@@ -72,6 +72,7 @@ class ProductReviewView(APIView):
             review=request.data.get('review')
             # rating=request.data.get('rating')
             subject=request.data.get('subject')
+            # name=request.data.get('name')
             user=Account.objects.get(email=email)
             product=Product.objects.get(pid=pk)
             
@@ -104,7 +105,8 @@ class ProductReviewView(APIView):
             review_data = {
                 'subject': subject,
                 'review': review,
-                'rating': rating
+                'rating': rating,
+
             }
             review_serializer = ProductReviewSerializer(review_obj, data=review_data, partial=True)
 

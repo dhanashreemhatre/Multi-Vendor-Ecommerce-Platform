@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import { usePathname } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 import Navbar from './../../../../Components/Ui/Navbar/page';
@@ -28,9 +28,8 @@ function Page() {
           throw new Error("Network response was not ok");
         }
         const data = await response.json();
-
         setProductDetails(data);
-      } catch (error: any) {
+      } catch (error) {
         console.error("Error fetching product details:", error.message);
       }
     };
@@ -83,7 +82,7 @@ function Page() {
       }));
 
       setReviewPopup(false);
-      setReview({ subject: '', review: ''});
+      setReview({ subject: '', review: '' });
       setError('');
     } catch (error) {
       console.error('Error while adding Review: ', error.message);
@@ -175,11 +174,12 @@ function Page() {
                       <h1>Gauri</h1>
                       <h2>{new Date(review.created_date).toLocaleDateString()}</h2>
                     </div>
-                  </div>
-                  <div className={styles.review_main}>
+                     <div className={styles.review_main}>
                     <h1>{review.subject}</h1>
-                    <p>{review.review}</p>
+                    {/* <p>{review.review}</p> */}
                   </div>
+                  </div>
+                 
                 </div>
               ))
             ) : (
@@ -196,11 +196,13 @@ function Page() {
                 <div className='flex flex-col gap-4 md:w-[50%] md:mx-auto '>
                   <h3 className='text-lg font-semibold mt-4'>Share your reviews</h3>
                   <form name='reviewForm' onSubmit={handleReviewSubmit} className='flex flex-col gap-4'>
+                  {/* <input type='text' name="name" placeholder='' className='px-4 py-2 border rounded-md w-100' onChange={handleChange} value={review.subject} /> */}
                     <input type='text' name="subject" placeholder='Subject' className='px-4 py-2 border rounded-md w-100' onChange={handleChange} value={review.subject} />
                     <textarea rows={6} name='review' placeholder='Review' className='px-4 py-2 border rounded-md w-100' onChange={handleChange} value={review.review} />
                     <button type='submit' className='bg-slate-600 hover:bg-slate-800 text-white px-4 py-2 rounded-md'>Submit</button>
                     <button type='button' className='bg-red-600 hover:bg-red-800 text-white px-4 py-2 rounded-md' onClick={handleCancelReview}>Cancel</button>
                   </form>
+                  {error && <p className='text-red-600'>{error}</p>}
                 </div>
               }
             </div>
