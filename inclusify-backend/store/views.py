@@ -144,7 +144,7 @@ class ProductReviewView(APIView):
 class AddToCartAPIView(APIView):
     def post(self, request, pk):
         try:
-            print(pk)
+            #print(pk)
             # Retrieve the product
             pid = request.data.get('pid')
             user_id = request.data.get('userId')
@@ -152,7 +152,7 @@ class AddToCartAPIView(APIView):
             product = Product.objects.get(pid=pk)
             # Create or get the cart for the current user
             cart, created = Cart.objects.get_or_create(user=user)
-            print(cart)
+            #print(cart)
             # Check if the product is already in the cart
             if cart.items.filter(product=product).exists():
                 return Response({'message': 'Product is already in the cart.'}, status=status.HTTP_400_BAD_REQUEST)
@@ -210,7 +210,7 @@ class CartAPIView(APIView):
     def get(self, request):
         try:
             user_email = request.headers['Authorization'] 
-            print(user_email) # Get the user ID from headers
+            #print(user_email) # Get the user ID from headers
             user = Account.objects.get(email=user_email)
             cart = Cart.objects.get(user=user)
             cart_items = CartItem.objects.filter(cart=cart)
@@ -252,7 +252,7 @@ class CartItemsCountView(APIView):
         try:
             cart = Cart.objects.get(user=user)
             cart_items_count = CartItem.objects.filter(cart=cart).count()
-            print(cart_items_count)
+            #print(cart_items_count)
         except Cart.DoesNotExist:
             cart_items_count = 0  # Return 0 if no cart is found
         except Exception as e:
