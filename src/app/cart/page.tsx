@@ -7,7 +7,8 @@ import { AnyJson } from 'three/examples/jsm/nodes/Nodes.js';
 import bin from './Images/trash.png'
 import Navbar from './../../../Components/Ui/Navbar/page'
 import Footer from './../../../Components/Ui/Footer/page'
-import Deletealert from '../../../Components/Ui/Alert/deletealert'
+import Itemalert from '../../../Components/Ui/Alert/alert';
+// import Deletealert from '../../../Components/Ui/Alert/deletealert'
 const CartPage = () => {
   const [cartItems, setCartItems] = useState([]);
   const [totalShippingCharges, setTotalShippingCharges] = useState(0);
@@ -133,7 +134,7 @@ const CartPage = () => {
                   {item.quantity}
                 </div>
                 <button onClick={() => handleRemoveCartItem(item.product.id, item.product.title)}><Image src={bin} alt='delete' height={28} width={28}/></button>
-                {showAlert && <Deletealert />} 
+                {showAlert && <Itemalert bullet="Success" message="Item has been removed from Cart" color="#50C878" />} 
               </div>
             </div>
           ))}

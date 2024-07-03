@@ -53,6 +53,7 @@ const AddToCartButton: React.FC<AddToCartButtonProps> = ({ pid }) => {
       if (!response.ok) {
         setShowLoginAlert(true);
         playAudio('/Sound/error.mp3');
+        setTimeout(() => setShowAlert(false), 2000);
         throw new Error('Failed to add item to cart');
       }
 
@@ -74,8 +75,8 @@ const AddToCartButton: React.FC<AddToCartButtonProps> = ({ pid }) => {
       <button className={styles.add_to_cart} onClick={addToCart} disabled={loading}>
         {loading ? 'Adding...' : 'Add to cart'}
       </button>
-      {showAlert && <Itemalert />} {/* Conditionally render the Itemalert component */}
-      {showLoginAlert && <Loginalert />} {/* Conditionally render the Loginalert component */}
+      {showAlert && <Itemalert  bullet="Success" message="Item added to cart" color="#50C878"/>} {/* Conditionally render the Itemalert component */}
+      {showLoginAlert && <Itemalert bullet="hey" message="Please login before adding Item to Cart" color="#800020" />} 
     </>
   );
 };

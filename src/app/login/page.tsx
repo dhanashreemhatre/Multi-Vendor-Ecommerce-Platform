@@ -1,49 +1,51 @@
 "use client"
-import React, { useState,useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 import Google from './image/Google.png';
 import Link from 'next/link';
-import User from '../Signup/image/9334243-removebg-preview 1.png'
-import Vendor from '../Signup/image/42-removebg-preview 1.png'
+import User from '../Signup/image/9334243-removebg-preview 1.png';
+import Vendor from '../Signup/image/42-removebg-preview 1.png';
 import Cookies from "js-cookie";
-import './login.css'
+import './login.css';
 import { useRouter } from 'next/navigation';
+
 const Page = () => {
   const router = useRouter();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [selectedBox, setSelectedBox] = useState(0);
-  const [invalidAudio, setinvalidAudio] = useState<HTMLAudioElement | null>(null);
+  const [loading, setLoading] = useState(false);
+  const [invalidAudio, setInvalidAudio] = useState<HTMLAudioElement | null>(null);
 
   const invalid = () => {
     const message = 'Invalid Credentials';
     let speech = new SpeechSynthesisUtterance(message);
     window.speechSynthesis.speak(speech);
   }
+
   const correct = () => {
-    const message = 'Login Succesfull';
+    const message = 'Login Successful';
     let speech = new SpeechSynthesisUtterance(message);
     window.speechSynthesis.speak(speech);
   }
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
-      setinvalidAudio(new Audio('/Sound/correct.mp3'));
+      setInvalidAudio(new Audio('/Sound/correct.mp3'));
     }
   }, []);
 
-  useEffect(()=>{
-    let speech=new SpeechSynthesisUtterance();
+  useEffect(() => {
+    let speech = new SpeechSynthesisUtterance();
+  });
 
-  })
-
-  const handleBoxClick = (boxIndex:any) => {
+  const handleBoxClick = (boxIndex: any) => {
     setSelectedBox(boxIndex);
   };
 
   const handleLogin = async () => {
     try {
-      // Make sure to replace 'YOUR_API_ENDPOINT' with the actual backend API endpoint for login
+      setLoading(true); // Start loading state
       const response = await fetch('http://127.0.0.1:8000/accounts/login/', {
         method: 'POST',
         headers: {
@@ -53,25 +55,24 @@ const Page = () => {
       });
       if (response.ok) {
         const data = await response.json();
-      const username=data.username
+        const username = data.username;
         const token = data.token;
-       
-        
 
         Cookies.set("jwtToken", token);
         Cookies.set("user", email);
         localStorage.setItem('userEmail', email);
         localStorage.setItem('userName', username);
-        correct()
+        correct();
         router.push('/');
         console.log('Login successful');
       } else {
-        // invalidAudio?.play();
         invalid();
         console.error('Invalid credentials');
       }
     } catch (error) {
       console.error('Error during login:', error);
+    } finally {
+      setLoading(false); // End loading state
     }
   };
 
@@ -130,16 +131,18 @@ const Page = () => {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
-          <button >Sign in</button>
-          <div className="google">
-          <span>-or sign in with-</span>
-          <button>
-            <Image src={Google} alt="loading-image" height={28} width={28} />
-            <h1>Sign in with Google</h1>
+          <button disabled={loading}>
+            {loading ? "Logging..." : "Sign In"}
           </button>
-        </div>
+          <div className="google">
+            <span>-or sign in with-</span>
+            <button>
+              <Image src={Google} alt="loading-image" height={28} width={28} />
+              <h1>Sign in with Google</h1>
+            </button>
+          </div>
         </form>
-        
+
         <div className="login_to">
           <h1> Do Not have an account?</h1>
           <Link href="/Signup">

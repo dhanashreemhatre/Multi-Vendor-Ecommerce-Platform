@@ -7,13 +7,19 @@ import User from "./image/9334243-removebg-preview 1.png";
 import Vendor from "./image/42-removebg-preview 1.png";
 import Google from './image/Google.png'
 import Link from "next/link";
-import Emailsent from '../../../Components/Ui/Alert/emailsent';
+import Itemalert from "../../../Components/Ui/Alert/alert";
+// import Emailsent from '../../../Components/Ui/Alert/emailsent';
+// import Userexist from '../../../Components/Ui/Alert/userexist'
+// import Passwordmatch from '../../../Components/Ui/Alert/passwordmatch'
 
 const Page = () => {
   const [selectedBox, setSelectedBox] = useState(0);
   const [showAlert, setShowAlert] = useState(false);
   const [showEmail, setShowEmail] = useState(false);
   const [loading, setLoading] = useState(false); // State variable for loading status
+  const [showpassword,setShowpassword]=useState(false);
+
+
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -43,6 +49,9 @@ const Page = () => {
   const handleSignUp = async (e: any) => {
     e.preventDefault();
     if (formData.password !== formData.confirmPassword) {
+      setShowpassword(true);
+      playAudio('/Sound/error.mp3');
+      setTimeout(() => setShowpassword(false), 2000);
       console.error("Password does not match Confirm Password");
       return;
     }
@@ -60,6 +69,7 @@ const Page = () => {
         console.log("User signed up successfully!");
         setShowEmail(true);
         playAudio('/Sound/item.mp3');
+        setTimeout(() => setShowEmail(false), 2000);
       } else {
         const errorData = await response.json();
         if (response.status === 400 && errorData.error) {
@@ -68,6 +78,8 @@ const Page = () => {
         } else {
           console.error("Failed to sign up:", response.statusText);
           setShowAlert(true);
+          playAudio('/Sound/error.mp3');
+          setTimeout(() => setShowAlert(false), 2000);
         }
       }
     } catch (error) {
@@ -136,7 +148,9 @@ const Page = () => {
           )}
         </div>
         <div className="form">
-          {showEmail && <Emailsent />}
+           {showpassword && <Itemalert bullet="Hey" message="Password doesnot match" color="#0047AB"/>}
+          {showEmail && <Itemalert bullet="Success" message="Email sent to your registered gmail,click to login" color="#50C878"/>}
+          {showAlert && <Itemalert  bullet="Hey" message="User is already registered with us" color="#800020"/>} 
           <form onSubmit={handleSignUp}>
             <input
               type="email"

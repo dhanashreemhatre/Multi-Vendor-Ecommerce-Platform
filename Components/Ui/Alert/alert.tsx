@@ -1,7 +1,7 @@
 import React from 'react';
 
-const Itemalert = () => {
-  const handleClose = (event: React.MouseEvent<HTMLSpanElement, MouseEvent>) => {
+const Itemalert = ({ message,bullet,color }) => {
+  const handleClose = (event) => {
     event.target.parentElement.style.display = 'none';
   };
 
@@ -12,9 +12,9 @@ const Itemalert = () => {
       left: '76%',
       transform: 'translate(-50%, -50%)',
       padding: '20px',
-      backgroundColor: '#50C878',
+      backgroundColor: color,
       color: 'white',
-      width:'50vw',
+      width: '50vw',
       zIndex: 1000, // Ensures the alert is on top of other elements
       boxShadow: '0 4px 8px rgba(0,0,0,0.2)',
       borderRadius: '8px'
@@ -30,7 +30,7 @@ const Itemalert = () => {
         transition: '0.3s',
       }}
       onClick={handleClose}>&times;</span> 
-      <strong>Success!</strong> Item added to Cart
+      <strong>{bullet}!</strong> {message}
     </div>
   );
 };
