@@ -14,6 +14,42 @@ const CartPage = () => {
   const [totalShippingCharges, setTotalShippingCharges] = useState(0);
   const [cartTotal, setCartTotal] = useState(0);
   const [showAlert, setShowAlert] = useState(false);
+  const updateQuantity = async (itemId, newQuantity) => {
+    try {
+      const userId = Cookies.get('user');
+      const response = await fetch(`http://127.0.0.1:8000/add-to-cart/${itemId}/`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `${userId}`
+        },
+        body: JSON.stringify({ 
+          pid:itemId,
+          quantity: newQuantity,
+          userId:userId
+         })
+      });
+
+      if (response.ok) {
+        fetchCartData(); // Refresh cart data after updating
+      } else {
+        console.error('Failed to update quantity');
+      }
+    } catch (error) {
+      console.error('Error updating quantity:', error);
+    }
+  };
+
+  const increment = (itemId, currentQuantity) => {
+    updateQuantity(itemId, currentQuantity + 1);
+  };
+
+  const decrement = (itemId, currentQuantity) => {
+    if (currentQuantity > 1) {
+      updateQuantity(itemId, currentQuantity - 1);
+    }
+  };
+
   // const deleted = (producttitle) => {
   //   const message = `${producttitle} removed from the Cart`;
   //   let speech = new SpeechSynthesisUtterance(message);
@@ -98,6 +134,7 @@ const CartPage = () => {
         },
       });
       if (response.ok) {
+        console.log(response)
         // console.log(productitle)
         const cartAudio = new Audio('/Sound/item.mp3');
         cartAudio.play();
@@ -131,7 +168,9 @@ const CartPage = () => {
                 <h2>{item.product.title}</h2>
                 <h4>{item.product.price} <span>{item.product.old_price}</span></h4>
                 <div className="quantity">
+                  <button type='button' className='text-[24px] mx-2' onClick={() => increment(item.product.pid, item.quantity)}>+</button>
                   {item.quantity}
+                  <button type='button' className='text-[24px] mx-2' onClick={() => decrement(item.product.pid, item.quantity)}>-</button>
                 </div>
                 <button onClick={() => handleRemoveCartItem(item.product.id, item.product.title)}><Image src={bin} alt='delete' height={28} width={28}/></button>
                 {showAlert && <Itemalert bullet="Success" message="Item has been removed from Cart" color="#50C878" />} 

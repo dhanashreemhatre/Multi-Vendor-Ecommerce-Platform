@@ -70,13 +70,13 @@ class ProductReviewView(APIView):
             pid=request.data.get('pid')
             email=request.data.get('email')
             review=request.data.get('review')
-            rating=request.data.get('rating')
+            # rating=request.data.get('rating')
             subject=request.data.get('subject')
             user=Account.objects.get(email=email)
             product=Product.objects.get(pid=pk)
             
             #create a review
-            review_obj=ProductReview.objects.create(user=user,product=product,review=review,rating=rating,subject=subject)
+            review_obj=ProductReview.objects.create(user=user,product=product,review=review,subject=subject)
             return Response("Success", status=status.HTTP_201_CREATED)
         
         except Product.DoesNotExist:
@@ -174,7 +174,7 @@ class AddToCartAPIView(APIView):
             pid = request.data.get('pid')
             user_id = request.data.get('userId')
             user = Account.objects.get(email=user_id)
-            product = Product.objects.get(pk=pid)
+            product = Product.objects.get(pid=pid)
             quantity = request.data.get('quantity')
             
             # Ensure quantity is a valid positive integer

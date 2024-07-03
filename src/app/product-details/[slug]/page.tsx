@@ -10,16 +10,14 @@ import Like from "./image/heart.png";
 import star from "./image/icons8-star-48.png";
 import Boys from "./image/7309681.jpg";
 import Link from 'next/link';
-import CartButton from '../../../../Components/Ui/Product/AddToCartButton/page'
-import { div } from 'three/examples/jsm/nodes/Nodes.js';
-
+import CartButton from '../../../../Components/Ui/Product/AddToCartButton/page';
 
 function Page() {
   const pathname = usePathname();
   const pid = pathname.split("/").pop();
   const [productDetails, setProductDetails] = useState(null);
-  const [reviewPopup,setReviewPopup]=useState(false)
-  const [review, setReview] = useState({ subject: '', review: '', rating:'' });
+  const [reviewPopup, setReviewPopup] = useState(false);
+  const [review, setReview] = useState({ subject: '', review: '', rating: '' });
   const [error, setError] = useState('');
 
   useEffect(() => {
@@ -39,36 +37,38 @@ function Page() {
 
     fetchProductDetails();
   }, [pid]);
-  const handleAddReview=(e)=>{
+
+  const handleAddReview = (e) => {
     e.preventDefault();
-    setReviewPopup(true)
-  }
-  const handleCancelReview=(e)=>{
+    setReviewPopup(true);
+  };
+
+  const handleCancelReview = (e) => {
     e.preventDefault();
     setReviewPopup(false);
-  }
+  };
 
   const handleReviewSubmit = async (e) => {
     e.preventDefault();
     
-    // Basic validation
     if (!review.subject || !review.review) {
       setError('Both subject and review are required.');
       return;
     }
 
     try {
-      const response = await fetch(`http://127.0.0.1:8000/review/${productDetails?.product.pid}`, {
+      const storedEmail = localStorage.getItem('userEmail');
+      const response = await fetch(`http://127.0.0.1:8000/review/${productDetails?.product.pid}/`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          pid:`${productDetails?.product.pid}`,
-          email:'',
-          review:review.review,
-          subject:review.subject,
-          rating:review.rating
+          pid: `${productDetails?.product.pid}`,
+          email: storedEmail,
+          review: review.review,
+          subject: review.subject,
+          // rating: review.rating
         }),
       });
 
@@ -76,11 +76,14 @@ function Page() {
         throw new Error('Failed to submit review');
       }
 
-      // Handle success
-      console.log('Review submitted successfully');
+      const newReview = await response.json();
+      setProductDetails((prevDetails) => ({
+        ...prevDetails,
+        review: [...prevDetails.review, newReview]
+      }));
+
       setReviewPopup(false);
-      // Clear the form and error message
-      setReview({ subject: '', review: '' });
+      setReview({ subject: '', review: ''});
       setError('');
     } catch (error) {
       console.error('Error while adding Review: ', error.message);
@@ -95,6 +98,7 @@ function Page() {
       [name]: value,
     }));
   };
+
   return (
     <div>
       <Navbar />
@@ -122,14 +126,13 @@ function Page() {
             </div>
             <p>{productDetails?.product.description || "Loading..."}</p>
 
-
             <div className={styles.price_items}>
               <div className={styles.price}>
                 <h1>{productDetails ? `${productDetails.product.price} Rs.` : "Loading..."}</h1>
                 <h2>Free shipping is available</h2>
               </div>
               <div className={styles.cart}>
-                <CartButton pid={pid}/>
+                <CartButton pid={pid} />
               </div>
             </div>
           </div>
@@ -148,20 +151,16 @@ function Page() {
       <div className={styles.prod_desc}>
         <div className={styles.prod_desc_item}>
           <h1>Description</h1>
-          <p>
-            {productDetails?.product.short_description || "Loading.."}
-          </p>
+          <p>{productDetails?.product.short_description || "Loading.."}</p>
           <h1>Specifications</h1>
-          <p>
-            {productDetails?.product.specification || "Loading..."}
-          </p>
+          <p>{productDetails?.product.specification || "Loading..."}</p>
         </div>
       </div>
       <div className={styles.customer_review}>
         <div className={styles.customer_review_items}>
           <h1>Customer Reviews</h1>
           <div className={styles.user_detalis}>
-          {productDetails?.review.length > 0 ? (
+            {productDetails?.review.length > 0 ? (
               productDetails.review.map((review, index) => (
                 <div key={index}>
                   <div className={styles.avtar_user1}>
@@ -186,25 +185,24 @@ function Page() {
             ) : (
               <p>No Reviews Yet.</p>
             )}
-                        
 
             <div className={styles.buttons_review}>
               <div className={styles.box1_button}><Link href="/products">See All Products</Link></div>
-              {!reviewPopup && 
-              <div className={styles.box1_button} onClick={handleAddReview}>Add Your Review</div>
+              {!reviewPopup &&
+                <div className={styles.box1_button} onClick={handleAddReview}>Add Your Review</div>
               }
 
-             {reviewPopup && 
-             <div className='flex flex-col gap-4 md:w-[50%] md:mx-auto '>
-              <h3 className='text-lg font-semibold mt-4'>Share your reviews</h3>
-              <form name='reviewForm'  onSubmit={handleReviewSubmit} className='flex flex-col gap-4'>
-              <input type='text' name="subject" placeholder='subject' className='px-4 py-2 border rounded-md w-100' onChange={handleChange}/>
-              <textarea rows={6} name='review' placeholder='Review' className='px-4 py-2 border rounded-md w-100' onChange={handleChange}/>
-              <button type='submit' className='bg-slate-600 hover:bg-slate-800 text-white px-4 py-2 rounded-md'>Submit</button>
-              <button type='submit' className='bg-red-600 hover:bg-red-800 text-white px-4 py-2 rounded-md' onClick={handleCancelReview}>Cancel</button>
-              </form>
-              </div>
-             }
+              {reviewPopup &&
+                <div className='flex flex-col gap-4 md:w-[50%] md:mx-auto '>
+                  <h3 className='text-lg font-semibold mt-4'>Share your reviews</h3>
+                  <form name='reviewForm' onSubmit={handleReviewSubmit} className='flex flex-col gap-4'>
+                    <input type='text' name="subject" placeholder='Subject' className='px-4 py-2 border rounded-md w-100' onChange={handleChange} value={review.subject} />
+                    <textarea rows={6} name='review' placeholder='Review' className='px-4 py-2 border rounded-md w-100' onChange={handleChange} value={review.review} />
+                    <button type='submit' className='bg-slate-600 hover:bg-slate-800 text-white px-4 py-2 rounded-md'>Submit</button>
+                    <button type='button' className='bg-red-600 hover:bg-red-800 text-white px-4 py-2 rounded-md' onClick={handleCancelReview}>Cancel</button>
+                  </form>
+                </div>
+              }
             </div>
           </div>
         </div>
