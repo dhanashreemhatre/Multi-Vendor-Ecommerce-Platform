@@ -129,6 +129,7 @@ class ProductReview(models.Model):
     user = models.ForeignKey(Account, on_delete=models.SET_NULL, null=True)
     product = models.ForeignKey(Product, on_delete=models.SET_NULL, null=True)
     subject = models.CharField(max_length=200, blank=True)
+    # name = models.CharField(max_length=100, blank=True)
     review = models.TextField(null=True)
     rating = models.FloatField(default=0.0) 
     ip = models.CharField(max_length=20, blank=True)
