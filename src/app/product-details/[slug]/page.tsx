@@ -11,6 +11,7 @@ import star from "./image/icons8-star-48.png";
 import Boys from "./image/7309681.jpg";
 import Link from 'next/link';
 import CartButton from '../../../../Components/Ui/Product/AddToCartButton/page';
+import ReactImageMagnify from 'react-image-magnify';
 
 function Page() {
   const pathname = usePathname();
@@ -49,7 +50,7 @@ function Page() {
 
   const handleReviewSubmit = async (e) => {
     e.preventDefault();
-    
+
     if (!review.subject || !review.review) {
       setError('Both subject and review are required.');
       return;
@@ -104,13 +105,22 @@ function Page() {
       <div className={styles.product_details}>
         <div className={styles.product_image}>
           {productDetails ? (
-            <Image
-              src={`http://127.0.0.1:8000/${decodeURIComponent(productDetails.product.image)}`}
-              alt='Product-Image'
-              height={100}
-              width={100}
-              className={styles.image}
-            />
+            <ReactImageMagnify {...{
+              smallImage: {
+                alt: 'Product image',
+                isFluidWidth: true,
+                src: `http://127.0.0.1:8000/${decodeURIComponent(productDetails.product.image)}`
+              },
+              largeImage: {
+                src: `http://127.0.0.1:8000/${decodeURIComponent(productDetails.product.image)}`,
+                width: 1200,
+                height: 1800
+              },
+              enlargedImageContainerDimensions: {
+                width: '200%',
+                height: '200%'
+              }
+            }} />
           ) : (
             <h1>Loading...</h1>
           )}
@@ -158,28 +168,27 @@ function Page() {
       <div className={styles.customer_review}>
         <div className={styles.customer_review_items}>
           <h1>Customer Reviews</h1>
-          <div className={styles.user_detalis}>
+          <div className={styles.user_details}>
             {productDetails?.review.length > 0 ? (
               productDetails.review.map((review, index) => (
                 <div key={index}>
-                  <div className={styles.avtar_user1}>
+                  <div className={styles.avatar_user}>
                     <Image
                       src={Boys}
                       alt="loading image"
                       height={32}
                       width={32}
-                      className={styles.avtar_boys}
+                      className={styles.avatar_boys}
                     />
                     <div className={styles.name}>
                       <h1>Gauri</h1>
                       <h2>{new Date(review.created_date).toLocaleDateString()}</h2>
                     </div>
-                     <div className={styles.review_main}>
-                    <h1>{review.subject}</h1>
-                    {/* <p>{review.review}</p> */}
+                    <div className={styles.review_main}>
+                      <h1>{review.subject}</h1>
+                      <p>{review.review}</p>
+                    </div>
                   </div>
-                  </div>
-                 
                 </div>
               ))
             ) : (
@@ -196,7 +205,6 @@ function Page() {
                 <div className='flex flex-col gap-4 md:w-[50%] md:mx-auto '>
                   <h3 className='text-lg font-semibold mt-4'>Share your reviews</h3>
                   <form name='reviewForm' onSubmit={handleReviewSubmit} className='flex flex-col gap-4'>
-                  {/* <input type='text' name="name" placeholder='' className='px-4 py-2 border rounded-md w-100' onChange={handleChange} value={review.subject} /> */}
                     <input type='text' name="subject" placeholder='Subject' className='px-4 py-2 border rounded-md w-100' onChange={handleChange} value={review.subject} />
                     <textarea rows={6} name='review' placeholder='Review' className='px-4 py-2 border rounded-md w-100' onChange={handleChange} value={review.review} />
                     <button type='submit' className='bg-slate-600 hover:bg-slate-800 text-white px-4 py-2 rounded-md'>Submit</button>
