@@ -12,6 +12,7 @@ import Boys from "./image/7309681.jpg";
 import Link from 'next/link';
 import CartButton from '../../../../Components/Ui/Product/AddToCartButton/page';
 import ReactImageMagnify from 'react-image-magnify';
+import { WhatsappShareButton } from 'react-share';
 
 function Page() {
   const pathname = usePathname();
@@ -148,12 +149,11 @@ function Page() {
           <div className={styles.icons}>
             <div className={styles.share}>
               <Image src={Share} alt="Share icon" priority />
+              <WhatsappShareButton url='http://localhost:3000/product-details/24fhgbe5ef'>
               <h2>Share</h2>
+              </WhatsappShareButton>
             </div>
-            <div className={styles.save}>
-              <Image src={Like} alt="Save icon" priority />
-              <h2>Save</h2>
-            </div>
+           
           </div>
         </div>
       </div>

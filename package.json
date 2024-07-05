@@ -17,6 +17,7 @@
     "react": "^18",
     "react-dom": "^18",
     "react-image-magnify": "^2.7.4",
+    "react-share": "^5.1.0",
     "react-three": "^0.9.7",
     "swiper": "^11.0.5",
     "three": "^0.161.0"

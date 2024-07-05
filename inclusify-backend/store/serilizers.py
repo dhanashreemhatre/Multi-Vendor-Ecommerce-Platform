@@ -1,4 +1,4 @@
-from .models import Product,Category,Cart,CartItem,ProductReview
+from .models import Product,Category,Cart,CartItem,ProductReview, ProductImages
 from rest_framework import serializers
 
 class MultipleProductSerialzer(serializers.ModelSerializer):
@@ -11,16 +11,28 @@ class MultipleProductSerialzer(serializers.ModelSerializer):
     def get_categories_titles(self, obj):
         return [category.title for category in obj.categories.all()]
 
+class ProductImagesSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ProductImages
+        fields = ['id', 'images']
+
 
 class ProductSerializer(serializers.ModelSerializer):
     categories_titles = serializers.SerializerMethodField()
+    product_images = ProductImagesSerializer(many=True, read_only=True)
 
     class Meta:
         model = Product
-        fields = ['id', 'pid', 'title', 'image', 'short_description', 'description', 'price', 'sales_price', 'specification', 'product_status', 'status', 'in_stock', 'featured', 'digital', 'sku', 'date', 'updated', 'user', 'vendor', 'categories', 'categories_titles']
+        fields = [
+            'id', 'pid', 'title', 'image', 'short_description', 'description', 
+            'price', 'sales_price', 'specification', 'product_status', 'status', 
+            'in_stock', 'featured', 'digital', 'sku', 'date', 'updated', 'user', 
+            'vendor', 'categories', 'categories_titles', 'product_images'
+        ]
 
     def get_categories_titles(self, obj):
         return [category.title for category in obj.categories.all()]
+
 
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
