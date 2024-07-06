@@ -1,4 +1,4 @@
-"use client";
+"use client"
 import { usePathname } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 import Navbar from './../../../../Components/Ui/Navbar/page';
@@ -6,7 +6,6 @@ import Footer from './../../../../Components/Ui/Footer/page';
 import styles from './product-details.module.css';
 import Image from "next/image";
 import Share from "./image/share-2.png";
-import Like from "./image/heart.png";
 import star from "./image/icons8-star-48.png";
 import Boys from "./image/7309681.jpg";
 import Link from 'next/link';
@@ -21,6 +20,7 @@ function Page() {
   const [reviewPopup, setReviewPopup] = useState(false);
   const [review, setReview] = useState({ subject: '', review: '', rating: '' });
   const [error, setError] = useState('');
+  const [selectedImage, setSelectedImage] = useState(null); // State to track selected image
 
   useEffect(() => {
     const fetchProductDetails = async () => {
@@ -31,6 +31,10 @@ function Page() {
         }
         const data = await response.json();
         setProductDetails(data);
+        // Set the initial selected image to the main product image
+        if (data.product && data.product.image) {
+          setSelectedImage(data.product.image);
+        }
       } catch (error) {
         console.error("Error fetching product details:", error.message);
       }
@@ -100,20 +104,24 @@ function Page() {
     }));
   };
 
+  const handleThumbnailClick = (imageSrc) => {
+    setSelectedImage(imageSrc);
+  };
+
   return (
     <div>
       <Navbar />
       <div className={styles.product_details}>
         <div className={styles.product_image}>
-          {productDetails ? (
+          {selectedImage ? (
             <ReactImageMagnify {...{
               smallImage: {
                 alt: 'Product image',
                 isFluidWidth: true,
-                src: `http://127.0.0.1:8000/${decodeURIComponent(productDetails.product.image)}`
+                src: `http://127.0.0.1:8000${decodeURIComponent(selectedImage)}`
               },
               largeImage: {
-                src: `http://127.0.0.1:8000/${decodeURIComponent(productDetails.product.image)}`,
+                src: `http://127.0.0.1:8000${decodeURIComponent(selectedImage)}`,
                 width: 1200,
                 height: 1800
               },
@@ -150,10 +158,26 @@ function Page() {
             <div className={styles.share}>
               <Image src={Share} alt="Share icon" priority />
               <WhatsappShareButton url='http://localhost:3000/product-details/24fhgbe5ef'>
-              <h2>Share</h2>
+                <h2>Share</h2>
               </WhatsappShareButton>
             </div>
-           
+          </div>
+          <div className={styles.product_list_images}>
+            {productDetails && productDetails.product && productDetails.product.product_images.length > 0 ? (
+              productDetails.product.product_images.map((imageObj, index) => (
+                <div key={index} onClick={() => handleThumbnailClick(imageObj.images)} className={styles.thumbnail}>
+                  <Image
+                    src={`http://127.0.0.1:8000${decodeURIComponent(imageObj.images)}`}
+                    alt={`Product image ${index + 1}`}
+                    className={styles.product_image_item}
+                    width={40}
+                    height={40}
+                  />
+                </div>
+              ))
+            ) : (
+              <p>No additional images available</p>
+            )}
           </div>
         </div>
       </div>
@@ -197,11 +221,11 @@ function Page() {
 
             <div className={styles.buttons_review}>
               <div className={styles.box1_button}><Link href="/products">See All Products</Link></div>
-              {!reviewPopup &&
+              {!reviewPopup && (
                 <div className={styles.box1_button} onClick={handleAddReview}>Add Your Review</div>
-              }
+              )}
 
-              {reviewPopup &&
+              {reviewPopup && (
                 <div className='flex flex-col gap-4 md:w-[50%] md:mx-auto '>
                   <h3 className='text-lg font-semibold mt-4'>Share your reviews</h3>
                   <form name='reviewForm' onSubmit={handleReviewSubmit} className='flex flex-col gap-4'>
@@ -212,7 +236,7 @@ function Page() {
                   </form>
                   {error && <p className='text-red-600'>{error}</p>}
                 </div>
-              }
+              )}
             </div>
           </div>
         </div>
