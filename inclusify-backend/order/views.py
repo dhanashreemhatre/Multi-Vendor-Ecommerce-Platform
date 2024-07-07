@@ -10,29 +10,21 @@ class CreateOrderView(APIView):
             user_email = request.data.get('email')
             user = Account.objects.get(email=user_email)
             
-            # Create the order
             order_data = {
                 'user': user.id,
                 'total_amount': request.data.get('total_amount'),
                 'status': 'PENDING',
+                'items': request.data.get('items', []),
+                'shipping_address': request.data.get('shipping_address', {}),
             }
+            
             order_serializer = OrderSerializer(data=order_data)
+            print(order_serializer)
             if order_serializer.is_valid():
-                order = order_serializer.save()
-                
-                # Create order items
-                items_data = request.data.get('items', [])
-                for item_data in items_data:
-                    product = Product.objects.get(pid=item_data['product_id'])
-                    OrderItem.objects.create(
-                        order=order,
-                        product=product,
-                        quantity=item_data['quantity'],
-                        price=item_data['price']
-                    )
-                
+                order_serializer.save()
                 return Response("Success", status=status.HTTP_201_CREATED)
             return Response(order_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+                        
         
         except Account.DoesNotExist:
             return Response({'error': 'User not found'}, status=status.HTTP_404_NOT_FOUND)

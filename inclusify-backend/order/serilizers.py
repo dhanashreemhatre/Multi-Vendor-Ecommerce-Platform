@@ -17,37 +17,33 @@ class OrderItemSerializer(serializers.ModelSerializer):
         fields = ['id', 'product', 'quantity', 'price']
 
 class OrderSerializer(serializers.ModelSerializer):
-    items = OrderItemSerializer(many=True, read_only=True)
-    shipping_address = ShippingAddressSerializer(read_only=True)
-    coupon = CouponSerializer(read_only=True)
+    items = OrderItemSerializer(many=True)
+    shipping_address = ShippingAddressSerializer()
+    coupon = CouponSerializer(required=False, allow_null=True)
 
     class Meta:
         model = Order
         fields = ['id', 'user', 'items', 'total_amount', 'created_at', 'status', 'shipping_address', 'coupon']
 
     def create(self, validated_data):
-        items_data = validated_data.pop('items', [])
+        items_data = validated_data.pop('items')
+        shipping_address_data = validated_data.pop('shipping_address')
+        coupon_data = validated_data.pop('coupon', None)
+        
+        # Create the order
         order = Order.objects.create(**validated_data)
+        
+        # Create shipping address
+        ShippingAddress.objects.create(order=order, **shipping_address_data)
+        
+        # Create order items
         for item_data in items_data:
             OrderItem.objects.create(order=order, **item_data)
-            return order
         
-    def update(self, instance, validated_data):
-        items_data = validated_data.pop('items', [])
-        # Update Order fields
-        for attr, value in validated_data.items():
-            setattr(instance, attr, value)
-        instance.save()
+        return order
 
-        # Update or create order items
-        for item_data in items_data:
-            item_id = item_data.get('id', None)
-            if item_id:
-                OrderItem.objects.filter(id=item_id, order=instance).update(**item_data)
-            else:
-                OrderItem.objects.create(order=instance, **item_data)
-
-        return instance
+        
+    
         
 class PaymentSerializer(serializers.ModelSerializer):
     class Meta:
