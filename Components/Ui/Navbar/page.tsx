@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import './navbar.css';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation'
-
 interface PageProps {
   className?: string;
 }
@@ -124,7 +123,7 @@ const Page: React.FC<PageProps> = ({ className }) => {
                 <ul className="nav-links">
                   <li><Link href="/">Home</Link></li>
                   <li><Link href="/about">About</Link></li>
-                  <li><Link href="#">Portfolio</Link></li>
+                 
                   <li><Link href="/products">All Products</Link></li>
                   <li><Link href="/contact">Contact</Link></li>
                   <li><Link href="/Signup">Register</Link></li>
