@@ -4,7 +4,12 @@ from .models import Order, OrderItem, Payment, Coupon, ShippingAddress
 class ShippingAddressSerializer(serializers.ModelSerializer):
     class Meta:
         model = ShippingAddress
-        fields = ['id', 'user', 'address', 'city', 'state', 'country', 'zip_code']
+        fields = ['address', 'city', 'state', 'zip_code']
+        extra_kwargs = {
+            'city': {'required': False, 'allow_blank': True},
+            'zip_code': {'required': False, 'allow_blank': True},
+        }
+
 
 class CouponSerializer(serializers.ModelSerializer):
     class Meta:

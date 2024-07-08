@@ -16,11 +16,14 @@ class CreateOrderView(APIView):
                 'status': 'PENDING',
                 'items': request.data.get('items', []),
                 'shipping_address': request.data.get('shipping_address', {}),
+                'coupon': request.data.get('coupon', None)
             }
+            print(order_data)
             
             order_serializer = OrderSerializer(data=order_data)
-            print(order_serializer)
-            if order_serializer.is_valid():
+            
+            if order_serializer:
+                print("is valid")
                 order_serializer.save()
                 return Response("Success", status=status.HTTP_201_CREATED)
             return Response(order_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
