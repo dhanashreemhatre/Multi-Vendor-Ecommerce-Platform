@@ -3,6 +3,14 @@ from django.utils import timezone
 from accounts.models import Account
 from store.models import Product
 
+class ShippingAddress(models.Model):
+    user = models.OneToOneField(Account, on_delete=models.CASCADE)
+    address = models.CharField(max_length=200)
+    city = models.CharField(max_length=100)
+    state = models.CharField(max_length=100)
+    country = models.CharField(max_length=100)
+    zip_code = models.CharField(max_length=20)
+
 class Order(models.Model):
     user = models.ForeignKey(Account, on_delete=models.CASCADE)
     total_amount = models.DecimalField(max_digits=10, decimal_places=2)
@@ -14,7 +22,7 @@ class Order(models.Model):
         ('DELIVERED', 'Delivered'),
         ('CANCELLED', 'Cancelled'),
     ], default='PENDING')
-    shipping_address = models.ForeignKey('ShippingAddress', on_delete=models.SET_NULL, null=True)
+    shipping_address = models.ForeignKey(ShippingAddress, on_delete=models.SET_NULL, null=True)
     coupon = models.ForeignKey('Coupon', on_delete=models.SET_NULL, null=True, blank=True)
 
 class OrderItem(models.Model):
@@ -50,12 +58,6 @@ class CouponUsage(models.Model):
 
    
 
-class ShippingAddress(models.Model):
-    user = models.ForeignKey(Account, on_delete=models.CASCADE)
-    address = models.CharField(max_length=200)
-    city = models.CharField(max_length=100)
-    state = models.CharField(max_length=100)
-    country = models.CharField(max_length=100)
-    zip_code = models.CharField(max_length=20)
+
 
 
