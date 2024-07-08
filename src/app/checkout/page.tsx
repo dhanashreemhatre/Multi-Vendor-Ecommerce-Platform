@@ -3,10 +3,12 @@ import React, { useState, useEffect } from 'react'
 import Cookies from 'js-cookie';
 import Footer from '../../../Components/Ui/Footer/page'
 import Navbar from '../../../Components/Ui/Navbar/page'
+import Loader from '../../../Components/Ui/Loader/page'
 import axios from 'axios'
 const CheckoutPage = () => {
   const [cartItems, setCartItems] = useState([])
   const [payment,setpayment]=useState(false)
+
   const [formData, setFormData] = useState({
     email: '',
     country:'',
@@ -82,8 +84,10 @@ const CheckoutPage = () => {
   const handlePayment = async () => {
     const amountInPaisa = totalAmount * 100; // Convert amount to paisa
     try {
+     
       
       const response = await axios.post("https://rajor-wnd4.vercel.app/createOrder", {...formData,amount: amountInPaisa/100});
+      
       const { data } = response;
 
       if (data.success) {
@@ -98,7 +102,7 @@ const CheckoutPage = () => {
           order_id: data.order_id,
           handler: function (response: any) {
             alert("Payment Succeeded");
-            setpayment(true)
+            setpayment(false);
           },
           prefill: {
             contact: data.contact,
@@ -116,9 +120,13 @@ const CheckoutPage = () => {
         razorpayObject.open();
       } else {
         alert(data.msg);
+        setpayment(false);
+       
       }
     } catch (error) {
       console.error("Error processing payment:", error);
+      setpayment(false);
+      
     }
   };
 
@@ -126,7 +134,6 @@ const CheckoutPage = () => {
     const script = document.createElement("script");
     script.src = "https://checkout.razorpay.com/v1/checkout.js";
     script.async = true;
-    setpayment(true);
     document.body.appendChild(script);
 
     return () => {
@@ -143,6 +150,7 @@ const CheckoutPage = () => {
     // }
   
     try {
+      setpayment(true)
       const orderData = {
         email: formData.email,
         total_amount: totalAmount,
@@ -175,6 +183,7 @@ const CheckoutPage = () => {
       const responseData = await response.json(); // Assuming your API returns JSON
   
       if (response.ok) {
+        
         console.log('Order placed successfully');
 
        handlePayment()
@@ -182,12 +191,19 @@ const CheckoutPage = () => {
         // Handle success, like redirecting to confirmation page or clearing cart
       } else {
         console.error('Failed to place order:', responseData);
+        setpayment(false);
+       
+
         // Handle failure, display error message or retry logic
       }
     } catch (error) {
       console.error('Error placing order:', error);
+      setpayment(false);
+    
+
       // Handle general errors, like network issues or unexpected responses
     }
+
   };
 
 
@@ -243,7 +259,7 @@ const CheckoutPage = () => {
                 <div className="flex w-full flex-col px-4 py-4">
                   <span className="font-semibold">{item.product.name}</span>
                   <span className="float-right text-gray-400">Quantity: {item.quantity}</span>
-                  <p className="text-lg font-bold">${item.product.price}</p>
+                  <p className="text-lg font-bold">Rs.{item.product.price}</p>
                 </div>
               </div>
             ))}
@@ -388,7 +404,7 @@ const CheckoutPage = () => {
         <p className="text-2xl font-semibold text-gray-900">{totalAmount.toFixed(2)}</p>
       </div>
     </div>
-    <button type='submit' className="mt-4 mb-8 w-full rounded-md bg-gray-900 px-6 py-3 font-medium text-white">Place Order</button>
+    <button type='submit' disabled={payment} className="mt-4 mb-8 w-full rounded-md bg-emerald-500 px-6 py-3 font-medium text-white">{payment ? 'Processing payment':'Place Order'}</button>
     </form>
   </div>
 </div>
