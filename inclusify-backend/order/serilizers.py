@@ -21,9 +21,10 @@ class OrderItemSerializer(serializers.ModelSerializer):
         model = OrderItem
         fields = ['id', 'product', 'quantity', 'price']
 
+
 class OrderSerializer(serializers.ModelSerializer):
     items = OrderItemSerializer(many=True)
-    shipping_address = ShippingAddressSerializer()
+    shipping_address = serializers.PrimaryKeyRelatedField(queryset=ShippingAddress.objects.all())
     coupon = CouponSerializer(required=False, allow_null=True)
 
     class Meta:
@@ -32,16 +33,8 @@ class OrderSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         items_data = validated_data.pop('items')
-        shipping_address_data = validated_data.pop('shipping_address')
-        coupon_data = validated_data.pop('coupon', None)
-        
-        # Create the order
         order = Order.objects.create(**validated_data)
         
-        # Create shipping address
-        ShippingAddress.objects.create(order=order, **shipping_address_data)
-        
-        # Create order items
         for item_data in items_data:
             OrderItem.objects.create(order=order, **item_data)
         
