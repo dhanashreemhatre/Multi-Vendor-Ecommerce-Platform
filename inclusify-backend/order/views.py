@@ -1,7 +1,7 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-from .models import Order, OrderItem, Coupon, Payment, Account, Product
+from .models import Order, OrderItem, Coupon, Payment, Account, Product,CouponUsage
 from .serilizers import OrderSerializer, PaymentSerializer,ShippingAddressSerializer
 from store.models import Cart,CartItem
 
@@ -50,6 +50,33 @@ class CreateOrderView(APIView):
 
 
 class ApplyCouponView(APIView):
+    def post(self, request):
+        user_id = request.data.get('userId')
+        user=Account.objects.get(email=user_id)
+        try:
+            coupon_code = request.data.get('coupon_code')
+            total_amount=request.data.get('total_amount')
+            
+            try:
+                coupon = Coupon.objects.get(code=coupon_code, is_active=True)
+            except Coupon.DoesNotExist:
+                return Response({"error": "Invalid or inactive coupon"}, status=status.HTTP_400_BAD_REQUEST)
+
+            # Check if the coupon has already been used by the user
+            if CouponUsage.objects.filter(user=user, coupon=coupon).exists():
+                return Response({"error": "Coupon has already been used by this user"}, status=status.HTTP_400_BAD_REQUEST)
+
+            # Apply discount
+            discount_amount = total_amount * (coupon.discount / 100)
+            total_amount -= discount_amount
+
+            # Record the coupon usage
+            CouponUsage.objects.create(user=user, coupon=coupon)
+
+            return Response({"message": "Coupon applied successfully", "new_total": total_amount})
+
+        except Exception as e:
+            return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
     def post(self, request, order_id):
         try:
             order = Order.objects.get(id=order_id)

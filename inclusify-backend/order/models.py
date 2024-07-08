@@ -43,6 +43,13 @@ class Coupon(models.Model):
     valid_to = models.DateTimeField()
     is_active = models.BooleanField(default=True)
 
+class CouponUsage(models.Model):
+    user = models.ForeignKey(Account, on_delete=models.CASCADE)
+    coupon = models.ForeignKey(Coupon, on_delete=models.CASCADE)
+    used_on = models.DateTimeField(auto_now_add=True)
+
+   
+
 class ShippingAddress(models.Model):
     user = models.ForeignKey(Account, on_delete=models.CASCADE)
     address = models.CharField(max_length=200)
@@ -50,4 +57,5 @@ class ShippingAddress(models.Model):
     state = models.CharField(max_length=100)
     country = models.CharField(max_length=100)
     zip_code = models.CharField(max_length=20)
+
 
