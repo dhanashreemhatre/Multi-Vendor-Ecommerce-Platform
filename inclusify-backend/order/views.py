@@ -22,13 +22,14 @@ class CreateOrderView(APIView):
             
             order_serializer = OrderSerializer(data=order_data)
             
-            if order_serializer:
+            if order_serializer.is_valid():
                 print("is valid")
                 order_serializer.save()
                 return Response("Success", status=status.HTTP_201_CREATED)
             return Response(order_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
                         
         
+
         except Account.DoesNotExist:
             return Response({'error': 'User not found'}, status=status.HTTP_404_NOT_FOUND)
         except Product.DoesNotExist:
