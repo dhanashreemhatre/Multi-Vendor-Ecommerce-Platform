@@ -1,5 +1,5 @@
 import shop from './shopping.jpg';
-
+import Image from 'next/image';
 export default function Example() {
   return (
     <div className="bg-white">
@@ -40,7 +40,7 @@ export default function Example() {
             </div>
           </div>
           <div className="relative mt-16 h-80 lg:mt-8">
-            <img
+            <Image
               alt="Shopping"
               src={shop.src}
               width={1824}

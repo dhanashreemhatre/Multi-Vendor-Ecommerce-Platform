@@ -3,19 +3,16 @@ import React, { useState, useEffect } from 'react'
 import Cookies from 'js-cookie';
 import Footer from '../../../Components/Ui/Footer/page'
 import Navbar from '../../../Components/Ui/Navbar/page'
-
+import axios from 'axios'
 const CheckoutPage = () => {
   const [cartItems, setCartItems] = useState([])
   const [formData, setFormData] = useState({
     email: '',
-    cardHolder: '',
-    cardNumber: '',
-    cardExpiry: '',
-    cardCVC: '',
+    country:'',
     address: '',
     city: '',
     state: '',
-    zipCode: ''
+    zip_code: ''
   })
   const [totalAmount, setTotalAmount] = useState(0)
 
@@ -81,49 +78,119 @@ const CheckoutPage = () => {
     await handlePlaceOrder()
   }
 
+  const handlePayment = async () => {
+    const amountInPaisa = totalAmount * 100; // Convert amount to paisa
+    try {
+      
+      const response = await axios.post("https://rajor-wnd4.vercel.app/createOrder", {...formData,amount: amountInPaisa/100});
+      const { data } = response;
+
+      if (data.success) {
+        
+        const options = {
+          key: data.key_id,
+          amount: data.amount,
+          currency: "INR",
+          image:"",
+          name: data.product_name,
+          description: data.description,
+          order_id: data.order_id,
+          handler: function (response: any) {
+            alert("Payment Succeeded");
+          },
+          prefill: {
+            contact: data.contact,
+            name: data.name,
+            email: data.email,
+          },
+          notes: {
+            description: data.description,
+          },
+          theme: {
+            color: "#2300a3",
+          },
+        };
+        const razorpayObject = new (window as any).Razorpay(options);
+        razorpayObject.open();
+      } else {
+        alert(data.msg);
+      }
+    } catch (error) {
+      console.error("Error processing payment:", error);
+    }
+  };
+
+  useEffect(() => {
+    const script = document.createElement("script");
+    script.src = "https://checkout.razorpay.com/v1/checkout.js";
+    script.async = true;
+    document.body.appendChild(script);
+
+    return () => {
+      document.body.removeChild(script);
+    };
+  }, []);
+
  
   const handlePlaceOrder = async () => {
+    const userId = 3
+    // if (!userId) {
+    //   console.error('User ID not found in cookies');
+    //   return;
+    // }
+  
     try {
       const orderData = {
         email: formData.email,
         total_amount: totalAmount,
         items: cartItems.map(item => ({
-          product_id: item.product?.pid,
-          quantity: item.quantity,
-          price: item.product?.price
+          product: item.product?.id, // Ensure product_id is correctly formatted
+        quantity: item.quantity,
+        price: item.product?.price
         })),
         shipping_address: {
+          user: userId,
           address: formData.address,
           city: formData.city,
+          country: formData.country,
           state: formData.state,
-          zip_code: formData.zipCode
+          zip_code: formData.zip_code
         }
-      }
-      console.log(orderData)
-      const userId = Cookies.get('user');
+      };
+  
+      console.log('Order Data:', orderData); // Log orderData for debugging
+  
       const response = await fetch('http://127.0.0.1:8000/order/create-order/', {
         method: 'POST',
-        
         headers: {
           'Content-Type': 'application/json',
-           'Authorization': `${userId}`,
+          'Authorization': `${userId}`,
         },
         body: JSON.stringify(orderData)
-      })
-
+      });
+  
+      const responseData = await response.json(); // Assuming your API returns JSON
+  
       if (response.ok) {
-        // Handle successful order creation
-        console.log('Order placed successfully')
-        // Redirect to confirmation page or clear cart
+        console.log('Order placed successfully');
+
+       handlePayment()
+       
+        // Handle success, like redirecting to confirmation page or clearing cart
       } else {
-        // Handle errors
-        console.error('Failed to place order')
+        console.error('Failed to place order:', responseData);
+        // Handle failure, display error message or retry logic
       }
     } catch (error) {
-      console.error('Error placing order:', error)
+      console.error('Error placing order:', error);
+      // Handle general errors, like network issues or unexpected responses
     }
-  }
+  };
 
+
+
+  
+  
 
   return (
     <>
@@ -217,22 +284,22 @@ const CheckoutPage = () => {
           </svg>
         </div>
       </div>
-      <label htmlFor="card-holder" className="mt-4 mb-2 block text-sm font-medium">Card Holder</label>
+      <label htmlFor="card-holder" className="mt-4 mb-2 block text-sm font-medium">Country</label>
       <div className="relative">
-        <input type="text" id="card-holder" name="cardHolder" className="w-full rounded-md border border-gray-200 px-4 py-3 pl-11 text-sm uppercase shadow-sm outline-none focus:z-10 focus:border-blue-500 focus:ring-blue-500" placeholder="Your full name here"
-         value={formData.cardHolder}
+        <input type="text" id="country" name="country" className="w-full rounded-md border border-gray-200 px-4 py-3 pl-11 text-sm uppercase shadow-sm outline-none focus:z-10 focus:border-blue-500 focus:ring-blue-500" placeholder="Country"
+         value={formData.country}
          onChange={handleInputChange} />
-        <div className="pointer-events-none absolute inset-y-0 left-0 inline-flex items-center px-3">
+        {/* <div className="pointer-events-none absolute inset-y-0 left-0 inline-flex items-center px-3">
           <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
             <path stroke-linecap="round" stroke-linejoin="round" d="M15 9h3.75M15 12h3.75M15 15h3.75M4.5 19.5h15a2.25 2.25 0 002.25-2.25V6.75A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25v10.5A2.25 2.25 0 004.5 19.5zm6-10.125a1.875 1.875 0 11-3.75 0 1.875 1.875 0 013.75 0zm1.294 6.336a6.721 6.721 0 01-3.17.789 6.721 6.721 0 01-3.168-.789 3.376 3.376 0 016.338 0z" />
           </svg>
-        </div>
+        </div> */}
       </div>
-      <label htmlFor="card-no" className="mt-4 mb-2 block text-sm font-medium">Card Details</label>
-      <div className="flex">
+      <label htmlFor="card-no" className="mt-4 mb-2 block text-sm font-medium">City</label>
+      {/* <div className="flex"> */}
         <div className="relative w-7/12 flex-shrink-0">
-          <input type="text" id="card-no" name="cardNumber" className="w-full rounded-md border border-gray-200 px-2 py-3 pl-11 text-sm shadow-sm outline-none focus:z-10 focus:border-blue-500 focus:ring-blue-500" placeholder="xxxx-xxxx-xxxx-xxxx"
-          value={formData.cardNumber}
+          <input type="text" id="city" name="city" className="w-full rounded-md border border-gray-200 px-2 py-3 pl-11 text-sm shadow-sm outline-none focus:z-10 focus:border-blue-500 focus:ring-blue-500" placeholder="City"
+          value={formData.city}
           onChange={handleInputChange} />
           <div className="pointer-events-none absolute inset-y-0 left-0 inline-flex items-center px-3">
             <svg className="h-4 w-4 text-gray-400" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
@@ -241,13 +308,13 @@ const CheckoutPage = () => {
             </svg>
           </div>
         </div>
-        <input type="text" name="cardExpiry" className="w-full rounded-md border border-gray-200 px-2 py-3 text-sm shadow-sm outline-none focus:z-10 focus:border-blue-500 focus:ring-blue-500" placeholder="MM/YY" 
+        {/* <input type="text" name="cardExpiry" className="w-full rounded-md border border-gray-200 px-2 py-3 text-sm shadow-sm outline-none focus:z-10 focus:border-blue-500 focus:ring-blue-500" placeholder="MM/YY" 
          value={formData.cardExpiry}
          onChange={handleInputChange}/>
         <input type="text" name="cardCVC" className="w-1/6 flex-shrink-0 rounded-md border border-gray-200 px-2 py-3 text-sm shadow-sm outline-none focus:z-10 focus:border-blue-500 focus:ring-blue-500" placeholder="CVC" 
          value={formData.cardCVC}
          onChange={handleInputChange}/>
-      </div>
+      </div> */}
       <label htmlFor="billing-address" className="mt-4 mb-2 block text-sm font-medium">Billing Address</label>
       <div className="flex flex-col sm:flex-row">
         <div className="relative flex-shrink-0 sm:w-7/12">
@@ -293,8 +360,8 @@ const CheckoutPage = () => {
           <option value="West Bengal">West Bengal</option>
         </select>
 
-        <input type="text" name="zipCode" className="flex-shrink-0 rounded-md border border-gray-200 px-4 py-3 text-sm shadow-sm outline-none sm:w-1/6 focus:z-10 focus:border-blue-500 focus:ring-blue-500" placeholder="ZIP" 
-        value={formData.zipCode}
+        <input type="text" id='zip_code' name="zip_code" className="flex-shrink-0 rounded-md border border-gray-200 px-4 py-3 text-sm shadow-sm outline-none sm:w-1/6 focus:z-10 focus:border-blue-500 focus:ring-blue-500" placeholder="ZIP" 
+        value={formData.zip_code}
         onChange={handleInputChange}/>
       </div>
 
