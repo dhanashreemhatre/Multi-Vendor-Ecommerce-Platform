@@ -34,10 +34,10 @@ class CreateOrderView(APIView):
             return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 class ApplyCouponView(APIView):
-    def post(self, request, order_id):
+    def post(self, request):
         try:
-            order = Order.objects.get(id=order_id)
             coupon_code = request.data.get('coupon_code')
+            total_amount= request.data.get('total_amount')
             
             try:
                 coupon = Coupon.objects.get(code=coupon_code, is_active=True)
@@ -45,15 +45,12 @@ class ApplyCouponView(APIView):
                 return Response({"error": "Invalid or inactive coupon"}, status=status.HTTP_400_BAD_REQUEST)
 
             # Apply discount
-            discount_amount = order.total_amount * (coupon.discount / 100)
-            order.total_amount -= discount_amount
-            order.coupon = coupon
-            order.save()
+            discount_amount = total_amount * (coupon.discount / 100)
+            total_amount -= discount_amount
+            
 
-            return Response({"message": "Coupon applied successfully", "new_total": order.total_amount})
+            return Response({"message": "Coupon applied successfully", "new_total": total_amount})
         
-        except Order.DoesNotExist:
-            return Response({'error': 'Order not found'}, status=status.HTTP_404_NOT_FOUND)
         except Exception as e:
             return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
