@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import Cookies from 'js-cookie';
 import styles from './cart.module.css';
 import Image from 'next/image';
+import Link from 'next/link';
 import { AnyJson } from 'three/examples/jsm/nodes/Nodes.js';
 import bin from './Images/trash.png'
 import Navbar from './../../../Components/Ui/Navbar/page'
@@ -181,7 +182,7 @@ const CartPage = () => {
         <div className={`${styles.cart_box} m-4 p-4`}>
           <h2>Total Shipping Charges: <span>₹{totalShippingCharges}</span></h2>
           <h2>Cart Total: <span>₹{cartTotal}</span></h2>
-          <button className={styles.checkout_btn}>Checkout</button>
+          <button className={styles.checkout_btn}><Link href="/checkout">Checkout</Link></button>
         </div>
       </div>
       <Footer/>

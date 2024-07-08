@@ -55,6 +55,7 @@ const Page = () => {
       });
       if (response.ok) {
         const data = await response.json();
+        console.log(data)
         const username = data.username;
         const token = data.token;
 
