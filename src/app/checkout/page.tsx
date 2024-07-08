@@ -387,7 +387,6 @@ const CheckoutPage = () => {
         value={formData.zip_code}
         onChange={handleInputChange}/>
       </div>
-
   
       <div className="mt-6 border-t border-b py-2">
         <div className="flex items-center justify-between">
@@ -396,14 +395,23 @@ const CheckoutPage = () => {
         </div>
         <div className="flex items-center justify-between">
           <p className="text-sm font-medium text-gray-900">Shipping</p>
-          <p className="font-semibold text-gray-900">$8.00</p>
+          <p className="font-semibold text-gray-900">Rs. 8.00</p>
         </div>
       </div>
+      <form >
+    <label htmlFor="coupon" className="mt-4 mb-2 block text-sm font-medium text-gray-400">Enter 'INCLUSIFY100' to avail 30% off on Your First Order </label>
+      <div className="flex gap-3">
+      
+        <input type="text" id="coupon" name="coupon" className="w-50 h-12 mt-4 rounded-md border border-gray-200 px-4 py-3 pl-11 text-sm uppercase shadow-sm outline-none focus:z-10 focus:border-blue-500 focus:ring-blue-500" placeholder="CouPon Code"/>
+        <button type='submit' disabled={payment} className="mt-4 mb-8 w-40 rounded-md bg-emerald-500 px-6 py-3 font-medium text-white">Apply</button>
+        </div>
+      </form>
       <div className="mt-6 flex items-center justify-between">
         <p className="text-sm font-medium text-gray-900">Total</p>
         <p className="text-2xl font-semibold text-gray-900">{totalAmount.toFixed(2)}</p>
       </div>
     </div>
+    
     <button type='submit' disabled={payment} className="mt-4 mb-8 w-full rounded-md bg-emerald-500 px-6 py-3 font-medium text-white">{payment ? 'Processing payment':'Place Order'}</button>
     </form>
   </div>
