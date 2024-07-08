@@ -2,7 +2,8 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from .models import Order, OrderItem, Coupon, Payment, Account, Product
-from .serilizers import OrderSerializer, PaymentSerializer
+from .serilizers import OrderSerializer, PaymentSerializer,ShippingAddressSerializer
+from store.models import Cart,CartItem
 
 class CreateOrderView(APIView):
     def post(self, request):
@@ -10,21 +11,35 @@ class CreateOrderView(APIView):
             user_email = request.data.get('email')
             user = Account.objects.get(email=user_email)
             
+            # Extract shipping address data
+            shipping_address_data = request.data.get('shipping_address', {})
+            shipping_address_data['user'] = user.id  # Set the user for the shipping address
+            
+        
+
+            # Prepare order data
             order_data = {
                 'user': user.id,
                 'total_amount': request.data.get('total_amount'),
                 'status': 'PENDING',
                 'items': request.data.get('items', []),
-                'shipping_address': request.data.get('shipping_address', {}),
+                'shipping_address': shipping_address_data,  # Use the created shipping address instance
+                'coupon': request.data.get('coupon', None)
             }
             
             order_serializer = OrderSerializer(data=order_data)
-            print(order_serializer)
             if order_serializer.is_valid():
                 order_serializer.save()
+                cart=Cart.objects.get(user=user)
+                for item in order_data['items']:
+                    product_id = item['product']
+                    products_in_cart = CartItem.objects.filter(product=product_id,cart=cart)
+                    products_in_cart.delete()
+
+
                 return Response("Success", status=status.HTTP_201_CREATED)
+            
             return Response(order_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-                        
         
         except Account.DoesNotExist:
             return Response({'error': 'User not found'}, status=status.HTTP_404_NOT_FOUND)
@@ -33,11 +48,12 @@ class CreateOrderView(APIView):
         except Exception as e:
             return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
+
 class ApplyCouponView(APIView):
-    def post(self, request):
+    def post(self, request, order_id):
         try:
+            order = Order.objects.get(id=order_id)
             coupon_code = request.data.get('coupon_code')
-            total_amount= request.data.get('total_amount')
             
             try:
                 coupon = Coupon.objects.get(code=coupon_code, is_active=True)
@@ -45,12 +61,15 @@ class ApplyCouponView(APIView):
                 return Response({"error": "Invalid or inactive coupon"}, status=status.HTTP_400_BAD_REQUEST)
 
             # Apply discount
-            discount_amount = total_amount * (coupon.discount / 100)
-            total_amount -= discount_amount
-            
+            discount_amount = order.total_amount * (coupon.discount / 100)
+            order.total_amount -= discount_amount
+            order.coupon = coupon
+            order.save()
 
-            return Response({"message": "Coupon applied successfully", "new_total": total_amount})
+            return Response({"message": "Coupon applied successfully", "new_total": order.total_amount})
         
+        except Order.DoesNotExist:
+            return Response({'error': 'Order not found'}, status=status.HTTP_404_NOT_FOUND)
         except Exception as e:
             return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
