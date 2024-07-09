@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Order, OrderItem, Payment, Coupon, ShippingAddress
+from .models import Order, OrderItem, Payment, Coupon, ShippingAddress,CouponUsage
 
 class OrderItemInline(admin.TabularInline):
     model = OrderItem
@@ -11,6 +11,7 @@ class OrderAdmin(admin.ModelAdmin):
     list_filter = ['status', 'created_at']
     search_fields = ['user__username', 'user__email']
     inlines = [OrderItemInline]
+
 
 @admin.register(Payment)
 class PaymentAdmin(admin.ModelAdmin):
@@ -28,5 +29,9 @@ class CouponAdmin(admin.ModelAdmin):
 class ShippingAddressAdmin(admin.ModelAdmin):
     list_display = ['user', 'address', 'city', 'state', 'country', 'zip_code']
     search_fields = ['user__username', 'user__email', 'address', 'city', 'state', 'country']
+
+@admin.register(CouponUsage)
+class CouponUsageAdmin(admin.ModelAdmin):
+    list_display = ['user', 'coupon']
 
 # OrderItem is not registered directly as it's included as an inline in OrderAdmin

@@ -1,28 +1,37 @@
 "use client"
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react';
 import Cookies from 'js-cookie';
-import Footer from '../../../Components/Ui/Footer/page'
-import Navbar from '../../../Components/Ui/Navbar/page'
-import Loader from '../../../Components/Ui/Loader/page'
-import axios from 'axios'
-const CheckoutPage = () => {
-  const [cartItems, setCartItems] = useState([])
-  const [payment,setpayment]=useState(false)
+import Footer from '../../../Components/Ui/Footer/page';
+import Navbar from '../../../Components/Ui/Navbar/page';
+import Loader from '../../../Components/Ui/Loader/page';
+import axios from 'axios';
 
+const CheckoutPage = () => {
+  const [cartItems, setCartItems] = useState([]);
+  const [payment, setpayment] = useState(false);
   const [formData, setFormData] = useState({
     email: '',
-    country:'',
+    country: '',
     address: '',
     city: '',
     state: '',
     zip_code: ''
-  })
-  const [totalAmount, setTotalAmount] = useState(0)
+  });
+  const [apply, setApply] = useState({
+    coupon: ''
+  });
+  const [totalAmount, setTotalAmount] = useState(0);
+  const [newTotal, setNewTotal] = useState(0);
 
   useEffect(() => {
     // Fetch cart items from your API
-    fetchCartItems()
-  }, [])
+    fetchCartItems();
+  }, []);
+
+  useEffect(() => {
+    // Calculate total amount whenever cart items change
+    calculateTotal();
+  }, [cartItems]);
 
   const fetchCartItems = async () => {
     try {
@@ -37,11 +46,9 @@ const CheckoutPage = () => {
           'Authorization': `${userId}`,
         },
       });
-      
+
       if (response.ok) {
         const data = await response.json();
-        console.log(data)
-        
         setCartItems(data);
       } else {
         console.error('Failed to fetch cart data');
@@ -50,89 +57,107 @@ const CheckoutPage = () => {
       console.error('Error fetching cart data:', error);
     }
   };
-  useEffect(() => {
-    // Fetch cart items from your API
-    calculateTotal()
-  }, [cartItems])
 
   const calculateTotal = () => {
     if (!Array.isArray(cartItems)) {
-      console.error('Cart items is not an array:', cartItems)
-      setTotalAmount(0)
-      return
+      console.error('Cart items is not an array:', cartItems);
+      setTotalAmount(0);
+      return;
     }
     const total = cartItems.reduce((sum, item) => {
-      const price = item.product?.price || 0
-      const quantity = item.quantity || 0
-      return sum + (price * quantity)
-    }, 0)
-    setTotalAmount(total)
-  }
+      const price = item.product?.price || 0;
+      const quantity = item.quantity || 0;
+      return sum + price * quantity;
+    }, 0);
+    setTotalAmount(total);
+    setNewTotal(total); // Initialize newTotal with total amount
+  };
+
   const handleInputChange = (e) => {
-    const { name, value } = e.target
-    setFormData(prevState => ({
+    const { name, value } = e.target;
+    setFormData((prevState) => ({
       ...prevState,
-      [name]: value
-    }))
-  }
+      [name]: value,
+    }));
+  };
+
+  const handleCouponApply = async (e) => {
+    e.preventDefault();
+    try {
+      const userId = Cookies.get('user');
+      const response = await axios.post('http://127.0.0.1:8000/order/apply-coupon/', {
+        userId: userId,
+        coupon_code: apply.coupon,
+        total_amount: totalAmount,
+      });
+      const { new_total } = response.data;
+      setNewTotal(new_total);
+      setApply((prevState) => ({
+        ...prevState,
+        coupon: '', // Clear coupon field after applying
+      }));
+    } catch (error) {
+       
+      console.error('Error applying coupon:', error.response);
+      // Handle error (e.g., display error message to the user)
+    }
+  };
 
   const handleSubmit = async (e) => {
-    e.preventDefault()
-    await handlePlaceOrder()
-  }
+    e.preventDefault();
+    await handlePlaceOrder();
+  };
 
   const handlePayment = async () => {
-    const amountInPaisa = totalAmount * 100; // Convert amount to paisa
+    const amountInPaisa = newTotal * 100; 
     try {
-     
-      
-      const response = await axios.post("https://rajor-wnd4.vercel.app/createOrder", {...formData,amount: amountInPaisa/100});
-      
+      const response = await axios.post(
+        'https://rajor-wnd4.vercel.app/createOrder',
+        { ...formData, amount: amountInPaisa / 100 }
+      );
+
       const { data } = response;
 
       if (data.success) {
-        
         const options = {
           key: data.key_id,
           amount: data.amount,
-          currency: "INR",
-          image:"",
+          currency: 'INR',
+          image: '',
           name: data.product_name,
           description: data.description,
           order_id: data.order_id,
-          handler: function (response: any) {
-            alert("Payment Succeeded");
+          handler: function (response) {
+            alert('Payment Succeeded');
             setpayment(false);
           },
           prefill: {
             contact: data.contact,
             name: data.name,
-            email: data.email,
+            email: data.email
           },
           notes: {
-            description: data.description,
+            description: data.description
           },
           theme: {
-            color: "#2300a3",
-          },
+            color: '#2300a3'
+          }
         };
-        const razorpayObject = new (window as any).Razorpay(options);
+        const razorpayObject = new window.Razorpay(options);
         razorpayObject.open();
       } else {
         alert(data.msg);
-        setpayment(false);
-       
+        setPayment(false);
       }
     } catch (error) {
-      console.error("Error processing payment:", error);
-      setpayment(false);
-      
+      console.error('Error processing payment:', error);
+      setPayment(false);
     }
   };
 
   useEffect(() => {
-    const script = document.createElement("script");
-    script.src = "https://checkout.razorpay.com/v1/checkout.js";
+    const script = document.createElement('script');
+    script.src = 'https://checkout.razorpay.com/v1/checkout.js';
     script.async = true;
     document.body.appendChild(script);
 
@@ -221,23 +246,23 @@ const CheckoutPage = () => {
       <ul className="relative flex w-full items-center justify-between space-x-2 sm:space-x-4">
         <li className="flex items-center space-x-3 text-left sm:space-x-4">
           <a className="flex h-6 w-6 items-center justify-center rounded-full bg-emerald-200 text-xs font-semibold text-emerald-700" href="#"
-            ><svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg
+            ><svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg
           ></a>
           <span className="font-semibold text-gray-900">Shop</span>
         </li>
-        <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+        <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+          <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
         </svg>
         <li className="flex items-center space-x-3 text-left sm:space-x-4">
         <a className="flex h-6 w-6 items-center justify-center rounded-full bg-emerald-200 text-xs font-semibold text-emerald-700" href="#"
-            ><svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg
+            ><svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg
           ></a>
           <span className="font-semibold text-gray-900">Shipping</span>
         </li>
-        <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+        <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+          <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
         </svg>
         <li className="flex items-center space-x-3 text-left sm:space-x-4">
           
@@ -268,7 +293,7 @@ const CheckoutPage = () => {
     <p className="mt-8 text-lg font-medium">Shipping Methods</p>
     <form className="mt-5 grid gap-6">
       <div className="relative">
-        <input className="peer hidden" id="radio_1" type="radio" name="radio" checked />
+        <input className="peer hidden" id="radio_1" type="radio" name="radio" defaultChecked />
         <span className="peer-checked:border-gray-700 absolute right-4 top-1/2 box-content block h-3 w-3 -translate-y-1/2 rounded-full border-8 border-gray-300 bg-white"></span>
         <label className="peer-checked:border-2 peer-checked:border-gray-700 peer-checked:bg-gray-50 flex cursor-pointer select-none rounded-lg border border-gray-300 p-4" htmlFor="radio_1" >
           <img className="w-14 object-contain" src="/images/naorrAeygcJzX0SyNI4Y0.png" alt="" />
@@ -279,7 +304,7 @@ const CheckoutPage = () => {
         </label>
       </div>
       <div className="relative">
-        <input className="peer hidden" id="radio_2" type="radio" name="radio" checked />
+        <input className="peer hidden" id="radio_2" type="radio" name="radio" defaultChecked />
         <span className="peer-checked:border-gray-700 absolute right-4 top-1/2 box-content block h-3 w-3 -translate-y-1/2 rounded-full border-8 border-gray-300 bg-white"></span>
         <label className="peer-checked:border-2 peer-checked:border-gray-700 peer-checked:bg-gray-50 flex cursor-pointer select-none rounded-lg border border-gray-300 p-4" htmlFor="radio_2">
           <img className="w-14 object-contain" src="/images/oG8xsl3xsOkwkMsrLGKM4.png" alt="" />
@@ -302,8 +327,8 @@ const CheckoutPage = () => {
          value={formData.email}
       onChange={handleInputChange} />
         <div className="pointer-events-none absolute inset-y-0 left-0 inline-flex items-center px-3">
-          <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M16 12a4 4 0 10-8 0 4 4 0 008 0zm0 0v1.5a2.5 2.5 0 005 0V12a9 9 0 10-9 9m4.5-1.206a8.959 8.959 0 01-4.5 1.207" />
+          <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M16 12a4 4 0 10-8 0 4 4 0 008 0zm0 0v1.5a2.5 2.5 0 005 0V12a9 9 0 10-9 9m4.5-1.206a8.959 8.959 0 01-4.5 1.207" />
           </svg>
         </div>
       </div>
@@ -312,11 +337,7 @@ const CheckoutPage = () => {
         <input type="text" id="country" name="country" className="w-full rounded-md border border-gray-200 px-4 py-3 pl-11 text-sm uppercase shadow-sm outline-none focus:z-10 focus:border-blue-500 focus:ring-blue-500" placeholder="Country"
          value={formData.country}
          onChange={handleInputChange} />
-        {/* <div className="pointer-events-none absolute inset-y-0 left-0 inline-flex items-center px-3">
-          <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M15 9h3.75M15 12h3.75M15 15h3.75M4.5 19.5h15a2.25 2.25 0 002.25-2.25V6.75A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25v10.5A2.25 2.25 0 004.5 19.5zm6-10.125a1.875 1.875 0 11-3.75 0 1.875 1.875 0 013.75 0zm1.294 6.336a6.721 6.721 0 01-3.17.789 6.721 6.721 0 01-3.168-.789 3.376 3.376 0 016.338 0z" />
-          </svg>
-        </div> */}
+
       </div>
       <label htmlFor="card-no" className="mt-4 mb-2 block text-sm font-medium">City</label>
       {/* <div className="flex"> */}
@@ -331,13 +352,7 @@ const CheckoutPage = () => {
             </svg>
           </div>
         </div>
-        {/* <input type="text" name="cardExpiry" className="w-full rounded-md border border-gray-200 px-2 py-3 text-sm shadow-sm outline-none focus:z-10 focus:border-blue-500 focus:ring-blue-500" placeholder="MM/YY" 
-         value={formData.cardExpiry}
-         onChange={handleInputChange}/>
-        <input type="text" name="cardCVC" className="w-1/6 flex-shrink-0 rounded-md border border-gray-200 px-2 py-3 text-sm shadow-sm outline-none focus:z-10 focus:border-blue-500 focus:ring-blue-500" placeholder="CVC" 
-         value={formData.cardCVC}
-         onChange={handleInputChange}/>
-      </div> */}
+       
       <label htmlFor="billing-address" className="mt-4 mb-2 block text-sm font-medium">Billing Address</label>
       <div className="flex flex-col sm:flex-row">
         <div className="relative flex-shrink-0 sm:w-7/12">
@@ -398,17 +413,33 @@ const CheckoutPage = () => {
           <p className="font-semibold text-gray-900">Rs. 8.00</p>
         </div>
       </div>
-      <form >
-    <label htmlFor="coupon" className="mt-4 mb-2 block text-sm font-medium text-gray-400">Enter 'INCLUSIFY100' to avail 30% off on Your First Order </label>
-      <div className="flex gap-3">
       
-        <input type="text" id="coupon" name="coupon" className="w-50 h-12 mt-4 rounded-md border border-gray-200 px-4 py-3 pl-11 text-sm uppercase shadow-sm outline-none focus:z-10 focus:border-blue-500 focus:ring-blue-500" placeholder="CouPon Code"/>
-        <button type='submit' disabled={payment} className="mt-4 mb-8 w-40 rounded-md bg-emerald-500 px-6 py-3 font-medium text-white">Apply</button>
-        </div>
-      </form>
+  <label htmlFor="coupon" className="mt-4 mb-2 block text-sm font-medium text-gray-400">
+    Enter 'INCLUSIFY100' to avail 30% off on Your First Order
+  </label>
+  <div className="flex gap-3">
+    <input
+      type="text"
+      id="coupon"
+      name="coupon"
+      className="w-50 h-12 mt-4 rounded-md border border-gray-200 px-4 py-3 pl-11 text-sm uppercase shadow-sm outline-none focus:z-10 focus:border-blue-500 focus:ring-blue-500"
+      placeholder="Coupon Code"
+      value={apply.coupon}
+      onChange={(e) => setApply({ ...apply, coupon: e.target.value })}
+    />
+    <button
+      type="submit"
+      onClick={handleCouponApply}
+      disabled={payment} // Disable button during payment processing
+      className="mt-4 mb-8 w-40 h-12 rounded-md bg-emerald-500  font-medium text-white"
+      
+    >
+      Apply Coupon
+    </button>
+  </div>
       <div className="mt-6 flex items-center justify-between">
         <p className="text-sm font-medium text-gray-900">Total</p>
-        <p className="text-2xl font-semibold text-gray-900">{totalAmount.toFixed(2)}</p>
+        <p className="text-2xl font-semibold text-gray-900">Rs. {newTotal.toFixed(2)}</p>
       </div>
     </div>
     
