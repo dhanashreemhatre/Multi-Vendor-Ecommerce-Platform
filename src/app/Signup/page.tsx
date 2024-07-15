@@ -57,7 +57,7 @@ const Page = () => {
     }
     setLoading(true); // Start loading
     try {
-      const response = await fetch("http://127.0.0.1:8000/accounts/sign-up/", {
+      const response = await fetch("https://django-ecom-three.vercel.app/accounts/sign-up/", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

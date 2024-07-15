@@ -18,7 +18,7 @@ const CartPage = () => {
   const updateQuantity = async (itemId, newQuantity) => {
     try {
       const userId = Cookies.get('user');
-      const response = await fetch(`http://127.0.0.1:8000/add-to-cart/${itemId}/`, {
+      const response = await fetch(`https://django-ecom-three.vercel.app/add-to-cart/${itemId}/`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

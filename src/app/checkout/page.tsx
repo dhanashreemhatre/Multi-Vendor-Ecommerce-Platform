@@ -39,7 +39,7 @@ const CheckoutPage = () => {
       if (!userId) {
         throw new Error('User ID not found in cookies');
       }
-      const response = await fetch(`http://127.0.0.1:8000/cart/`, {
+      const response = await fetch(`https://django-ecom-three.vercel.app/cart/`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -85,7 +85,7 @@ const CheckoutPage = () => {
     e.preventDefault();
     try {
       const userId = Cookies.get('user');
-      const response = await axios.post('http://127.0.0.1:8000/order/apply-coupon/', {
+      const response = await axios.post('https://django-ecom-three.vercel.app/order/apply-coupon/', {
         userId: userId,
         coupon_code: apply.coupon,
         total_amount: totalAmount,
@@ -196,7 +196,7 @@ const CheckoutPage = () => {
   
       console.log('Order Data:', orderData); // Log orderData for debugging
   
-      const response = await fetch('http://127.0.0.1:8000/order/create-order/', {
+      const response = await fetch('https://django-ecom-three.vercel.app/order/create-order/', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

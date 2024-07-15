@@ -22,7 +22,7 @@ const Page: React.FC<PageProps> = ({ className }) => {
         const storedName = localStorage.getItem('userName');
         if (storedEmail) {
         if (storedName) {
-          const response = await fetch(`http://127.0.0.1:8000/cart_count/${storedName}/`);
+          const response = await fetch(`https://django-ecom-three.vercel.app/cart_count/${storedName}/`);
           if (response.ok) {
             const data = await response.json();
             setCartItemCount(data.cart_items_count);

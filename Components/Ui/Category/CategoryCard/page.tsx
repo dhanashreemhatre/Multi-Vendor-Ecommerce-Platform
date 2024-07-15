@@ -7,7 +7,7 @@ function CategoryCard({ category }) {
   
   return (
     <div className={styles.box_product}>
-      <Image src={`http://127.0.0.1:8000/${decodeURIComponent(category.image) || ""}`} alt="category-image" width={200} height={200} />
+      <Image src={`https://django-ecom-three.vercel.app/${decodeURIComponent(category.image) || ""}`} alt="category-image" width={200} height={200} />
       <div className={styles.category_info}>
         <h1>{category.title}</h1>
         {/* Use Link to redirect when the button is clicked */}
