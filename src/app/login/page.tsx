@@ -46,7 +46,7 @@ const Page = () => {
   const handleLogin = async () => {
     try {
       setLoading(true); // Start loading state
-      const response = await fetch('http://127.0.0.1:8000/accounts/login/', {
+      const response = await fetch('https://django-ecom-three.vercel.app/accounts/login/', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

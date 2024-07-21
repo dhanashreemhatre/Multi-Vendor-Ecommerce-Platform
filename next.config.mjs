@@ -2,7 +2,7 @@
 
 const config = {
     images: {
-      domains: ['127.0.0.1'],
+      domains: ['django-ecom-three.vercel.app'],
     },
   };
 export default config;

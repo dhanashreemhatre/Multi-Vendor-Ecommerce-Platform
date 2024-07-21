@@ -17,7 +17,7 @@ const CategoryPage = () => {
     const fetchCategory = async () => {
       try {
         if (!cid) return; // Return if the category ID is not available yet
-        const response = await fetch(`http://127.0.0.1:8000/categories/${cid}`, {
+        const response = await fetch(`https://django-ecom-three.vercel.app/categories/${cid}`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',

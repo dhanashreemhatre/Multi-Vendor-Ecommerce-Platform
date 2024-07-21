@@ -42,7 +42,7 @@ const AddToCartButton: React.FC<AddToCartButtonProps> = ({ pid }) => {
         throw new Error('Please log in to add items to the cart');
       }
 
-      const response = await fetch(`http://127.0.0.1:8000/add-to-cart/${pid}/`, {
+      const response = await fetch(`https://django-ecom-three.vercel.app/add-to-cart/${pid}/`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

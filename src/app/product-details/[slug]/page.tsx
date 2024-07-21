@@ -25,7 +25,7 @@ function Page() {
   useEffect(() => {
     const fetchProductDetails = async () => {
       try {
-        const response = await fetch(`http://127.0.0.1:8000/products/${pid}/`);
+        const response = await fetch(`https://django-ecom-three.vercel.app/products/${pid}/`);
         if (!response.ok) {
           throw new Error("Network response was not ok");
         }
@@ -63,7 +63,7 @@ function Page() {
 
     try {
       const storedEmail = localStorage.getItem('userEmail');
-      const response = await fetch(`http://127.0.0.1:8000/review/${productDetails?.product.pid}/`, {
+      const response = await fetch(`https://django-ecom-three.vercel.app/review/${productDetails?.product.pid}/`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -118,10 +118,10 @@ function Page() {
               smallImage: {
                 alt: 'Product image',
                 isFluidWidth: true,
-                src: `http://127.0.0.1:8000${decodeURIComponent(selectedImage)}`
+                src: `https://django-ecom-three.vercel.app${decodeURIComponent(selectedImage)}`
               },
               largeImage: {
-                src: `http://127.0.0.1:8000${decodeURIComponent(selectedImage)}`,
+                src: `https://django-ecom-three.vercel.app${decodeURIComponent(selectedImage)}`,
                 width: 1200,
                 height: 1800
               },
@@ -167,7 +167,7 @@ function Page() {
               productDetails.product.product_images.map((imageObj, index) => (
                 <div key={index} onClick={() => handleThumbnailClick(imageObj.images)} className={styles.thumbnail}>
                   <Image
-                    src={`http://127.0.0.1:8000${decodeURIComponent(imageObj.images)}`}
+                    src={`https://django-ecom-three.vercel.app${decodeURIComponent(imageObj.images)}`}
                     alt={`Product image ${index + 1}`}
                     className={styles.product_image_item}
                     width={40}

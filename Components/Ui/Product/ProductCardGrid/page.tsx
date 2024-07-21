@@ -1,4 +1,3 @@
-// Page.jsx
 import React, { useEffect, useState } from "react";
 import ProductBox from "./../ProductCard/page";
 import styles from './productcardgrid.module.css'
@@ -19,7 +18,7 @@ function Page() {
   useEffect(() => {
     const fetchProductDetails = async () => {
       try {
-        const response = await fetch("http://127.0.0.1:8000/products/");
+        const response = await fetch("https://django-ecom-three.vercel.app/products/");
         if (!response.ok) {
           throw new Error("Network response was not ok");
         }
@@ -38,7 +37,7 @@ function Page() {
             title: product.title,
           }))
         );
-      } catch (error:any) {
+      } catch (error: any) {
         console.error("Error fetching product details:", error.message);
       }
     };
