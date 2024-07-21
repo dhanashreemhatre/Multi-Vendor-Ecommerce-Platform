@@ -156,10 +156,10 @@ MEDIA_URL = '/media/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 JAZZMIN_SETTINGS = {
-    'site_header':"Mittal Mart",
+    'site_header':"Inclusify",
     'site_brand':"your order, we deliver",
-    'site_logo':"img/mittal_mart_logo.png",
-    'copyright':"mittalmart.com",
+    'site_logo':"img/inclusify_logo.png",
+    'copyright':"inclusify.com",
 
 }
 ###### SMTP configuration #######
