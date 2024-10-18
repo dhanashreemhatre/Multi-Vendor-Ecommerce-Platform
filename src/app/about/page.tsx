@@ -5,12 +5,12 @@ import Navbar from './../../../Components/Ui/Navbar/page'
 import Footer from './../../../Components/Ui/Footer/page'
 import FAQ from './../../../Components/Ui/Faq/page'
 import CTA from './../../../Components/Ui/CTA/page'
-  
+  import Image from 'next/image';
 function page() {
    
   return (
     <div>
-        <Navbar/>3
+        <Navbar/>
         <div className='hero'>
           <div className="container relative overflow-hidden bg-white">
             <div className="pb-0 pt-16 sm:pb-20 sm:pt-24 lg:pb-48 lg:pt-40">
@@ -20,7 +20,7 @@ function page() {
                     Summer styles are finally here
                   </h1>
                   <p className="mt-4 text-xl text-gray-500">
-                    This year, our new summer collection will shelter you from the harsh elements of a world that doesn't care
+                    This year, our new summer collection will shelter you from the harsh elements of a world that doesnt care
                     if you live or die.
                   </p>
                 </div>
@@ -35,55 +35,69 @@ function page() {
                         <div className="flex items-center space-x-6 lg:space-x-8">
                           <div className="grid flex-shrink-0 grid-cols-1 gap-y-6 lg:gap-y-8">
                             <div className="h-64 w-44 overflow-hidden rounded-lg sm:opacity-0 lg:opacity-100">
-                              <img
-                                alt=""
-                                src="https://tailwindui.com/img/ecommerce-images/home-page-03-hero-image-tile-01.jpg"
+                              <Image
+                                alt="loading"
+                                src="https://tailwindui.com/Image/ecommerce-images/home-page-03-hero-image-tile-01.jpg"
+                                width={300}
+                                height={300}
                                 className="h-full w-full object-cover object-center"
                               />
                             </div>
                             <div className="h-64 w-44 overflow-hidden rounded-lg">
-                              <img
+                              <Image
                                 alt=""
-                                src="https://tailwindui.com/img/ecommerce-images/home-page-03-hero-image-tile-02.jpg"
-                                className="h-full w-full object-cover object-center"
-                              />
-                            </div>
-                          </div>
-                          <div className="grid flex-shrink-0 grid-cols-1 gap-y-6 lg:gap-y-8">
-                            <div className="h-64 w-44 overflow-hidden rounded-lg">
-                              <img
-                                alt=""
-                                src="https://tailwindui.com/img/ecommerce-images/home-page-03-hero-image-tile-03.jpg"
-                                className="h-full w-full object-cover object-center"
-                              />
-                            </div>
-                            <div className="h-64 w-44 overflow-hidden rounded-lg">
-                              <img
-                                alt=""
-                                src="https://tailwindui.com/img/ecommerce-images/home-page-03-hero-image-tile-04.jpg"
-                                className="h-full w-full object-cover object-center"
-                              />
-                            </div>
-                            <div className="h-64 w-44 overflow-hidden rounded-lg">
-                              <img
-                                alt=""
-                                src="https://tailwindui.com/img/ecommerce-images/home-page-03-hero-image-tile-05.jpg"
+                                src="https://tailwindui.com/Image/ecommerce-images/home-page-03-hero-image-tile-02.jpg"
+                                width={300}
+                                height={300}
                                 className="h-full w-full object-cover object-center"
                               />
                             </div>
                           </div>
                           <div className="grid flex-shrink-0 grid-cols-1 gap-y-6 lg:gap-y-8">
                             <div className="h-64 w-44 overflow-hidden rounded-lg">
-                              <img
+                              <Image
                                 alt=""
-                                src="https://tailwindui.com/img/ecommerce-images/home-page-03-hero-image-tile-06.jpg"
+                                src="https://tailwindui.com/Image/ecommerce-images/home-page-03-hero-image-tile-03.jpg"
+                                width={300}
+                                height={300}
                                 className="h-full w-full object-cover object-center"
                               />
                             </div>
                             <div className="h-64 w-44 overflow-hidden rounded-lg">
-                              <img
+                              <Image
                                 alt=""
-                                src="https://tailwindui.com/img/ecommerce-images/home-page-03-hero-image-tile-07.jpg"
+                                src="https://tailwindui.com/Image/ecommerce-images/home-page-03-hero-image-tile-04.jpg"
+                                width={300}
+                                height={300}
+                                className="h-full w-full object-cover object-center"
+                              />
+                            </div>
+                            <div className="h-64 w-44 overflow-hidden rounded-lg">
+                              <Image
+                                alt=""
+                                src="https://tailwindui.com/Image/ecommerce-images/home-page-03-hero-image-tile-05.jpg"
+                                width={300}
+                                height={300}
+                                className="h-full w-full object-cover object-center"
+                              />
+                            </div>
+                          </div>
+                          <div className="grid flex-shrink-0 grid-cols-1 gap-y-6 lg:gap-y-8">
+                            <div className="h-64 w-44 overflow-hidden rounded-lg">
+                              <Image
+                                alt=""
+                                src="https://tailwindui.com/Image/ecommerce-images/home-page-03-hero-image-tile-06.jpg"
+                                width={300}
+                                height={300}
+                                className="h-full w-full object-cover object-center"
+                              />
+                            </div>
+                            <div className="h-64 w-44 overflow-hidden rounded-lg">
+                              <Image
+                                alt=""
+                                src="https://tailwindui.com/Image/ecommerce-images/home-page-03-hero-image-tile-07.jpg"
+                                width={300}
+                                height={300}
                                 className="h-full w-full object-cover object-center"
                               />
                             </div>

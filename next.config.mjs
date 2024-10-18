@@ -2,7 +2,7 @@
 
 const config = {
     images: {
-      domains: ['django-ecom-three.vercel.app'],
+      domains: ['django-ecom-three.vercel.app','tailwindui.com'],
     },
   };
 export default config;

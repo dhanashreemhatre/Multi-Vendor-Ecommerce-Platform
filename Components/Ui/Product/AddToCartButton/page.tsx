@@ -4,7 +4,7 @@ import styles from './addtocartbutton.module.css';
 import Cookies from 'js-cookie';
 import { useRouter } from 'next/navigation';
 import Itemalert from '../../Alert/alert';
-import Loginalert from '../../Alert/notlogin';
+
 
 interface AddToCartButtonProps {
   pid: string; // Product ID

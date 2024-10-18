@@ -1,16 +1,27 @@
-// components/Experience.js
+// components/Experience.tsx
 import React, { useRef } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
 import Models from '../Laptop/page';
 
-const RotatingGroup = ({ lights }) => {
-  const groupRef = useRef();
+interface Light {
+  position: [number, number, number];
+  intensity: number;
+  color: string;
+}
+
+interface RotatingGroupProps {
+  lights: Light[];
+}
+
+const RotatingGroup: React.FC<RotatingGroupProps> = ({ lights }) => {
+  const groupRef = useRef<THREE.Group>(null); // Type the ref as THREE.Group
 
   useFrame((state, delta) => {
     if (groupRef.current) {
-      groupRef.current.rotation.y += delta;
+      groupRef.current.rotation.y += delta; // Rotate the group
     }
-  });-30
+  });
+
   return (
     <group scale={[700, 700, 700]} position={[0, -60, 0]} rotation={[0, Math.PI, 0]} ref={groupRef}>
       {lights.map((light, index) => (
@@ -26,7 +37,11 @@ const RotatingGroup = ({ lights }) => {
   );
 };
 
-const Experience = ({ lights }) => {
+interface ExperienceProps {
+  lights: Light[];
+}
+
+const Experience: React.FC<ExperienceProps> = ({ lights }) => {
   return (
     <Canvas
       camera={{ position: [0, 0, 100], near: 0.1, far: 1000 }}

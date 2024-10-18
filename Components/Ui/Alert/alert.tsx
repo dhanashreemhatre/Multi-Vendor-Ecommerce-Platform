@@ -1,8 +1,16 @@
 import React from 'react';
 
-const Itemalert = ({ message,bullet,color }) => {
-  const handleClose = (event) => {
-    event.target.parentElement.style.display = 'none';
+interface ItemAlertProps {
+  message: string;
+  bullet: string;
+  color: string;
+}
+
+const Itemalert: React.FC<ItemAlertProps> = ({ message, bullet, color }) => {
+  const handleClose = (event: React.MouseEvent<HTMLSpanElement>) => {
+    // TypeScript recognizes the event target as an HTMLElement
+    const target = event.target as HTMLElement;
+    target.parentElement!.style.display = 'none'; // Use non-null assertion to tell TypeScript that `parentElement` won't be null
   };
 
   return (
@@ -15,21 +23,25 @@ const Itemalert = ({ message,bullet,color }) => {
       backgroundColor: color,
       color: 'white',
       width: '50vw',
-      zIndex: 1000, // Ensures the alert is on top of other elements
+      zIndex: 1000,
       boxShadow: '0 4px 8px rgba(0,0,0,0.2)',
       borderRadius: '8px'
     }}>
-      <span style={{
-        marginLeft: '15px',
-        color: 'white',
-        fontWeight: 'bold',
-        float: 'right',
-        fontSize: '22px',
-        lineHeight: '20px',
-        cursor: 'pointer',
-        transition: '0.3s',
-      }}
-      onClick={handleClose}>&times;</span> 
+      <span
+        style={{
+          marginLeft: '15px',
+          color: 'white',
+          fontWeight: 'bold',
+          float: 'right',
+          fontSize: '22px',
+          lineHeight: '20px',
+          cursor: 'pointer',
+          transition: '0.3s',
+        }}
+        onClick={handleClose}
+      >
+        &times;
+      </span>
       <strong>{bullet}!</strong> {message}
     </div>
   );

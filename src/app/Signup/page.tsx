@@ -90,7 +90,7 @@ const Page = () => {
   };
 
   useEffect(() => {
-    localStorage.setItem("selectedBox", selectedBox);
+    localStorage.setItem("selectedBox", selectedBox.toString());
     let timeoutId: NodeJS.Timeout;
 
     if (showAlert) {

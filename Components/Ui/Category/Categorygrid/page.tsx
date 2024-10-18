@@ -1,9 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import CategoryCard from '../CategoryCard/page';
+import CategoryCard from '../CategoryCard/page'; // Adjust path if necessary
 import styles from './categorygrid.module.css';
 
+interface Category {
+  cid: string;
+  title: string;
+  image: string;
+}
+
 function Page() {
-  const [categories, setCategories] = useState([]);
+  const [categories, setCategories] = useState<Category[]>([]); // Initialize categories state
+  const [errorMessage, setErrorMessage] = useState<string | null>(null); // Error message state
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -15,12 +22,24 @@ function Page() {
         const data = await response.json();
         setCategories(data);
       } catch (error) {
-        console.error('Error fetching categories:', error.message);
+        // Check if error is an instance of Error
+        if (error instanceof Error) {
+          console.error('Error fetching categories:', error.message);
+          setErrorMessage(error.message); // Set the error message state
+        } else {
+          console.error('An unknown error occurred');
+          setErrorMessage('An unknown error occurred');
+        }
       }
     };
 
     fetchCategories();
   }, []);
+
+  // Handle error display
+  if (errorMessage) {
+    return <div>Error: {errorMessage}</div>; // Display error message if present
+  }
 
   return (
     <div className={styles.categories_product_items}>

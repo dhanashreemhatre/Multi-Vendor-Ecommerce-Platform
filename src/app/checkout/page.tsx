@@ -280,7 +280,7 @@ const CheckoutPage = () => {
     <div className="mt-8 space-y-3 rounded-lg border bg-white px-2 py-4 sm:px-6">
             {cartItems.map((item, index) => (
               <div key={index} className="flex flex-col rounded-lg bg-white sm:flex-row">
-                <img className="m-2 h-24 w-28 rounded-md border object-cover object-center" src={`http://127.0.0.1:8000/${decodeURIComponent(item.product.image) || ''}`} alt={item.product.name} />
+                <img className="m-2 h-24 w-28 rounded-md border object-cover object-center" src={`https://django-ecom-three.vercel.app/${decodeURIComponent(item.product.image) || ''}`} alt={item.product.name} />
                 <div className="flex w-full flex-col px-4 py-4">
                   <span className="font-semibold">{item.product.name}</span>
                   <span className="float-right text-gray-400">Quantity: {item.quantity}</span>

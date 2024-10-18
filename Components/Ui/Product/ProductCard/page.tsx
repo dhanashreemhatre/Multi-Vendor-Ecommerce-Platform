@@ -12,7 +12,7 @@ interface ProductBoxProps {
   oldPrice: number;
 }
 
-const truncateTitle = (title, wordLimit) => {
+const truncateTitle = (title:string, wordLimit:number) => {
   const words = title.split(' ');
   if (words.length > wordLimit) {
     return words.slice(0, wordLimit).join(' ') + '......';

@@ -8,7 +8,6 @@ import "./slider.css";
 import "./swiper-bundle.min.css";
 import Script from "next/script";
 import Navbar from "../../Ui/Navbar/page";
-import ProductOil from "./Image/Screenshot_2023-12-30_153910-removebg-preview 1.png";
 import Image from "next/image";
 import store from "./Image/Procurement.png";
 import delivery from "./Image/Deliver Food.png";
@@ -99,7 +98,7 @@ const Page = () => {
   useEffect(() => {
     const fetchProductDetails = async () => {
       try {
-        const response = await fetch("http://127.0.0.1:8000/products/");
+        const response = await fetch("https://django-ecom-three.vercel.app/products/");
         if (!response.ok) {
           throw new Error("Network response was not ok");
         }

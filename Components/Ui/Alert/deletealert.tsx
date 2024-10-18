@@ -1,8 +1,12 @@
 import React from 'react';
 
-const Itemalert = () => {
+const Itemalert: React.FC = () => {
   const handleClose = (event: React.MouseEvent<HTMLSpanElement, MouseEvent>) => {
-    event.target.parentElement.style.display = 'none';
+    // Cast event.target as an HTMLElement to access `parentElement` safely
+    const target = event.target as HTMLElement;
+    
+    // Use non-null assertion (`!`) to ensure `parentElement` is not null
+    target.parentElement!.style.display = 'none';
   };
 
   return (
@@ -14,7 +18,7 @@ const Itemalert = () => {
       padding: '20px',
       backgroundColor: '#50C878',
       color: 'white',
-      width:'50vw',
+      width: '50vw',
       zIndex: 1000, // Ensures the alert is on top of other elements
       boxShadow: '0 4px 8px rgba(0,0,0,0.2)',
       borderRadius: '8px'

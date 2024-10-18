@@ -1,12 +1,18 @@
-import React, { useRef } from 'react'
-import { useGLTF, useTexture } from '@react-three/drei'
+// components/Model.tsx
+import React from 'react';
+import { useGLTF, useTexture } from '@react-three/drei';
 import * as THREE from 'three';
-export default function Model(props) {
-  const { nodes, materials } = useGLTF('Models/iphone_14_pro_max.glb')
-  const texture=useTexture('Texture/iphone.jpg');
+import { MeshProps, GroupProps } from '@react-three/fiber';
+
+interface ModelProps extends GroupProps {}
+
+export default function Model(props: ModelProps) {
+  const { nodes, materials } = useGLTF('Models/iphone_14_pro_max.glb') as any; // Cast to 'any' if types are unknown
+  const texture = useTexture('Texture/iphone.jpg');
   const textureMaterial = new THREE.MeshStandardMaterial({
     map: texture,
   });
+
   return (
     <group {...props} dispose={null}>
       <group scale={0.01}>
@@ -88,8 +94,7 @@ export default function Model(props) {
           geometry={nodes.rJeCWUNsVVXXAbI.geometry}
           material={materials.psePdsxZprlxGrw}
         >
-            <directionalLight position={[0, 0, 0]} intensity={14}  color="red" />
-
+          <directionalLight position={[0, 0, 0]} intensity={14} color="red" />
         </mesh>
         <mesh
           castShadow
@@ -345,9 +350,7 @@ export default function Model(props) {
         />
       </group>
     </group>
-  )
+  );
 }
 
-useGLTF.preload('Models/iphone_14_pro_max.glb')
-
-
+useGLTF.preload('Models/iphone_14_pro_max.glb');
