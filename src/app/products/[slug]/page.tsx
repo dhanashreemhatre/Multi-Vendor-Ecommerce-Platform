@@ -6,12 +6,30 @@ import Footer from './../../../../Components/Ui/Footer/page';
 import ProductBox from '../../../../Components/Ui/Product/ProductCard/page';
 import styles from './product_categories.module.css';
 
-const CategoryPage = () => {
-  const cid = usePathname().split('/').pop(); // Get the category ID from the URL query parameters
-  const [category, setCategory] = useState(null);
-  const [minPrice, setMinPrice] = useState('');
-  const [maxPrice, setMaxPrice] = useState('');
-  const [filteredProducts, setFilteredProducts] = useState([]);
+// Define the types for Product and Category
+interface Product {
+  id: number;
+  pid: string;
+  image: string;
+  title: string;
+  price: any; // Adjust this if the price is a number in your API
+old_price: number; // Adjust this if the old_price is a number in your API
+}
+
+interface Category {
+  category: {
+    title: string;
+    description: string;
+  };
+  products: Product[];
+}
+
+const CategoryPage: React.FC = () => {
+  const cid = usePathname().split('/').pop() || ''; // Ensure cid is a string
+  const [category, setCategory] = useState<Category | null>(null);
+  const [minPrice, setMinPrice] = useState<string>('');
+  const [maxPrice, setMaxPrice] = useState<string>('');
+  const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
 
   useEffect(() => {
     const fetchCategory = async () => {
@@ -26,7 +44,7 @@ const CategoryPage = () => {
         if (!response.ok) {
           throw new Error('Failed to fetch category details');
         }
-        const categoryData = await response.json(); // Convert response to JSON format
+        const categoryData: Category = await response.json(); // Convert response to JSON format
         setCategory(categoryData);
         setFilteredProducts(categoryData.products); // Initialize with all products
       } catch (error) {
@@ -61,11 +79,11 @@ const CategoryPage = () => {
     }
   }, [minPrice, maxPrice, category]);
 
-  const handleMinPriceChange = (e) => {
+  const handleMinPriceChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setMinPrice(e.target.value);
   };
 
-  const handleMaxPriceChange = (e) => {
+  const handleMaxPriceChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setMaxPrice(e.target.value);
   };
 
