@@ -10,7 +10,6 @@ import star from "./image/icons8-star-48.png";
 import Boys from "./image/7309681.jpg";
 import Link from "next/link";
 import CartButton from "../../../../Components/Ui/Product/AddToCartButton/page";
-import ReactImageMagnify from "react-image-magnify";
 import { WhatsappShareButton } from "react-share";
 
 // Types for product details and reviews
@@ -136,18 +135,11 @@ const ProductDetailsPage: React.FC = () => {
       <div className={styles.product_details}>
         <div className={styles.product_image}>
           {selectedImage ? (
-            <ReactImageMagnify
-              smallImage={{
-                alt: "Product image",
-                isFluidWidth: true,
-                src: `https://django-ecom-three.vercel.app${decodeURIComponent(selectedImage)}`,
-              }}
-              largeImage={{
-                src: `https://django-ecom-three.vercel.app${decodeURIComponent(selectedImage)}`,
-                width: 1200,
-                height: 1800,
-              }}
-              enlargedImageContainerDimensions={{ width: "240%", height: "240%" }}
+            <Image
+              src={`https://django-ecom-three.vercel.app${decodeURIComponent(selectedImage)}`}
+              alt="Product image"
+              width={500}
+              height={600}
             />
           ) : (
             <h1>Loading...</h1>
