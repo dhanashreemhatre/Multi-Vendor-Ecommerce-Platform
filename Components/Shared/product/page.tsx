@@ -16,7 +16,7 @@ import Plate from "./Image/plate.png";
 import Swiper from "swiper";
 import Footer from './../../Ui/Footer/page';
 import { useRouter } from 'next/navigation';
-import Experience from '../../Ui/Experience/page';
+// import Experience from '../../Ui/Experience/page';
 import Product from '../../Ui/Light/page'; // Ensure correct path
 import cart from "./Image/cart.svg";
 
@@ -122,7 +122,7 @@ const Page = () => {
             <h2 className="hero-heading font-bold mt-10">Unveiling the Future: iPhone 14 Launch!,Coming Soon....</h2>
             <div className="flex flex-col space-y-2">
               <Product onChangeLight={setLights} />
-              <Experience lights={lights} />
+              {/* <Experience lights={lights} /> */}
             </div>
           </div>
         </div>
