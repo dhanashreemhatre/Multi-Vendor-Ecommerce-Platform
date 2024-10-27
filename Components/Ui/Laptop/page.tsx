@@ -7,11 +7,8 @@ import { MeshProps, GroupProps } from '@react-three/fiber';
 interface ModelProps extends GroupProps {}
 
 export default function Model(props: ModelProps) {
-  const { nodes, materials } = useGLTF('Models/iphone_14_pro_max.glb') as any; // Cast to 'any' if types are unknown
-  const texture = useTexture('Texture/iphone.jpg');
-  const textureMaterial = new THREE.MeshStandardMaterial({
-    map: texture,
-  });
+  const { nodes, materials } = useGLTF('Models/iphone_14_pro_max.gltf') as any; // Cast to 'any' if types are unknown
+
 
   return (
     <group {...props} dispose={null}>
