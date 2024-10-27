@@ -6,8 +6,56 @@ import Navbar from '../../../Components/Ui/Navbar/page';
 import Loader from '../../../Components/Ui/Loader/page';
 import axios from 'axios';
 
-const CheckoutPage = () => {
-  const [cartItems, setCartItems] = useState([]);
+interface Product {
+  id: number;
+  name: string;
+  price: number;
+  image: string;
+}
+
+interface CartItem {
+  product: Product;
+  quantity: number;
+}
+
+
+// razorpay.d.ts
+interface RazorpayOptions {
+  key: string; // Your Razorpay key
+  amount: number; // Amount in paise
+  currency: string; // Currency code
+  name: string; // Your company name
+  description: string; // Description of the payment
+  image: string; // Your company logo
+  order_id?: string; // Order ID if applicable
+  handler: (response: any) => void; // Payment success handler
+  prefill?: {
+    name?: string; // Customer name
+    email?: string; // Customer email
+    contact?: string; // Customer contact number
+  };
+  notes?: {
+    [key: string]: string; // Any additional notes
+  };
+  theme?: {
+    color?: string; // Theme color
+  };
+}
+
+// Extend the Window interface
+declare global {
+  interface Window {
+    Razorpay: {
+      new (options: RazorpayOptions): {
+        open: () => void; // Method to open the payment modal
+      };
+    };
+  }
+}
+
+
+const CheckoutPage: React.FC = () => {
+  const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const [payment, setpayment] = useState(false);
   const [formData, setFormData] = useState({
     email: '',
@@ -73,7 +121,7 @@ const CheckoutPage = () => {
     setNewTotal(total); // Initialize newTotal with total amount
   };
 
-  const handleInputChange = (e) => {
+  const handleInputChange = (e:any) => {
     const { name, value } = e.target;
     setFormData((prevState) => ({
       ...prevState,
@@ -81,7 +129,7 @@ const CheckoutPage = () => {
     }));
   };
 
-  const handleCouponApply = async (e) => {
+  const handleCouponApply = async (e:any) => {
     e.preventDefault();
     try {
       const userId = Cookies.get('user');
@@ -96,14 +144,14 @@ const CheckoutPage = () => {
         ...prevState,
         coupon: '', // Clear coupon field after applying
       }));
-    } catch (error) {
+    } catch (error:any) {
        
       console.error('Error applying coupon:', error.response);
       // Handle error (e.g., display error message to the user)
     }
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e:any) => {
     e.preventDefault();
     await handlePlaceOrder();
   };
@@ -127,7 +175,7 @@ const CheckoutPage = () => {
           name: data.product_name,
           description: data.description,
           order_id: data.order_id,
-          handler: function (response) {
+          handler: function (response:any) {
             alert('Payment Succeeded');
             setpayment(false);
           },
@@ -147,11 +195,11 @@ const CheckoutPage = () => {
         razorpayObject.open();
       } else {
         alert(data.msg);
-        setPayment(false);
+        setpayment(false);
       }
     } catch (error) {
       console.error('Error processing payment:', error);
-      setPayment(false);
+      setpayment(false);
     }
   };
 
